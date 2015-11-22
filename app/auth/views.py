@@ -4,6 +4,7 @@ from flask.ext.login import login_user, logout_user, login_required, current_use
 from . import auth
 from app import db
 from ..models import User
+from ..email import send_email
 from .forms import LoginForm, RegistrationForm
 
 @auth.before_app_request
@@ -70,6 +71,6 @@ def confirm(token):
 
 @auth.route('/unconfirmed')
 def unconfirmed():
-    if current_user.is_annonymouse() or current_user.confirmed:
+    if current_user.is_anonymous() or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
