@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+Hello,
+{% if current_user.is_authenticated() %}
+  {{ current_user.username }}
+{% else %}
+  Stranger
+{% endif %}!
+
+{% endblock %}
