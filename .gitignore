@@ -58,3 +58,6 @@ target/
 
 # DB Stuff
 *.sqlite*
+
+# Secrets
+init.sh

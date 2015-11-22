@@ -1,0 +1,5 @@
+deployment:
+  push_to_linode:
+    branch: master
+    commands:
+      - rsync -avz . circle@braindump.pw:/var/www
