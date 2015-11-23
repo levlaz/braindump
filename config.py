@@ -28,8 +28,11 @@ class TestingConfig(Config):
         'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
+        os.environ.get('DB_USER'),
+        os.environ.get('DB_PASS'),
+        os.environ.get('DB_HOST'),
+        os.environ.get('DB_NAME'))
 
 config = {
     'development': DevelopmentConfig,
