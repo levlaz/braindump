@@ -1,13 +1,7 @@
 test:
   post:
     - python manage.py test --coverage
-    - git checkout gh-pages
-    - git config --global user.email "lev@levlaz.org"
-    - git config --global user.name "Lev Lazinskiy"
-    - cp -R tmp/coverage/* coverage/
-    - git add -A
-    - git commit -m 'Updated Coverage Reports'
-    - git push -u origin gh-pages
+    - cp -R tmp/coverage/* $CIRCLE_ARTIFACTS
 
 deployment:
   push_to_linode:
@@ -15,8 +9,3 @@ deployment:
     commands:
       - rsync -avz app circle@braindump.pw:/var/www
       - rsync -avz *.{py,txt} circle@braindump.pw:/var/www
-
-general:
-  branches:
-    ignore:
-      - gh-pages
