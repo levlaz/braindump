@@ -22,6 +22,7 @@ MarkupSafe==0.23
 python-editor==0.4
 six==1.10.0
 SQLAlchemy==1.0.9
+unittest-xml-reporting==1.13.0
 visitor==0.1.2
 Werkzeug==0.11.2
 wheel==0.24.0
