@@ -21,9 +21,6 @@
     </div>
 
     <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="/">Home</a></li>
-      </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated() %}
         <li><a href="{{ url_for('auth.logout') }}">Sign Out </a></li>
