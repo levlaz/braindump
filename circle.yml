@@ -1,3 +1,8 @@
+test:
+  post:
+    - python manage.py test --coverage
+    - mv tmp/coverage $CIRCLE_ARTIFACTS
+    
 deployment:
   push_to_linode:
     branch: master
