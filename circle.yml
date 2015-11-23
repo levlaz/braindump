@@ -1,6 +1,6 @@
 test:
   pre:
-    - rm $CIRCLE_TEST_REPORTS/python/
+    - rm $CIRCLE_TEST_REPORTS/*
   post:
     - python manage.py test --coverage
     - cp -R tmp/coverage/* $CIRCLE_ARTIFACTS
