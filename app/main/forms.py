@@ -4,5 +4,6 @@ from wtforms.validators import Required, Length, Email, Regexp, EqualTo
 from flask.ext.pagedown.fields import PageDownField
 
 class NoteForm(Form):
-    body = PageDownField('Dump your briain out', validators=[Required()])
+    title = StringField('Title:', validators=[Required()])
+    body = PageDownField('Dump Your Brain:', validators=[Required()])
     submit = SubmitField('Submit')

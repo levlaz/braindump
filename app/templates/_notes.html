@@ -2,8 +2,9 @@
     {% for note in notes %}
     <li class="note">
         <div class="note-content">
-            <div class="note-date">{{ moment(note.timestamp).fromNow() }}</div>
-            <div class="note-author"><a href="{{ url_for('.index', username=note.author.username) }}">{{ note.author.username }}</a></div>
+            <div class="note-title"><h3>{{ note.title }}</h3></div>
+            <div class="note-date">{{ moment(note.timestamp).fromNow() }}
+            by <a href="{{ url_for('.index', username=note.author.username) }}">{{ note.author.username }}</a> </div>
             <div class="note-body">
                 {% if note.body_html %}
                     {{ note.body_html | safe }}

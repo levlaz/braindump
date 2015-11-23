@@ -11,7 +11,7 @@ from ..models import User, Note
 def index():
     form = NoteForm()
     if form.validate_on_submit():
-        note = Note(body=form.body.data,
+        note = Note(title=form.title.data,body=form.body.data,
             author=current_user._get_current_object())
         db.session.add(note)
         return redirect(url_for('.index'))
