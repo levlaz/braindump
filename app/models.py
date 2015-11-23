@@ -2,7 +2,9 @@ from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 from flask import current_app
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -17,7 +19,7 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role {0}>'.format(self.name)
-        
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key = True)
@@ -27,6 +29,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
 
+    notes = db.relationship('Note', backref='author', lazy='dynamic')
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
@@ -56,3 +59,10 @@ class User(UserMixin, db.Model):
         self.confirmed = True
         db.session.add(self)
         return True
+
+class Note(db.Model):
+    __tablename__ = 'notes'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
