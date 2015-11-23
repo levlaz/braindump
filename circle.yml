@@ -1,7 +1,11 @@
 test:
+  pre:
+    - rm $CIRCLE_TEST_REPORTS/python/
   post:
     - python manage.py test --coverage
     - cp -R tmp/coverage/* $CIRCLE_ARTIFACTS
+    - mkdir -p $CIRCLE_TEST_REPORTS/python/
+    - mv *.xml $CIRCLE_TEST_REPORTS/python/
 
 deployment:
   push_to_linode:
