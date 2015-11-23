@@ -1,6 +1,6 @@
 Dear {{ user.username }},
 
-Welcome to Flasky!
+Welcome to BrainDump!
 
 To confirm your account please click on the following link:
 
@@ -8,6 +8,6 @@ To confirm your account please click on the following link:
 
 Sincerely,
 
-The Flasky Team
+The BrainDump Team
 
 Note: replies to this email address are not monitored.
