@@ -1,13 +1,13 @@
 test:
   post:
     - python manage.py test --coverage
-    - git checkout -b gh_pages
+    - git checkout -b gh-pages
     - git config --global user.email "lev@levlaz.org"
     - git config --global user.name "Lev Lazinskiy"
     - cp -R tmp/coverage/* .
     - git add -A
     - git commit -m 'Updated Coverage Reports'
-    - git push -u origin gh_pages 
+    - git push -u origin gh-pages
 
 deployment:
   push_to_linode:
