@@ -1,6 +1,6 @@
 from datetime import datetime
-from flask import render_template, session, redirect, url_for
-from flask.ext.login import current_user
+from flask import render_template, session, redirect, url_for, flash
+from flask.ext.login import current_user, login_required
 
 from . import main
 from .. import db
@@ -20,3 +20,20 @@ def index():
         return render_template('index.html', form=form, notes=notes)
     else:
         return render_template('index.html')
+
+@main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    note = Note.query.get_or_404(id)
+    if current_user != note.author:
+        abort(403)
+    form = NoteForm()
+    if form.validate_on_submit():
+        note.title = form.title.data
+        note.body = form.body.data
+        db.session.add(note)
+        flash('The note has been updated.')
+        return redirect(url_for('.index'))
+    form.title.data = note.title
+    form.body.data = note.body
+    return render_template('edit_note.html', form = form)
