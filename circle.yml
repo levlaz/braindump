@@ -1,10 +1,10 @@
 test:
   post:
     - python manage.py test --coverage
-    - git checkout -b gh-pages
+    - git checkout gh-pages
     - git config --global user.email "lev@levlaz.org"
     - git config --global user.name "Lev Lazinskiy"
-    - cp -R tmp/coverage/* .
+    - cp -R tmp/coverage/* coverage/
     - git add -A
     - git commit -m 'Updated Coverage Reports'
     - git push -u origin gh-pages
