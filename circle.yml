@@ -15,3 +15,8 @@ deployment:
     commands:
       - rsync -avz app circle@braindump.pw:/var/www
       - rsync -avz *.{py,txt} circle@braindump.pw:/var/www
+
+general:
+  branches:
+    ignore:
+      - gh-pages
