@@ -1,5 +1,10 @@
 {% extends 'bootstrap/base.html' %}
 
+{% block head %}
+{{ super() }}
+    <link rel="stylesheet" src="static/style.css" type="text/css">
+{% endblock %}
+
 {% block title %} BrainDump {% endblock %}
 
 {% block navbar %}
