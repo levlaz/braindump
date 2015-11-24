@@ -16,6 +16,9 @@
               <a href="{{ url_for('.edit', id=note.id) }}">
                 <span class="label label-primary">Edit</span>
               </a>
+              <a href="{{ url_for('.delete', id=note.id) }}">
+                <span class="label label-danger">Delete</span>
+              </a>
               {% endif %}
             </div>
         </div>
