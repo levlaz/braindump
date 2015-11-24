@@ -2,7 +2,7 @@
 
 {% block head %}
 {{ super() }}
-    <link rel="stylesheet" href="static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css">
 {% endblock %}
 
 {% block title %} BrainDump {% endblock %}

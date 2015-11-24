@@ -33,6 +33,6 @@
 {% block scripts %}
 {{ super() }}
 {{ pagedown.include_pagedown() }}
-<script src="static/js/libs/autosize.min.js"></script>
-<script src="static/js/braindump.js"></script>
+<script src="{{ url_for('static', filename='js/libs/autosize.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/libs/braindump.js') }}"></script>
 {% endblock %}
