@@ -5,40 +5,40 @@
     min-height: 260px;
     margin-left: 280px;
 }
-div.post-tabs {
+div.note-tabs {
     margin-top: 16px;
 }
-ul.posts {
+ul.notes {
     list-style-type: none;
     padding: 0px;
     margin: 16px 0px 0px 0px;
     border-top: 1px solid #e0e0e0;
 }
-div.post-tabs ul.posts {
+div.note-tabs ul.notes {
     margin: 0px;
     border-top: none;
 }
-ul.posts li.post {
+ul.notes li.note {
     padding: 8px;
     border-bottom: 1px solid #e0e0e0;
 }
-ul.posts li.post:hover {
+ul.notes li.note:hover {
     background-color: #f0f0f0;
 }
-div.post-date {
+div.note-date {
     float: right;
 }
-div.post-author {
+div.note-author {
     font-weight: bold;
 }
-div.post-thumbnail {
+div.note-thumbnail {
     position: absolute;
 }
-div.post-content {
+div.note-content {
     margin-left: 48px;
     min-height: 48px;
 }
-div.post-footer {
+div.note-footer {
     text-align: right;
 }
 ul.comments {
@@ -93,13 +93,13 @@ div.flask-pagedown-preview h2 {
 div.flask-pagedown-preview h3 {
     font-size: 120%;
 }
-.post-body h1 {
+.note-body h1 {
     font-size: 140%;
 }
-.post-body h2 {
+.note-body h2 {
     font-size: 130%;
 }
-.post-body h3 {
+.note-body h3 {
     font-size: 120%;
 }
 .table.followers tr {
