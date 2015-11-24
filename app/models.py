@@ -72,6 +72,7 @@ class Note(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     section_id = db.Column(db.Integer, db.ForeignKey('sections.id'))
+    is_deleted = db.Column(db.Boolean, default=False)
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
