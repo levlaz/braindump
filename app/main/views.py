@@ -37,3 +37,14 @@ def edit(id):
     form.title.data = note.title
     form.body.data = note.body
     return render_template('edit_note.html', form = form)
+
+@main.route('/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete(id):
+    note = Note.query.get_or_404(id)
+    if current_user != note.author:
+        abort(403)
+    else:
+        db.session.delete(note)
+        flash('The note has been deleted.')
+        return redirect(url_for('.index'))
