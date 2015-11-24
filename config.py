@@ -33,7 +33,6 @@ class ProductionConfig(Config):
         os.environ.get('DB_PASS'),
         os.environ.get('DB_HOST'),
         os.environ.get('DB_NAME'))
-    SERVER_NAME='braindump.pw'
 
 config = {
     'development': DevelopmentConfig,

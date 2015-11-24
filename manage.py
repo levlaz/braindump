@@ -41,7 +41,6 @@ def test(coverage=False):
     import xmlrunner
     tests = unittest.TestLoader().discover('tests')
     xmlrunner.XMLTestRunner().run(tests)
-    #unittest.TextTestRunner(verbosity=2).run(tests)
     if COV:
         COV.stop()
         COV.save()
@@ -67,16 +66,9 @@ def profile(length=25, profile_dir=None):
 def deploy():
     """Run deployment tasks."""
     from flask.ext.migrate import upgrade
-    from app.models import Role, User
 
     # migrate database to latest revision
     upgrade()
-
-    # create user roles
-    Role.insert_roles()
-
-    # create self-follows for all users
-    User.add_self_follows()
 
 
 if __name__ == '__main__':
