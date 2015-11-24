@@ -15,6 +15,7 @@ def index():
             note = Note(title=form.title.data,body=form.body.data,
                 author=current_user._get_current_object())
             db.session.add(note)
+            db.session.commit()
             return redirect(url_for('.index'))
         notes = Note.query.filter_by(author_id=current_user.id,is_deleted=False).order_by(Note.timestamp.desc()).all()
         return render_template('index.html', form=form, notes=notes)
@@ -32,6 +33,7 @@ def edit(id):
         note.title = form.title.data
         note.body = form.body.data
         db.session.add(note)
+        db.session.commit()
         flash('The note has been updated.')
         return redirect(url_for('.index'))
     form.title.data = note.title
@@ -45,6 +47,7 @@ def delete(id):
     if current_user != note.author:
         abort(403)
     else:
-        note.is_deleted = True 
+        note.is_deleted = True
+        db.session.commit()
         flash('The note has been deleted.')
         return redirect(url_for('.index'))
