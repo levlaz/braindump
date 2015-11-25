@@ -12,8 +12,7 @@ def index():
     if current_user.is_authenticated():
         form = NoteForm()
         if form.validate_on_submit():
-            note = Note(title=form.title.data,body=form.body.data,
-                author=current_user._get_current_object())
+            note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data,author=current_user._get_current_object())
             db.session.add(note)
             db.session.commit()
             return redirect(url_for('.index'))

@@ -16,7 +16,6 @@ html5lib==0.9999999
 itsdangerous==0.24
 Jinja2==2.8
 Mako==1.0.3
-Markdown==2.6.4
 MarkupSafe==0.23
 python-editor==0.4
 six==1.10.0
