@@ -17,6 +17,7 @@ body {
   background-color: #f5f5f5;
 }
 
+/* Braindump Custom Styles */
 div.navbar {
   border-radius: 0px;
 }
@@ -80,6 +81,10 @@ div.pagination {
     border-bottom: 1px solid #e0e0e0;
 }
 
+a.buttons {
+  text-decoration: none;
+}
+
 /* Style for Releases Plugin */
 #releases {
   list-style-type: none;
@@ -92,7 +97,6 @@ div.pagination {
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: 5px;
-
 }
 
 /* Custom Style for ACE Editor */

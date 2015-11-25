@@ -13,10 +13,10 @@
                 {% endif %}
             <div class="note-footer">
               {% if current_user == note.author %}
-              <a href="{{ url_for('.edit', id=note.id) }}">
+              <a class="buttons" href="{{ url_for('.edit', id=note.id) }}">
                 <span class="label label-primary">Edit</span>
               </a>
-              <a href="{{ url_for('.delete', id=note.id) }}">
+              <a class="buttons" href="{{ url_for('.delete', id=note.id) }}">
                 <span class="label label-danger">Delete</span>
               </a>
               {% endif %}
