@@ -7,18 +7,16 @@
 {% block page_content %}
 
 {% if current_user.is_authenticated() %}
-  <div class="container">
     <form class="form form-horizontal" action="" method="post" role="form">
       {{ form.csrf_token }}
       {{ wtf.form_field(form.title) }}
       {{ wtf.form_field(form.body) }}
       {{ wtf.form_field(form.body_html) }}
-      <div id="editor" class="form-group"></div>
+      <div id="editor"></div>
       {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
     </form>
-  </div>
 
-  <div class="post-tabs">
+  <div class="note-tabs">
 
       {% include '_notes.html' %}
   </div>

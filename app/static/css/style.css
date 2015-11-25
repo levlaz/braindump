@@ -29,11 +29,12 @@ div.navbar {
 }
 div.note-tabs {
     margin-top: 16px;
+    border-top: 1px solid #e0e0e0;
 }
 ul.notes {
     list-style-type: none;
     padding: 0px;
-    margin: 16px 0px 0px 0px;
+    margin: 0px;
     border-top: 1px solid #e0e0e0;
 }
 div.note-tabs ul.notes {
@@ -41,7 +42,7 @@ div.note-tabs ul.notes {
     border-top: none;
 }
 ul.notes li.note {
-    padding: 8px;
+    padding: 10px;
     border-bottom: 1px solid #e0e0e0;
 }
 ul.notes li.note:hover {
@@ -56,44 +57,8 @@ div.note-author {
 div.note-thumbnail {
     position: absolute;
 }
-div.note-content {
-    margin-left: 48px;
-    min-height: 48px;
-}
 div.note-footer {
     text-align: right;
-}
-ul.comments {
-    list-style-type: none;
-    padding: 0px;
-    margin: 16px 0px 0px 0px;
-}
-ul.comments li.comment {
-    margin-left: 32px;
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
-}
-ul.comments li.comment:nth-child(1) {
-    border-top: 1px solid #e0e0e0;
-}
-ul.comments li.comment:hover {
-    background-color: #f0f0f0;
-}
-div.comment-date {
-    float: right;
-}
-div.comment-author {
-    font-weight: bold;
-}
-div.comment-thumbnail {
-    position: absolute;
-}
-div.comment-content {
-    margin-left: 48px;
-    min-height: 48px;
-}
-div.comment-form {
-    margin: 16px 0px 16px 32px;
 }
 div.pagination {
     width: 100%;
@@ -120,4 +85,17 @@ div.pagination {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+/* Custom Form Style */
+.form-horizontal .form-group {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 5px;
+
+}
+
+/* Custom Style for ACE Editor */
+#editor {
+  margin-bottom: 10px;
 }
