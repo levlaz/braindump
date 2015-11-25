@@ -31,6 +31,7 @@ def edit(id):
     if form.validate_on_submit():
         note.title = form.title.data
         note.body = form.body.data
+        note.body_html = form.body_html.data
         db.session.add(note)
         db.session.commit()
         flash('The note has been updated.')
