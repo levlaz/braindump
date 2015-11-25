@@ -5,7 +5,7 @@ editor.session.setMode("ace/mode/markdown");
 editor.getSession().setUseWrapMode(true);
 editor.setAutoScrollEditorIntoView(true);
 editor.setOption("minLines", 10);
-editor.setOption("maxLines", 100);
+editor.setOption("maxLines", 25);
 
 var textarea = $('textarea[id="body"]').hide();
 var textarea_html_label = $('label[for="body_html"]').hide();
@@ -21,7 +21,7 @@ editor.commands.addCommand({
     name: 'insert text',
     bindKey: {win: 'Ctrl-1',  mac: 'Ctrl-1'},
     exec: function(editor) {
-        editor.insert("*TODO ")
+        editor.insert("- [ ] TODO")
     },
     readOnly: true // false if this command should not apply in readOnly mode
 });
