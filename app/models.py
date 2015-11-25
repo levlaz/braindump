@@ -30,17 +30,17 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(256))
     confirmed = db.Column(db.Boolean, default=False)
-    avatar_hash = db.Column(db.String(32))
+    avatar_hash = db.Column(db.String(32), default=NULL)
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
     notes = db.relationship('Note', backref='author', lazy='dynamic')
 
-#    def __init__(self, **kwargs):
-#        if self.email is not None and self.avatar_hash is None:
-#            self.avatar_hash = hashlib.md5(
-#                self.email.encode('utf-8')).hexdigest()
+    def __init__(self, **kwargs):
+        if self.email is not None and self.avatar_hash is None:
+            self.avatar_hash = hashlib.md5(
+                self.email.encode('utf-8')).hexdigest()
 
     @property
     def password(self):
