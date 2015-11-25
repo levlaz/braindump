@@ -32,7 +32,7 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(256))
     confirmed = db.Column(db.Boolean, default=False)
-    avatar_hash = db.Column(db.String(32), default=NULL)
+    avatar_hash = db.Column(db.String(32))
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
     notes = db.relationship('Note', backref='author', lazy='dynamic')
