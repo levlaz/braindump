@@ -37,10 +37,10 @@ class User(UserMixin, db.Model):
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
     notes = db.relationship('Note', backref='author', lazy='dynamic')
 
-    def __init__(self, **kwargs):
-        if self.email is not None and self.avatar_hash is None:
-            self.avatar_hash = hashlib.md5(
-                self.email.encode('utf-8')).hexdigest()
+#    def __init__(self, **kwargs):
+#        if self.email is not None and self.avatar_hash is None:
+#            self.avatar_hash = hashlib.md5(
+#                self.email.encode('utf-8')).hexdigest()
 
     @property
     def password(self):
