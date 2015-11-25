@@ -7,7 +7,7 @@
             by <a href="{{ url_for('.index', username=note.author.username) }}">{{ note.author.username }}</a> </div>
             <div class="note-body">
                 {% if note.body_html %}
-                    {{ note.body_html | safe }}
+                    {{ note.body | safe }}
                 {% else %}
                     {{ note.body }}
                 {% endif %}

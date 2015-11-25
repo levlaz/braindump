@@ -7,9 +7,14 @@
 {% block page_content %}
 
 {% if current_user.is_authenticated() %}
-  <div>
-      {{ wtf.quick_form(form) }}
-
+  <div class="container">
+    <form class="form form-horizontal" action="" method="post" role="form">
+      {{ form.csrf_token }}
+      {{ wtf.form_field(form.title) }}
+      {{ wtf.form_field(form.body) }}
+      <div id="editor" class="form-group"></div>
+      {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
+    </form>
   </div>
 
   <div class="post-tabs">
@@ -32,9 +37,8 @@
 
 {% block scripts %}
 {{ super() }}
-{{ pagedown.include_pagedown() }}
-<script src="{{ url_for('static', filename='js/libs/autosize.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/braindump.js') }}"></script>
 <script src="{{ url_for('static', filename='js/libs/marked.js') }}"></script>
 <script src="{{ url_for('static', filename='js/libs/releases.js') }}"></script>
+<script src="{{ url_for('static', filename='js/libs/ace/ace.js') }}"></script>
+<script src="{{ url_for('static', filename='js/braindump.js') }}"></script>
 {% endblock %}
