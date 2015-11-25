@@ -15,3 +15,22 @@ editor.getSession().on('change', function(){
   textarea_html.val(marked(editor.getSession().getValue()));
   textarea.val(editor.getSession().getValue());
 });
+
+// Hot Keys
+editor.commands.addCommand({
+    name: 'insert text',
+    bindKey: {win: 'Ctrl-1',  mac: 'Ctrl-1'},
+    exec: function(editor) {
+        editor.insert("*TODO ")
+    },
+    readOnly: true // false if this command should not apply in readOnly mode
+});
+
+editor.commands.addCommand({
+    name: 'Insert TimeStamp',
+    bindKey: {win: 'Ctrl-d',  mac: 'Ctrl-d'},
+    exec: function(editor) {
+        editor.insert(moment().format('MMMM Do YYYY, h:mm:ss a') + "\n");
+    },
+    readOnly: true // false if this command should not apply in readOnly mode
+});
