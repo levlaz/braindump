@@ -36,7 +36,7 @@
         results = [];
         for (i = 0, len = ref.length; i < len; i++) {
           release = ref[i];
-          results.push($('#releases').append("<li class='release'>" + ("<a class='release-title' href='" + release.html_url + "'><h2>" + release.name + "</h2></a>") + ("<h3>" + (moment(release.published_at).format('MMMM Do YY')) + "</h3>") + ("<div class='release-body'>" + (marked(release.body)) + "</div>") + "</li>"));
+          results.push($('#releases').append("<li class='release'>" + ("<a class='release-title' href='" + release.html_url + "'><h2>" + release.name + "</h2></a>") + ("<h3>" + (moment(release.published_at).format('MMMM Do YYYY')) + "</h3>") + ("<div class='release-body'>" + (marked(release.body)) + "</div>") + "</li>"));
         }
         return results;
       }
