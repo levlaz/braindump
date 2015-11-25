@@ -127,3 +127,10 @@ div.flask-pagedown-preview h3 {
 .table.followers tr {
     border-bottom: 1px solid #e0e0e0;
 }
+
+/* Style for Releases Plugin */
+#releases {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
