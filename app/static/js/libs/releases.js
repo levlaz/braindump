@@ -11,8 +11,8 @@
     breaks: true,
     pedantic: false,
     sanitize: true,
-    smartLists: true,
-    smartypants: true
+    smartLists: false,
+    smartypants: false
   });
 
   getReleaseUrl = function(repo) {

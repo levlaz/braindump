@@ -85,6 +85,10 @@ a.buttons {
   text-decoration: none;
 }
 
+li.task-list-item {
+  list-style-type: none;
+}
+
 /* Style for Releases Plugin */
 #releases {
   list-style-type: none;

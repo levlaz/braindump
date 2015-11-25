@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, session, redirect, url_for, flash
+from flask import render_template, session, redirect, url_for, flash, abort
 from flask.ext.login import current_user, login_required
 
 from . import main
@@ -20,6 +20,14 @@ def index():
         return render_template('index.html', form=form, notes=notes)
     else:
         return render_template('index.html')
+
+@main.route('/note/<int:id>')
+@login_required
+def note(id):
+    note = Note.query.get_or_404(id)
+    if current_user != note.author:
+        abort(403)
+    return render_template('note.html', notes=[note])
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
