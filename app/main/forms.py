@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, TextAreaField, HiddenField
 from wtforms.validators import Required, Length, Email, Regexp, EqualTo
 
 class NoteForm(Form):

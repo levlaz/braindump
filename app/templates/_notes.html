@@ -13,12 +13,21 @@
                 {% endif %}
             <div class="note-footer">
               {% if current_user == note.author %}
+              {% if note.is_deleted %}
+              <a class="buttons" href="{{ url_for('.restore', id=note.id) }}">
+                <span class="label label-success">Undelete</span>
+              </a>
+              <a class="buttons" href="{{ url_for('.delete_forever', id=note.id) }}">
+                <span class="label label-danger">Delete Permanently</span>
+              </a>
+              {% else %}
               <a class="buttons" href="{{ url_for('.edit', id=note.id) }}">
                 <span class="label label-primary">Edit</span>
               </a>
               <a class="buttons" href="{{ url_for('.delete', id=note.id) }}">
                 <span class="label label-danger">Delete</span>
               </a>
+              {% endif %}
               {% endif %}
             </div>
         </div>

@@ -4,7 +4,7 @@ from flask.ext.login import current_user, login_required
 
 from . import main
 from .. import db
-from .forms import NoteForm
+from .forms import *
 from ..models import User, Note
 
 @main.route('/', methods=['GET', 'POST'])
@@ -18,6 +18,17 @@ def index():
             return redirect(url_for('.index'))
         notes = Note.query.filter_by(author_id=current_user.id,is_deleted=False).order_by(Note.timestamp.desc()).all()
         return render_template('index.html', form=form, notes=notes)
+    else:
+        return render_template('index.html')
+
+@main.route('/trash', methods=['GET', 'POST'])
+def trash():
+    if current_user.is_authenticated():
+        notes = Note.query.filter_by(author_id=current_user.id,is_deleted=True).order_by(Note.timestamp.desc()).all()
+        if len(notes) == 0:
+            flash("Trash is empty, you are so Tidy!")
+            return redirect(url_for('.index'))
+        return render_template('trash.html', notes=notes)
     else:
         return render_template('index.html')
 
@@ -59,3 +70,27 @@ def delete(id):
         db.session.commit()
         flash('The note has been deleted.')
         return redirect(url_for('.index'))
+
+@main.route('/delete-forever/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_forever(id):
+    note = Note.query.get_or_404(id)
+    if current_user != note.author:
+        abort(403)
+    else:
+        db.session.delete(note)
+        db.session.commit()
+        flash('So Long! The note has been deleted forever.')
+        return redirect(url_for('.trash'))
+
+@main.route('/restore/<int:id>', methods=['GET', 'POST'])
+@login_required
+def restore(id):
+    note = Note.query.get_or_404(id)
+    if current_user != note.author:
+        abort(403)
+    else:
+        note.is_deleted = False
+        db.session.commit()
+        flash('The note has been restored.')
+        return redirect(url_for('.trash'))
