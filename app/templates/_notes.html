@@ -21,6 +21,9 @@
                 <span class="label label-danger">Delete Permanently</span>
               </a>
               {% else %}
+              <a class="buttons" href="{{ url_for('.share', id=note.id) }}">
+                <span class="label label-success">Share</span>
+              </a>
               <a class="buttons" href="{{ url_for('.edit', id=note.id) }}">
                 <span class="label label-primary">Edit</span>
               </a>

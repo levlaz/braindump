@@ -1,0 +1,10 @@
+Dear {{ recipient_name }},
+
+{{ user.username }} has shared a note with you from braindump, the contents are below:
+
+{{ note.title }}
+{{ note.body }}
+
+Sincerely,
+The BrainDump Team
+Note: replies to this email address are not monitored.

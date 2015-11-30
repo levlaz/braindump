@@ -1,0 +1,17 @@
+<p>Dear {{ recipient_name }},</p>
+
+<p> {{ user.username }} has shared a <a href="https://braindump.pw">braindump</a> with you!</p>
+
+<hr>
+
+<h1>{{ note.title }}</h1>
+<br />
+{{ note.body_html | safe }}
+
+<hr>
+
+<p>Sincerely,</p>
+<p>The BrainDump Team</p>
+
+<p>Organize your life with <a href="https://braindump.pw"> braindump </a> today! </p>
+<p><small>Note: replies to this email address are not monitored.</small></p>
