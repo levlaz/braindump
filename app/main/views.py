@@ -5,6 +5,7 @@ from flask.ext.login import current_user, login_required
 from . import main
 from .. import db
 from .forms import *
+from ..email import send_email
 from ..models import User, Note
 
 @main.route('/', methods=['GET', 'POST'])
@@ -94,3 +95,17 @@ def restore(id):
         db.session.commit()
         flash('The note has been restored.')
         return redirect(url_for('.trash'))
+
+@main.route('/share/<int:id>', methods=['GET', 'POST'])
+@login_required
+def share(id):
+    note = Note.query.get_or_404(id)
+    if current_user != note.author:
+        abort(403)
+    form = ShareForm()
+    if form.validate_on_submit():
+        recipient_name = form.recipient_name.data
+        send_email(form.recipient_email.data, '{0} has shared a braindump with you!'.format(current_user.username), 'app_email/share_note', user=current_user, recipient_name=recipient_name, note=note)
+        flash('The note has been shared with ' + recipient_name + '.')
+        return redirect(url_for('.index'))
+    return render_template('share_note.html', form = form, notes=[note])

@@ -7,3 +7,8 @@ class NoteForm(Form):
     body = TextAreaField('Dump Your Brain:', validators=[Required()])
     body_html = TextAreaField()
     submit = SubmitField('Submit')
+
+class ShareForm(Form):
+    recipient_name = StringField('Recipient Name')
+    recipient_email = StringField('Recipient Email', validators=[Required()])
+    submit = SubmitField('Share')
