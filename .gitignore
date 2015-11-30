@@ -61,3 +61,6 @@ target/
 
 # Secrets
 init.sh
+
+# Vagrant
+.vagrant/
