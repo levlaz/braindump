@@ -119,6 +119,20 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
+    def generate_auth_token(self, expiration):
+        s = Serializer(current_app.config['SECRET_KEY'],
+            expires_in = expiration)
+        return s.dumps({'id': self.id})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return User.query.get(data['id'])
+
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
@@ -132,6 +146,16 @@ class Note(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     section_id = db.Column(db.Integer, db.ForeignKey('sections.id'))
     is_deleted = db.Column(db.Boolean, default=False)
+
+    def to_json(self):
+        json_note = {
+            'url': url_for('api.get_note', id=self.id, _external=True),
+            'body': self.body,
+            'body_html': self.body_html,
+            'timestamp': self.timestamp,
+            #'author': url_for('api.get_user', id=self.author_id, _external=True),
+        }
+        return json_note
 
 class Notebook(db.Model):
     __tablename__ = 'notebooks'
