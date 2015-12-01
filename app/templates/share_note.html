@@ -12,7 +12,6 @@
 
   <form class="form form-horizontal" action="" method="post" role="form">
     {{ form.csrf_token }}
-    {{ wtf.form_field(form.recipient_name, placeholder="Enter Name (optional)") }}
     {{ wtf.form_field(form.recipient_email, placeholder="Enter Email address") }}
     {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
   </form>
