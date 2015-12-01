@@ -10,6 +10,5 @@ class NoteForm(Form):
     submit = SubmitField('Submit')
 
 class ShareForm(Form):
-    recipient_name = StringField('Recipient Name')
     recipient_email = StringField('Recipient Email', validators=[Required()])
     submit = SubmitField('Share')
