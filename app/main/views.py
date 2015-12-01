@@ -26,6 +26,10 @@ def index():
     else:
         return render_template('index.html')
 
+@main.route('/home')
+def home():
+    return render_template('home.html')
+
 @main.route('/trash', methods=['GET', 'POST'])
 def trash():
     if current_user.is_authenticated():
