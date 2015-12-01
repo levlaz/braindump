@@ -108,11 +108,10 @@ def share(id):
         abort(403)
     form = ShareForm()
     if form.validate_on_submit():
-        recipient_name = form.recipient_name.data
-        send_email(form.recipient_email.data, '{0} has shared a braindump with you!'.format(current_user.username), 'app_email/share_note', user=current_user, recipient_name=recipient_name, note=note)
-        flash('The note has been shared with ' + recipient_name + '.')
+        send_email(form.recipient_email.data, '{0} has shared a braindump with you!'.format(current_user.username), 'app_email/share_note', user=current_user, note=note)
+        flash('The note has been shared!')
         return redirect(url_for('.index'))
-    return render_template('share_note.html', form = form, notes=[note])
+    return render_template('share_note.html', form=form, notes=[note])
 
 @main.route('/tag/<name>')
 @login_required

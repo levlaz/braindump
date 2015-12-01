@@ -1,7 +1,3 @@
-Dear {{ recipient_name }},
-
-{{ user.username }} has shared a note with you from braindump, the contents are below:
-
 {{ note.title }}
 {{ note.body }}
 
