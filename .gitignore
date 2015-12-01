@@ -64,3 +64,6 @@ init.sh
 
 # Vagrant
 .vagrant/
+
+# Javascript
+node_modules/
