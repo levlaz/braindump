@@ -13,6 +13,12 @@
                 {% endif %}
             <div class="note-footer">
               {% if current_user == note.author %}
+              <span class="tags">Tags:</span>
+              {% for tag in note._get_tags() %}
+              <a class="tags" href="{{ url_for('.note', id=1)}}">
+                {{ tag }}
+              </a>
+              {% endfor %}
               {% if note.is_deleted %}
               <a class="buttons" href="{{ url_for('.restore', id=note.id) }}">
                 <span class="label label-success">Undelete</span>

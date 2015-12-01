@@ -6,6 +6,7 @@ class NoteForm(Form):
     title = StringField('Title:', validators=[Required()])
     body = TextAreaField('Dump Your Brain:', validators=[Required()])
     body_html = TextAreaField()
+    tags = StringField()
     submit = SubmitField('Submit')
 
 class ShareForm(Form):

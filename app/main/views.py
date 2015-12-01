@@ -6,7 +6,7 @@ from . import main
 from .. import db
 from .forms import *
 from ..email import send_email
-from ..models import User, Note
+from ..models import User, Note, Tag
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -15,6 +15,10 @@ def index():
         if form.validate_on_submit():
             note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data,author=current_user._get_current_object())
             db.session.add(note)
+            tags = []
+            for tag in form.tags.data.split(','):
+                tags.append(tag)
+            note.str_tags = (tags)
             db.session.commit()
             return redirect(url_for('.index'))
         notes = Note.query.filter_by(author_id=current_user.id,is_deleted=False).order_by(Note.timestamp.desc()).all()

@@ -20,11 +20,11 @@ note_tag = db.Table(
     db.Column(
         'note_id',
         db.Integer,
-        db.ForeignKey('note.id', ondelete="CASCADE")),
+        db.ForeignKey('notes.id', ondelete="CASCADE")),
     db.Column(
         'tag_id',
         db.Integer,
-        db.ForeignKey('tag.id', ondelete="CASCADE")))
+        db.ForeignKey('tags.id', ondelete="CASCADE")))
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -147,6 +147,26 @@ class Note(db.Model):
 
     tags = db.relationship("Tag", secondary=note_tag, backref="Note")
 
+    def _find_or_create_tag(self, tag):
+        q = Tag.query.filter_by(tag=tag)
+        t = q.first()
+        if not (t):
+            t = Tag(tag=tag.strip())
+        return t
+
+    def _get_tags(self):
+        return [x.tag for x in self.tags]
+
+    def _set_tags(self, value):
+        while self.tags:
+            del self.tags[0]
+        for tag in value:
+            self.tags.append(self._find_or_create_tag(tag))
+
+    str_tags = property(_get_tags,
+                        _set_tags,
+                        "Property str_tags is a simple wrapper for the tags relationship")
+
 class Notebook(db.Model):
     __tablename__ = 'notebooks'
     id = db.Column(db.Integer, primary_key=True)
@@ -167,4 +187,4 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String(200))
 
-    notes = db.relationship("Notes", secondary=note_tag, backref="Tag")
+    notes = db.relationship("Note", secondary=note_tag, backref="Tag")
