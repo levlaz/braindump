@@ -1,7 +1,7 @@
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, request, url_for
-from flask.ext.login import UserMixin
+from flask.ext.login import UserMixin, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from flask import current_app
@@ -145,7 +145,7 @@ class Note(db.Model):
     section_id = db.Column(db.Integer, db.ForeignKey('sections.id'))
     is_deleted = db.Column(db.Boolean, default=False)
 
-    tags = db.relationship("Tag", secondary=note_tag, backref="Note")
+    tags = db.relationship("Tag", secondary=note_tag, backref="Note", passive_deletes=True)
 
     def _find_or_create_tag(self, tag):
         q = Tag.query.filter_by(tag=tag)
@@ -190,4 +190,8 @@ class Tag(db.Model):
     notes = db.relationship("Note", secondary=note_tag, backref="Tag")
 
     def _get_notes(self):
-        return [x.title for x in self.notes]
+        notes = []
+        for note in self.notes:
+            if note.author == current_user:
+                notes.append(note)
+        return notes
