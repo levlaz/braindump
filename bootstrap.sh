@@ -4,7 +4,7 @@
 apt-get update
 
 # Install Package Dependencies
-apt-get install python-pip python-dev -y
+apt-get install python-pip python-dev sqlite3 -y
 
 # Install Application from Setup
 cd /var/www
