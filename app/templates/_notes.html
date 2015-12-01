@@ -15,7 +15,7 @@
               {% if current_user == note.author %}
               <span class="tags">Tags:</span>
               {% for tag in note._get_tags() %}
-              <a class="tags" href="{{ url_for('.note', id=1)}}">
+              <a class="tags" href="{{ url_for('.tag', name=tag)}}">
                 {{ tag }}
               </a>
               {% endfor %}

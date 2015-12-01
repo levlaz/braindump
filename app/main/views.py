@@ -113,3 +113,9 @@ def share(id):
         flash('The note has been shared with ' + recipient_name + '.')
         return redirect(url_for('.index'))
     return render_template('share_note.html', form = form, notes=[note])
+
+@main.route('/tag/<name>')
+@login_required
+def tag(name):
+    tag = Tag.query.filter_by(tag=name).first()
+    return render_template('tag.html', notes=tag.notes, tag=name)

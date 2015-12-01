@@ -188,3 +188,6 @@ class Tag(db.Model):
     tag = db.Column(db.String(200))
 
     notes = db.relationship("Note", secondary=note_tag, backref="Tag")
+
+    def _get_notes(self):
+        return [x.title for x in self.notes]
