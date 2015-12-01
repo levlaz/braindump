@@ -14,6 +14,18 @@ import hashlib
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Association Tables
+note_tag = db.Table(
+    'note_tag',
+    db.Column(
+        'note_id',
+        db.Integer,
+        db.ForeignKey('notes.id', ondelete="CASCADE")),
+    db.Column(
+        'tag_id',
+        db.Integer,
+        db.ForeignKey('tags.id', ondelete="CASCADE")))
+
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
@@ -133,6 +145,28 @@ class Note(db.Model):
     section_id = db.Column(db.Integer, db.ForeignKey('sections.id'))
     is_deleted = db.Column(db.Boolean, default=False)
 
+    tags = db.relationship("Tag", secondary=note_tag, backref="Note")
+
+    def _find_or_create_tag(self, tag):
+        q = Tag.query.filter_by(tag=tag)
+        t = q.first()
+        if not (t):
+            t = Tag(tag=tag.strip())
+        return t
+
+    def _get_tags(self):
+        return [x.tag for x in self.tags]
+
+    def _set_tags(self, value):
+        while self.tags:
+            del self.tags[0]
+        for tag in value:
+            self.tags.append(self._find_or_create_tag(tag))
+
+    str_tags = property(_get_tags,
+                        _set_tags,
+                        "Property str_tags is a simple wrapper for the tags relationship")
+
 class Notebook(db.Model):
     __tablename__ = 'notebooks'
     id = db.Column(db.Integer, primary_key=True)
@@ -147,3 +181,13 @@ class Section(db.Model):
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
 
     notes = db.relationship('Note', backref='section', lazy='dynamic')
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    tag = db.Column(db.String(200))
+
+    notes = db.relationship("Note", secondary=note_tag, backref="Tag")
+
+    def _get_notes(self):
+        return [x.title for x in self.notes]

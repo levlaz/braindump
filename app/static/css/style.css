@@ -68,6 +68,12 @@ div.pagination {
     margin: 0px;
 }
 
+.tags {
+  font-weight: bold;
+  float: left;
+  padding-right: 5px;
+}
+
 .note-body h1 {
     font-size: 140%;
 }
