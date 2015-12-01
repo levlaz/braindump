@@ -364,6 +364,14 @@
 
 
       self.$container.on('keydown', 'input', $.proxy(function(event) {
+        function createTag() {
+          if ($('.typeahead, .twitter-typeahead', self.$container).length === 0) {
+            self.add(self.$input.val());
+            self.$input.val('');
+          }
+          event.preventDefault();
+        }
+
         var $input = $(event.target),
             $inputWrapper = self.findInputWrapper();
 
@@ -411,7 +419,17 @@
               $input.focus();
             }
             break;
-         default:
+            
+          // RETURN
+          case 13:
+            createTag();
+            break;
+
+          // TAB
+          case 9:
+            createTag();
+            break;
+          default:
              // ignore
          }
 
