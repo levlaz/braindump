@@ -14,6 +14,18 @@ import hashlib
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Association Tables
+note_tag = db.Table(
+    'note_tag',
+    db.Column(
+        'note_id',
+        db.Integer,
+        db.ForeignKey('note.id', ondelete="CASCADE")),
+    db.Column(
+        'tag_id',
+        db.Integer,
+        db.ForeignKey('tag.id', ondelete="CASCADE")))
+
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
@@ -133,6 +145,8 @@ class Note(db.Model):
     section_id = db.Column(db.Integer, db.ForeignKey('sections.id'))
     is_deleted = db.Column(db.Boolean, default=False)
 
+    tags = db.relationship("Tag", secondary=note_tag, backref="Note")
+
 class Notebook(db.Model):
     __tablename__ = 'notebooks'
     id = db.Column(db.Integer, primary_key=True)
@@ -147,3 +161,10 @@ class Section(db.Model):
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
 
     notes = db.relationship('Note', backref='section', lazy='dynamic')
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    tag = db.Column(db.String(200))
+
+    notes = db.relationship("Notes", secondary=note_tag, backref="Tag")
