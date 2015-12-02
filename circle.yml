@@ -1,9 +1,10 @@
 test:
-  post:
+  override:
     - python manage.py test --coverage
-    - cp -R tmp/coverage/* $CIRCLE_ARTIFACTS
+  post:
+    - cp -R test-reports/coverage/* $CIRCLE_ARTIFACTS
     - mkdir -p $CIRCLE_TEST_REPORTS/python/
-    - mv *.xml $CIRCLE_TEST_REPORTS/python/
+    - mv test-reports/*.xml $CIRCLE_TEST_REPORTS/python/
 
 deployment:
   push_to_linode:

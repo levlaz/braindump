@@ -39,8 +39,8 @@ def test(coverage=False):
     import unittest
     import xmlrunner
     tests = unittest.TestLoader().discover('tests')
-    unittest.TextTestRunner(verbosity=2).run(tests)
-    #xmlrunner.XMLTestRunner(output='test-reports').run(tests)
+    #unittest.TextTestRunner(verbosity=2).run(tests)
+    xmlrunner.XMLTestRunner(output='test-reports').run(tests)
     if COV:
         COV.stop()
         COV.save()
