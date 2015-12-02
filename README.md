@@ -14,7 +14,7 @@ BrainDump is a simple, powerful, and open note taking platfform that makes it ea
 
 ## Local development with virtualenv
 
-1. Install virtualenv: `pip install virtualenv`)
+1. Install virtualenv: `pip install virtualenv`
 2. Fork and clone this repo
 3. From the root of the project, create your virtualenv: `virtualenv env`
 4. Source your virtual environment: `source env/bin/activate`
