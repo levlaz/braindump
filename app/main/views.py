@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, session, redirect, url_for, flash, abort
+from flask import render_template, session, redirect, url_for, flash, abort, current_app, request
 from flask.ext.login import current_user, login_required
 
 from . import main
@@ -122,3 +122,13 @@ def share(id):
 def tag(name):
     tag = Tag.query.filter_by(tag=name).first()
     return render_template('tag.html', notes=tag._get_notes(), tag=name)
+
+@main.route('/shutdown')
+def server_shutdown():
+    if not current_app.testing:
+        abort(404)
+    shutdown = request.environ.get('werkzeug.server.shutdown')
+    if not shutdown:
+        abort(500)
+    shutdown()
+    return 'Shutting down...'

@@ -39,14 +39,15 @@ def test(coverage=False):
     import unittest
     import xmlrunner
     tests = unittest.TestLoader().discover('tests')
-    xmlrunner.XMLTestRunner().run(tests)
+    unittest.TextTestRunner(verbosity=2).run(tests)
+    #xmlrunner.XMLTestRunner(output='test-reports').run(tests)
     if COV:
         COV.stop()
         COV.save()
         print('Coverage Summary:')
         COV.report()
         basedir = os.path.abspath(os.path.dirname(__file__))
-        covdir = os.path.join(basedir, 'tmp/coverage')
+        covdir = os.path.join(basedir, 'test-reports/coverage')
         COV.html_report(directory=covdir)
         print('HTML version: file://%s/index.html' % covdir)
         COV.erase()
