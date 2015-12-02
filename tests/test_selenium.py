@@ -33,6 +33,14 @@ class SeleniumTestCase(unittest.TestCase):
             db.create_all()
             User.generate_fake(10)
 
+            # add admin user
+            admin = User(email='test@example.com',
+                username='test',
+                password='test',
+                confirmed=True)
+            db.session.add(admin)
+            db.session.commit()
+
             # start the Flask server in a thread
             threading.Thread(target=cls.app.run).start()
 
@@ -64,3 +72,14 @@ class SeleniumTestCase(unittest.TestCase):
         # navigate to home page
         self.client.get('http://localhost:5000')
         self.assertTrue(re.search('BrainDump',self.client.page_source))
+
+        # navigate to login page
+        self.client.find_element_by_link_text('Log In').click()
+        self.assertTrue('<h1>Login</h1>' in self.client.page_source)
+
+        # login
+        self.client.find_element_by_name('email').\
+            send_keys('test@xample.com')
+        self.client.find_element_by_name('password').send_keys('test')
+        self.client.find_element_by_nameI('submit').click()
+        self.assertTrue('Log Out' in self.client.page_source)
