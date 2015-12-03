@@ -13,7 +13,8 @@ test:
     - git checkout gh-pages
     - git config --global user.email "lev@levlaz.org"
     - git config --global user.name "Lev Lazinskiy"
-    - git commit -am 'Updated gh-pages with Coverage report'
+    - git add -A
+    - git commit -m 'Updated gh-pages with Coverage report'
     - git push -u origin gh-pages
 
 deployment:
