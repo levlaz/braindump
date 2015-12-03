@@ -21,5 +21,6 @@ deployment:
   push_to_linode:
     branch: master
     commands:
+      - git checkout master
       - rsync -avz app circle@braindump.pw:/var/www
       - rsync -avz *.{py,txt} circle@braindump.pw:/var/www
