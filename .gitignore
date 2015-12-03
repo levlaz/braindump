@@ -70,7 +70,7 @@ init.sh
 node_modules/
 
 # CircleCI
-venv/
+*venv*
 
 # Jekyll
 _site/
