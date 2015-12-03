@@ -1,10 +1,20 @@
+general:
+  branches:
+    ignore:
+      - gh-pages
+
 test:
   override:
     - python manage.py test --coverage
   post:
-    - cp -R test-reports/coverage/* $CIRCLE_ARTIFACTS
     - mkdir -p $CIRCLE_TEST_REPORTS/python/
     - mv test-reports/*.xml $CIRCLE_TEST_REPORTS/python/
+    # Update gh-pages with Coverage
+    - git checkout gh-pages
+    - git config --global user.email "lev@levlaz.org"
+    - git config --global user.name "Lev Lazinskiy"
+    - git commit -am 'Updated gh-pages with Coverage report'
+    - git push -u origin gh-pages
 
 deployment:
   push_to_linode:
