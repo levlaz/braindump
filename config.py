@@ -28,7 +28,7 @@ class TestingConfig(Config):
         'ubuntu',
         'localhost',
         'circle_test')
-
+        
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
         os.environ.get('DB_USER'),
