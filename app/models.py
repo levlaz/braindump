@@ -49,6 +49,24 @@ class User(UserMixin, db.Model):
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
     notes = db.relationship('Note', backref='author', lazy='dynamic')
 
+    @staticmethod
+    def generate_fake(count=100):
+        from sqlalchemy.exc import IntegrityError
+        from random import seed
+        import forgery_py as f
+
+        seed()
+        for i in range(count):
+            u = User(email=f.internet.email_address(),
+                username=f.internet.user_name(True),
+                password=f.lorem_ipsum.word(),
+                confirmed=True)
+            db.session.add(u)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.email is not None and self.avatar_hash is None:
