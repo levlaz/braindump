@@ -61,6 +61,16 @@ div.navbar {
   height: 40px;
   width: 40px;
   padding: 5px;
+  margin-top: 5px;
+  margin-left: 15px;
+  background-color:white;
+  border-radius: 10px;
+}
+
+.app-logo {
+  height: 40px;
+  width: 40px;
+  padding: 5px;
   background-color:white;
   border-radius: 10px;
 }

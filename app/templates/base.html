@@ -24,21 +24,6 @@
 
     <div class="navbar-collapse collapse">
 
-      <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('main.home') }}">Home</a></li>
-      </ul>
-
-      <!-- TODO Implememnt these Routes
-      <ul class="nav navbar-nav">
-          <li><a href="{{ url_for('main.index') }}">Blog</a></li>
-          <li><a href="{{ url_for('main.index') }}">Docs</a></li>
-          <li><a href="{{ url_for('main.index') }}">Contact</a></li>
-          {% if current_user.is_authenticated() %}
-          <li><a href="{{ url_for('main.index', username=current_user.username) }}">Profile</a></li>
-          {% endif %}
-      </ul>
-      -->
-
       <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated() %}
                 <li>
