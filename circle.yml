@@ -9,7 +9,7 @@ test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/python/
     - mv test-reports/*.xml $CIRCLE_TEST_REPORTS/python/
-    - cp -R tmp/coverage/* $CIRCLE_ARTIFACTS
+    - cp -R test-reports/coverage/* $CIRCLE_ARTIFACTS
 
 deployment:
   push_to_linode:
