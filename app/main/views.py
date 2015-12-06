@@ -141,7 +141,7 @@ def share(id):
 @login_required
 def tag(name):
     tag = Tag.query.filter_by(tag=name).first()
-    return render_template('tag.html', notes=tag._get_notes(), tag=name)
+    return render_template('app/tag.html', notes=tag._get_notes(), tag=name)
 
 @main.route('/shutdown')
 def server_shutdown():
