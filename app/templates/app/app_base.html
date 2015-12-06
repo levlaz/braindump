@@ -1,0 +1,75 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block head %}
+{{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-tagsinput.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/single_note.css') }}" type="text/css">
+{% endblock %}
+
+{% block title %} BrainDump {% endblock %}
+
+{% block navbar %}
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-item">
+                <a href="/"><img class="logo" src="{{ url_for('static', filename='images/logo.png')}}"></img></a>
+            </li>
+            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Add a Note">
+                <a href="/add"><span class="nav-item glyphicon glyphicon-plus" aria-hidden="true"></a></span>
+            </li>
+            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Notebooks">
+                <a href="#"><span class="nav-item glyphicon glyphicon-book" aria-hidden="true"></a></span>
+            </li>
+            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Settings">
+                <a href="#"><span class="nav-item glyphicon glyphicon-cog" aria-hidden="true"></a></span>
+            </li>
+            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="View Trash">
+                <a href="/trash"><span class="nav-item glyphicon glyphicon-trash" aria-hidden="true"></a></span>
+            </li>
+            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="News">
+                <a href="/news"><span class="nav-item glyphicon glyphicon-bullhorn" aria-hidden="true"></a></span>
+            </li>
+            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Support">
+                <a href="https://github.com/levlaz/braindump/issues"><span class="nav-item glyphicon glyphicon-exclamation-sign" aria-hidden="true"></a></span>
+            </li>
+            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Log Out">
+                <a href="{{ url_for('auth.logout') }}"><span class="nav-item glyphicon glyphicon-off" aria-hidden="true"></a></span>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+
+{% endblock %}
+
+{% block content %}
+<!-- Page Content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% block page_content %}{% endblock %}
+    </div>
+</div>
+<!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}

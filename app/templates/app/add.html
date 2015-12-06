@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "app/app_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
@@ -6,9 +6,15 @@
 
 {% block page_content %}
 
-{% include 'outer.html' %}
-
-{% include 'footer.html' %}
+<form class="form form-horizontal" action="" method="post" role="form">
+  {{ form.csrf_token }}
+  {{ wtf.form_field(form.title) }}
+  {{ wtf.form_field(form.body) }}
+  {{ wtf.form_field(form.body_html) }}
+  <div id="editor"></div>
+  {{ form.tags( **{'id':"tag-input", 'class': "form-group", 'placeholder': "Enter Tags (Optional)", 'data-role':"tagsinput"}) }}
+  {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
+</form>
 
 {% endblock %}
 
@@ -19,4 +25,5 @@
 <script src="{{ url_for('static', filename='js/libs/releases.js') }}"></script>
 <script src="{{ url_for('static', filename='js/libs/ace/ace.js') }}"></script>
 <script src="{{ url_for('static', filename='js/braindump.js') }}"></script>
+<script src="{{ url_for('static', filename='js/braindump_editor.js') }}"></script>
 {% endblock %}

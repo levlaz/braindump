@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "app/app_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
@@ -6,17 +6,13 @@
 
 {% block page_content %}
 
-{% include 'outer.html' %}
-
-{% include 'footer.html' %}
+      <h1 class="top"> All Notes </h1>
+      {% include 'app/_notes.html' %}
 
 {% endblock %}
 
 {% block scripts %}
 {{ super() }}
 <script src="{{ url_for('static', filename='js/libs/marked.js') }}"></script>
-<script src="{{ url_for('static', filename='js/libs/bootstrap-tagsinput.js') }}"></script>
-<script src="{{ url_for('static', filename='js/libs/releases.js') }}"></script>
-<script src="{{ url_for('static', filename='js/libs/ace/ace.js') }}"></script>
 <script src="{{ url_for('static', filename='js/braindump.js') }}"></script>
 {% endblock %}

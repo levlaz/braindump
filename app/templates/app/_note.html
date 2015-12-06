@@ -1,0 +1,37 @@
+{% for note in notes %}
+  <div class="single-note">
+
+    <div class="single-note-title">
+      <a href="{{ url_for('.note', id=note.id) }}"><h1>{{ note.title }}</h1>
+    </div>
+
+    <div class="single-note-date">
+      {{ moment(note.timestamp).format("MMMM D, YYYY") }}
+      <div class="single-note-actions">
+      <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true"></a></span>
+      <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true"></a></span>
+      <a href="{{ url_for('.delete', id=note.id) }}"><span class="actions glyphicon glyphicon-remove" aria-hidden="true"></a></span>
+      </div>
+    </div>
+
+    <div class="single-note-tags">
+      <p><b> Tags:</b>
+        {% if current_user == note.author %}
+          {% for tag in note._get_tags() %}
+          <a class="tags" href="{{ url_for('.tag', name=tag) }}"> {{ tag }} </a>
+          {% endfor %}
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="single-note-body">
+      {% if note.body_html %}
+          {{ note.body_html | safe }}
+      {% else %}
+          {{ note.body }}
+      {% endif %}
+    </div>
+
+  </div>
+
+{% endfor %}

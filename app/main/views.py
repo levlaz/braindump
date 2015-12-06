@@ -22,13 +22,33 @@ def index():
             db.session.commit()
             return redirect(url_for('.index'))
         notes = Note.query.filter_by(author_id=current_user.id,is_deleted=False).order_by(Note.timestamp.desc()).all()
-        return render_template('index.html', form=form, notes=notes)
+        return render_template('app/app.html', form=form, notes=notes)
     else:
         return render_template('index.html')
 
-@main.route('/home')
+@main.route('/add', methods=['GET', 'POST'])
+@login_required
+def add():
+    form = NoteForm()
+    if form.validate_on_submit():
+        note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data,author=current_user._get_current_object())
+        db.session.add(note)
+        tags = []
+        for tag in form.tags.data.split(','):
+            tags.append(tag)
+        note.str_tags = (tags)
+        db.session.commit()
+        return redirect(url_for('.index'))
+    return render_template('app/add.html', form = form)
+
+@main.route('/news')
 def home():
-    return render_template('home.html')
+    return render_template('app/news.html')
+
+@main.route('/settings')
+@login_required
+def settings():
+    return render_template('app/settings.html')
 
 @main.route('/trash', methods=['GET', 'POST'])
 def trash():
@@ -37,7 +57,7 @@ def trash():
         if len(notes) == 0:
             flash("Trash is empty, you are so Tidy!")
             return redirect(url_for('.index'))
-        return render_template('trash.html', notes=notes)
+        return render_template('app/trash.html', notes=notes)
     else:
         return render_template('index.html')
 
@@ -47,7 +67,7 @@ def note(id):
     note = Note.query.get_or_404(id)
     if current_user != note.author:
         abort(403)
-    return render_template('note.html', notes=[note])
+    return render_template('app/note.html', notes=[note])
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -66,7 +86,7 @@ def edit(id):
         return redirect(url_for('.index'))
     form.title.data = note.title
     form.body.data = note.body
-    return render_template('edit_note.html', form = form)
+    return render_template('app/edit_note.html', form = form)
 
 @main.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -115,7 +135,7 @@ def share(id):
         send_email(form.recipient_email.data, '{0} has shared a braindump with you!'.format(current_user.username), 'app_email/share_note', user=current_user, note=note)
         flash('The note has been shared!')
         return redirect(url_for('.index'))
-    return render_template('share_note.html', form=form, notes=[note])
+    return render_template('app/share_note.html', form=form, notes=[note])
 
 @main.route('/tag/<name>')
 @login_required
