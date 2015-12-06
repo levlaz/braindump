@@ -86,13 +86,17 @@ h1.top {
   margin: 0;
 }
 
-.note {
-  position: relative;
+div.note a {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-decoration: none;
 }
 
-div.note a { position:absolute; width:100%; height:100%; top:0; left:0; }
-
 .note-content {
+  position: relative;
   border: solid 1px rgb(84,36,55);
   border-radius: 5px;
   margin-bottom: 10px;
@@ -124,8 +128,8 @@ div.note a { position:absolute; width:100%; height:100%; top:0; left:0; }
 .note-tags {
   position: absolute;
   bottom: 0;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-left: 5px;
+  margin-bottom: 20px;
   padding-top: 5px;
   padding-left: 5px;
 }

@@ -1,9 +1,7 @@
 <div class="row">
   {% for note in notes %}
-    <a class="divClick" href="google.com">
-
     <div class="note col-xs-6 col-sm-4 col-md-3 col-lg-2">
-
+      <a href="{{ url_for('.edit', id=note.id) }}">
       <div class="note-content">
 
         <div class="note-date">
@@ -25,7 +23,7 @@
           {% endif %}
         </div>
       </div>
+      </a>
     </div>
-    </a>
   {% endfor %}
 </div>
