@@ -9,6 +9,8 @@ BrainDump is a simple, powerful, and open note taking platfform that makes it ea
 
 # Development
 
+[Dev Blog](https://levlaz.org/tag/braindump/) 
+
 ## Develop with Vagrant
 
 1. Install [Vagrant](https://www.vagrantup.com/)
