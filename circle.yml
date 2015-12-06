@@ -17,4 +17,5 @@ deployment:
     commands:
       - git checkout master
       - rsync -avz app circle@braindump.pw:/var/www
+      - rsync -avz migrations circle@braindump.pw:/var/www
       - rsync -avz *.{py,txt} circle@braindump.pw:/var/www
