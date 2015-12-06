@@ -91,10 +91,11 @@
   text-align: center;
 }
 
-.glyphicon {
+.nav-item {
   font-size: 25px;
   line-height: 40px;
 }
+
 .sidebar-nav li:hover {
     text-decoration: none;
     color: #fff;

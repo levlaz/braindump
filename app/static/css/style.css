@@ -86,23 +86,12 @@ h1.top {
   margin: 0;
 }
 
-div.note a {
-  color: inherit;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  text-decoration: none;
-}
-
 .note-content {
-  position: relative;
   border: solid 1px rgb(84,36,55);
   border-radius: 5px;
   margin-bottom: 10px;
   margin-right: 10px;
-  height: 200px;
+  height: 250px;
 }
 
 .note-content:hover {
@@ -111,7 +100,7 @@ div.note a {
   border-radius: 5px;
   margin-bottom: 10px;
   margin-right: 10px;
-  height: 200px;
+  height: 250px;
 }
 
 .note-date {
@@ -122,17 +111,31 @@ div.note a {
 }
 
 .note-title {
-  padding-top: 5px;
   padding-left: 5px;
 }
 
 .note-tags {
+  margin-left: 5px;
+}
+
+.note-actions {
   position: absolute;
   bottom: 0;
-  margin-left: 5px;
-  margin-bottom: 20px;
-  padding-top: 5px;
-  padding-left: 5px;
+  margin-bottom: 15px;
+  right: 0;
+  margin-right: 15px;
+  clear: both;
+}
+
+.actions  {
+  color: rgb(84,36,55);
+  font-size: 16px;
+  line-height: 40px;
+  margin-left: 10px;
+}
+
+.note-actions a{
+  text-decoration: none;
 }
 
 .label-default {

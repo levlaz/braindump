@@ -1,29 +1,32 @@
 <div class="row">
   {% for note in notes %}
     <div class="note col-xs-6 col-sm-4 col-md-3 col-lg-2">
-      <a href="{{ url_for('.edit', id=note.id) }}">
       <div class="note-content">
 
         <div class="note-date">
-          {{ moment(note.timestamp).format("MMMM D, YYYY") }}
+          <p>{{ moment(note.timestamp).format("MMMM D, YYYY") }}</p>
         </div>
 
         <div class="note-title">
           <h4>{{ note.title }}</h4>
+
+          <p><b> Tags:</b>
+            {% if current_user == note.author %}
+              {% for tag in note._get_tags() %}
+              <a class="tags" href="{{ url_for('.tag', name=tag) }}"> {{ tag }} </a>
+              {% endfor %}
+            {% endif %}
+          </p>
+
           {{ note.body | truncate(100) }}
         </div>
 
-        <div class="note-tags">
-          {% if current_user == note.author %}
-          {% for tag in note._get_tags() %}
-          <a class="tags" href="{{ url_for('.tag', name=tag) }}">
-            <span class="label label-default">{{ tag }}</span>
-          </a>
-          {% endfor %}
-          {% endif %}
+        <div class="note-actions">
+          <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true"></a></span>
+          <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true"></a></span>
+          <a href="{{ url_for('.delete', id=note.id) }}"><span class="actions glyphicon glyphicon-remove" aria-hidden="true"></a></span>
         </div>
       </div>
-      </a>
     </div>
   {% endfor %}
 </div>
