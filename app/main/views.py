@@ -67,7 +67,7 @@ def note(id):
     note = Note.query.get_or_404(id)
     if current_user != note.author:
         abort(403)
-    return render_template('note.html', notes=[note])
+    return render_template('app/note.html', notes=[note])
 
 @main.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -135,7 +135,7 @@ def share(id):
         send_email(form.recipient_email.data, '{0} has shared a braindump with you!'.format(current_user.username), 'app_email/share_note', user=current_user, note=note)
         flash('The note has been shared!')
         return redirect(url_for('.index'))
-    return render_template('share_note.html', form=form, notes=[note])
+    return render_template('app/share_note.html', form=form, notes=[note])
 
 @main.route('/tag/<name>')
 @login_required

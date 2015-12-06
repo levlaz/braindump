@@ -1,0 +1,10 @@
+.single-note-date {
+  border-bottom: solid 1px rgb(192,41,66);
+  position: relative;
+  font-size: 16px;
+}
+
+.single-note-actions {
+  float: right;
+  margin-top: -10px;
+}
