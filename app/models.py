@@ -47,7 +47,9 @@ class User(UserMixin, db.Model):
     avatar_hash = db.Column(db.String(32))
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
+
     notes = db.relationship('Note', backref='author', lazy='dynamic')
+    notebooks = db.relationship('Notebook', backref='author', lazy='dynamic')
 
     @staticmethod
     def generate_fake(count=100):
@@ -160,7 +162,7 @@ class Note(db.Model):
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    section_id = db.Column(db.Integer, db.ForeignKey('sections.id'))
+    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
     is_deleted = db.Column(db.Boolean, default=False)
 
     tags = db.relationship("Tag", secondary=note_tag, backref="Note", passive_deletes=True)
@@ -189,16 +191,17 @@ class Notebook(db.Model):
     __tablename__ = 'notebooks'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
+    is_deleted = db.Column(db.Boolean, default=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    sections = db.relationship('Section', backref='notebook')
+    notes = db.relationship('Note', backref='notebook')
 
-class Section(db.Model):
-    __tablename__ = 'sections'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200))
-    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
-
-    notes = db.relationship('Note', backref='section', lazy='dynamic')
+    def _show_notes(self):
+        notes = []
+        for note in self.notes:
+            if note.is_deleted == False:
+                notes.append(note)
+        return notes
 
 class Tag(db.Model):
     __tablename__ = 'tags'

@@ -6,14 +6,14 @@ from . import main
 from .. import db
 from .forms import *
 from ..email import send_email
-from ..models import User, Note, Tag
+from ..models import User, Note, Tag, Notebook
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
     if current_user.is_authenticated():
         form = NoteForm()
         if form.validate_on_submit():
-            note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data,author=current_user._get_current_object())
+            note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data, author=current_user._get_current_object())
             db.session.add(note)
             tags = []
             for tag in form.tags.data.split(','):
@@ -30,8 +30,9 @@ def index():
 @login_required
 def add():
     form = NoteForm()
+    form.notebook.choices = [(n.id, n.title) for n in Notebook.query.filter_by(author_id=current_user.id).all()]
     if form.validate_on_submit():
-        note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data,author=current_user._get_current_object())
+        note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data,notebook_id=form.notebook.data, author=current_user._get_current_object())
         db.session.add(note)
         tags = []
         for tag in form.tags.data.split(','):
@@ -142,6 +143,28 @@ def share(id):
 def tag(name):
     tag = Tag.query.filter_by(tag=name).first()
     return render_template('app/tag.html', notes=tag._get_notes(), tag=name)
+
+@main.route('/notebooks', methods=['GET', 'POST'])
+@login_required
+def notebooks():
+    form = NotebookForm()
+    if form.validate_on_submit():
+        notebook = Notebook(title=form.title.data,author_id=current_user.id)
+        db.session.add(notebook)
+        db.session.commit()
+        return redirect(url_for('.notebooks'))
+
+    notebooks = Notebook.query.filter_by(author_id=current_user.id, is_deleted=False).all()
+    return render_template('app/notebooks.html', notebooks=notebooks, form=form)
+
+@main.route('/notebook/<int:id>')
+@login_required
+def notebook(id):
+    notebook = Notebook.query.filter_by(id=id).first()
+    if current_user != notebook.author:
+        abort(403)
+    return render_template('app/notebook.html', notebook=notebook, notes=notebook._show_notes())
+
 
 @main.route('/shutdown')
 def server_shutdown():
