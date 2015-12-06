@@ -8,19 +8,67 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 80px;
 }
+
+h1 {
+  color: rgb(84,36,55);
+}
+
+h4 {
+  color: rgb(192,41,66);
+}
+
+a {
+  color: rgb(192,41,66);
+}
+
+a:hover {
+  color: rgb(84,36,55);
+}
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 80px;
-  background-color: #f5f5f5;
+  background-color: rgba(84,36,55,0.1);
 }
 
 /* Braindump Custom Styles */
+
+/* Navigation */
 div.navbar {
   border-radius: 0px;
 }
+
+.navbar-brand {
+  padding: 0;
+}
+
+.navbar-inverse {
+  background-color: rgb(84,36,55);
+  color: white;
+}
+
+.navbar-inverse .navbar-brand {
+  color: white;
+}
+
+.navbar-inverse .navbar-nav li a{
+  color: white;
+}
+
+.logo {
+  height: 40px;
+  width: 40px;
+  padding: 5px;
+  background-color:white;
+  border-radius: 10px;
+}
+
+.gravatar {
+  border-radius: 50%;
+}
+
 .profile-thumbnail {
     position: absolute;
 }
@@ -28,71 +76,79 @@ div.navbar {
     min-height: 260px;
     margin-left: 280px;
 }
-div.note-tabs {
-    margin-top: 16px;
-    border-top: 1px solid #e0e0e0;
+
+h1.top {
+  margin-top: 0;
 }
-ul.notes {
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-    border-top: 1px solid #e0e0e0;
-}
-div.note-tabs ul.notes {
-    margin: 0px;
-    border-top: none;
-}
-ul.notes li.note {
-    padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
-}
-ul.notes li.note:hover {
-    background-color: #f0f0f0;
-}
-div.note-date {
-    float: right;
-}
-div.note-author {
-    font-weight: bold;
-}
-div.note-thumbnail {
-    position: absolute;
-}
-div.note-footer {
-    text-align: right;
-}
-div.pagination {
-    width: 100%;
-    text-align: right;
-    padding: 0px;
-    margin: 0px;
+/* Notes */
+
+.row {
+  margin: 0;
 }
 
-.tags {
+.note {
+  position: relative;
+}
+
+div.note a { position:absolute; width:100%; height:100%; top:0; left:0; }
+
+.note-content {
+  border: solid 1px rgb(84,36,55);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  height: 200px;
+}
+
+.note-content:hover {
+  background-color: rgba(236,208,120,0.1);
+  border: solid 1px rgb(84,36,55);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  height: 200px;
+}
+
+.note-date {
+  border-bottom: solid 1px rgb(192,41,66);
   font-weight: bold;
-  float: left;
-  padding-right: 5px;
+  padding-top: 5px;
+  padding-left: 5px;
 }
 
-.note-body h1 {
-    font-size: 140%;
-}
-.note-body h2 {
-    font-size: 130%;
-}
-.note-body h3 {
-    font-size: 120%;
-}
-.table.followers tr {
-    border-bottom: 1px solid #e0e0e0;
+.note-title {
+  padding-top: 5px;
+  padding-left: 5px;
 }
 
-a.buttons {
+.note-tags {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
+.label-default {
+  background-color: rgb(83,119,122);
+}
+
+.label-default:hover {
+  background-color: rgba(83,119,122,0.7);
+}
+
+a.tags {
   text-decoration: none;
 }
 
-li.task-list-item {
-  list-style-type: none;
+.note-action {
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+  padding: 0;
 }
 
 /* Style for Releases Plugin */

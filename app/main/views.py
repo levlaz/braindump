@@ -22,13 +22,33 @@ def index():
             db.session.commit()
             return redirect(url_for('.index'))
         notes = Note.query.filter_by(author_id=current_user.id,is_deleted=False).order_by(Note.timestamp.desc()).all()
-        return render_template('index.html', form=form, notes=notes)
+        return render_template('app/app.html', form=form, notes=notes)
     else:
         return render_template('index.html')
 
-@main.route('/home')
+@main.route('/add', methods=['GET', 'POST'])
+@login_required
+def add():
+    form = NoteForm()
+    if form.validate_on_submit():
+        note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data,author=current_user._get_current_object())
+        db.session.add(note)
+        tags = []
+        for tag in form.tags.data.split(','):
+            tags.append(tag)
+        note.str_tags = (tags)
+        db.session.commit()
+        return redirect(url_for('.index'))
+    return render_template('app/add.html', form = form)
+
+@main.route('/news')
 def home():
-    return render_template('home.html')
+    return render_template('app/news.html')
+
+@main.route('/settings')
+@login_required
+def settings():
+    return render_template('app/settings.html')
 
 @main.route('/trash', methods=['GET', 'POST'])
 def trash():
@@ -37,7 +57,7 @@ def trash():
         if len(notes) == 0:
             flash("Trash is empty, you are so Tidy!")
             return redirect(url_for('.index'))
-        return render_template('trash.html', notes=notes)
+        return render_template('app/trash.html', notes=notes)
     else:
         return render_template('index.html')
 

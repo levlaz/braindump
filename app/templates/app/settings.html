@@ -1,0 +1,22 @@
+{% extends "app/app_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}BrainDump{% endblock %}
+
+{% block page_content %}
+
+<h1> Settings </h1>
+<hr>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/libs/marked.js') }}"></script>
+<script src="{{ url_for('static', filename='js/libs/bootstrap-tagsinput.js') }}"></script>
+<script src="{{ url_for('static', filename='js/libs/releases.js') }}"></script>
+<script src="{{ url_for('static', filename='js/libs/ace/ace.js') }}"></script>
+<script src="{{ url_for('static', filename='js/braindump.js') }}"></script>
+{% endblock %}

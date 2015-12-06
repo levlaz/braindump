@@ -1,0 +1,31 @@
+<div class="row">
+  {% for note in notes %}
+    <a class="divClick" href="google.com">
+
+    <div class="note col-xs-6 col-sm-4 col-md-3 col-lg-2">
+
+      <div class="note-content">
+
+        <div class="note-date">
+          {{ moment(note.timestamp).format("MMMM D, YYYY") }}
+        </div>
+
+        <div class="note-title">
+          <h4>{{ note.title }}</h4>
+          {{ note.body | truncate(100) }}
+        </div>
+
+        <div class="note-tags">
+          {% if current_user == note.author %}
+          {% for tag in note._get_tags() %}
+          <a class="tags" href="{{ url_for('.tag', name=tag) }}">
+            <span class="label label-default">{{ tag }}</span>
+          </a>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    </a>
+  {% endfor %}
+</div>
