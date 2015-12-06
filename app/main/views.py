@@ -36,7 +36,7 @@ def add():
         db.session.add(note)
         tags = []
         for tag in form.tags.data.split(','):
-            tags.append(tag)
+            tags.append(tag.replace(" ",""))
         note.str_tags = (tags)
         db.session.commit()
         return redirect(url_for('.index'))
@@ -76,18 +76,30 @@ def edit(id):
     note = Note.query.get_or_404(id)
     if current_user != note.author:
         abort(403)
-    form = NoteForm()
+    form = NoteForm(notebook=note.notebook_id)
+    form.notebook.choices = [(n.id, n.title) for n in Notebook.query.filter_by(author_id=current_user.id).all()]
     if form.validate_on_submit():
         note.title = form.title.data
         note.body = form.body.data
         note.body_html = form.body_html.data
+        note.notebook_id = form.notebook.data
         db.session.add(note)
+        print form.tags.data
+        tags = []
+        for tag in form.tags.data.split(','):
+            tags.append(tag.replace(" ",""))
+            print form.tags.data
+            print tags
+        print tags
+        note.str_tags = (tags)
+
         db.session.commit()
         flash('The note has been updated.')
         return redirect(url_for('.index'))
     form.title.data = note.title
     form.body.data = note.body
-    return render_template('app/edit_note.html', form = form)
+    form.tags.data = ', '.join(note._get_tags())
+    return render_template('app/edit_note.html', note=note, form = form)
 
 @main.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
