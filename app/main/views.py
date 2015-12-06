@@ -86,7 +86,7 @@ def edit(id):
         return redirect(url_for('.index'))
     form.title.data = note.title
     form.body.data = note.body
-    return render_template('edit_note.html', form = form)
+    return render_template('app/edit_note.html', form = form)
 
 @main.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required

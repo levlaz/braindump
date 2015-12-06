@@ -87,6 +87,7 @@ h1.top {
 }
 
 div.note a {
+  color: inherit;
   position: absolute;
   width: 100%;
   height: 100%;
