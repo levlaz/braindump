@@ -3,6 +3,10 @@ BrainDump is a simple, powerful, and open note taking platfform that makes it ea
 
 [![CI](https://circleci.com/gh/levlaz/braindump.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/levlaz/braindump) ![MIT License](https://img.shields.io/github/license/mashape/apistatus.svg)
 
+# Screenshots 
+
+![UI V2](https://cloud.githubusercontent.com/assets/7981032/11611650/4d811b74-9ba6-11e5-8159-b1d924997bc2.png)
+
 # Development
 
 ## Develop with Vagrant
