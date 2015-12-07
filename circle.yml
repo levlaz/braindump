@@ -1,13 +1,21 @@
+general:
+  branches:
+    ignore:
+      - gh-pages
+
 test:
-  post:
+  override:
     - python manage.py test --coverage
-    - cp -R tmp/coverage/* $CIRCLE_ARTIFACTS
+  post:
     - mkdir -p $CIRCLE_TEST_REPORTS/python/
-    - mv *.xml $CIRCLE_TEST_REPORTS/python/
+    - mv test-reports/*.xml $CIRCLE_TEST_REPORTS/python/
+    - cp -R test-reports/coverage/* $CIRCLE_ARTIFACTS
 
 deployment:
   push_to_linode:
     branch: master
     commands:
+      - git checkout master
       - rsync -avz app circle@braindump.pw:/var/www
+      - rsync -avz migrations circle@braindump.pw:/var/www
       - rsync -avz *.{py,txt} circle@braindump.pw:/var/www

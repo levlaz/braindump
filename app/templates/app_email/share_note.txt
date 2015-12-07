@@ -1,0 +1,6 @@
+{{ note.title }}
+{{ note.body }}
+
+Sincerely,
+The BrainDump Team
+Note: replies to this email address are not monitored.

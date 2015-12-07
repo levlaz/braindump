@@ -1,19 +1,24 @@
-{% extends "base.html" %}
+{% extends "app/app_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
 
-{% block title %}BrainDump{% endblock %}
+{% block title %} BrainDump | Share Note {% endblock %}
 
 {% block page_content %}
+  <h1 class="top"> Share Note </h1>
 
-{% include 'outer.html' %}
+  <form class="form form-horizontal" action="" method="post" role="form">
+    {{ form.csrf_token }}
+    {{ wtf.form_field(form.recipient_email, placeholder="Enter Email address") }}
+    {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
+  </form>
+
+  {% include 'app/_note.html' %}
 
 {% endblock %}
 
 {% block scripts %}
 {{ super() }}
 <script src="{{ url_for('static', filename='js/libs/marked.js') }}"></script>
-<script src="{{ url_for('static', filename='js/libs/bootstrap-tagsinput.js') }}"></script>
 <script src="{{ url_for('static', filename='js/libs/releases.js') }}"></script>
 <script src="{{ url_for('static', filename='js/libs/ace/ace.js') }}"></script>
 <script src="{{ url_for('static', filename='js/braindump.js') }}"></script>

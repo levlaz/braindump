@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky - Login{% endblock %}
+{% block title %}Braindump - Login{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
   <h1>Register</h1>
 </div>
+
+<h4> Just want to see what braindump looks like? Log in with test@example.com/demo </h4>
 
 <div class="col-md-4">
   {{ wtf.quick_form(form) }}

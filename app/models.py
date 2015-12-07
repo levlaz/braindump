@@ -1,7 +1,7 @@
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, request, url_for
-from flask.ext.login import UserMixin
+from flask.ext.login import UserMixin, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from flask import current_app
@@ -14,6 +14,18 @@ import hashlib
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+# Association Tables
+note_tag = db.Table(
+    'note_tag',
+    db.Column(
+        'note_id',
+        db.Integer,
+        db.ForeignKey('notes.id', ondelete="CASCADE")),
+    db.Column(
+        'tag_id',
+        db.Integer,
+        db.ForeignKey('tags.id', ondelete="CASCADE")))
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -36,7 +48,27 @@ class User(UserMixin, db.Model):
     avatar_hash = db.Column(db.String(32))
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
+
     notes = db.relationship('Note', backref='author', lazy='dynamic')
+    notebooks = db.relationship('Notebook', backref='author', lazy='dynamic')
+
+    @staticmethod
+    def generate_fake(count=100):
+        from sqlalchemy.exc import IntegrityError
+        from random import seed
+        import forgery_py as f
+
+        seed()
+        for i in range(count):
+            u = User(email=f.internet.email_address(),
+                username=f.internet.user_name(True),
+                password=f.lorem_ipsum.word(),
+                confirmed=True)
+            db.session.add(u)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -155,8 +187,10 @@ class Note(db.Model):
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    section_id = db.Column(db.Integer, db.ForeignKey('sections.id'))
+    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
     is_deleted = db.Column(db.Boolean, default=False)
+
+    tags = db.relationship("Tag", secondary=note_tag, backref="Note", passive_deletes=True)
 
     def to_json(self):
         json_note = {
@@ -165,7 +199,6 @@ class Note(db.Model):
             'body_html': self.body_html,
             'timestamp': self.timestamp,
             'author': self.author_id,
-            #'author': url_for('api.get_user', id=self.author_id, _external=True),
         }
         return json_note
 
@@ -176,17 +209,53 @@ class Note(db.Model):
             raise ValidationError('note does not have a body')
         return Note(body=body)
 
+    def _find_or_create_tag(self, tag):
+        q = Tag.query.filter_by(tag=tag)
+        t = q.first()
+        if not (t):
+            t = Tag(tag=tag.strip())
+        return t
+
+    def _get_tags(self):
+        return [x.tag for x in self.tags]
+
+    def _set_tags(self, value):
+        while self.tags:
+            del self.tags[0]
+        for tag in value:
+            self.tags.append(self._find_or_create_tag(tag))
+
+    str_tags = property(_get_tags,
+                        _set_tags,
+                        "Property str_tags is a simple wrapper for the tags relationship")
+
+
 class Notebook(db.Model):
     __tablename__ = 'notebooks'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
+    is_deleted = db.Column(db.Boolean, default=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    sections = db.relationship('Section', backref='notebook')
+    notes = db.relationship('Note', backref='notebook')
 
-class Section(db.Model):
-    __tablename__ = 'sections'
+    def _show_notes(self):
+        notes = []
+        for note in self.notes:
+            if note.is_deleted == False:
+                notes.append(note)
+        return notes
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200))
-    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
+    tag = db.Column(db.String(200))
 
-    notes = db.relationship('Note', backref='section', lazy='dynamic')
+    notes = db.relationship("Note", secondary=note_tag, backref="Tag")
+
+    def _get_notes(self):
+        notes = []
+        for note in self.notes:
+            if note.author == current_user:
+                notes.append(note)
+        return notes

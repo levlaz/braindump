@@ -3,7 +3,7 @@ from flask.ext.login import login_user, logout_user, login_required, current_use
 
 from . import auth
 from app import db
-from ..models import User
+from ..models import User, Notebook
 from ..email import send_email
 from .forms import *
 
@@ -41,6 +41,9 @@ def register():
             username=form.username.data,
             password=form.password.data)
         db.session.add(user)
+        db.session.commit()
+        default_notebook = Notebook(title='Default',author_id=user.id)
+        db.session.add(default_notebook)
         db.session.commit()
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm Your Account',
