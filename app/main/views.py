@@ -57,6 +57,7 @@ def settings():
     return render_template('app/settings.html')
 
 @main.route('/trash', methods=['GET', 'POST'])
+@login_required
 def trash():
     if current_user.is_authenticated():
         notes = Note.query.filter_by(author_id=current_user.id,is_deleted=True).order_by(Note.timestamp.desc()).all()
