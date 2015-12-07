@@ -3,7 +3,7 @@ from flask.ext.login import login_user, logout_user, login_required, current_use
 
 from . import auth
 from app import db
-from ..models import User
+from ..models import User, Notebook
 from ..email import send_email
 from .forms import *
 
