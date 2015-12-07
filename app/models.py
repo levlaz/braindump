@@ -6,6 +6,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from flask import current_app
 from datetime import datetime
+from app.exceptions import ValidationError
 
 import bleach
 import hashlib
@@ -151,6 +152,30 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
+    def generate_auth_token(self, expiration):
+        s = Serializer(current_app.config['SECRET_KEY'],
+            expires_in = expiration)
+        return s.dumps({'id': self.id})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return User.query.get(data['id'])
+
+    def to_json(self):
+        json_user = {
+            'url': url_for('api.get_note', id=self.id, _external=True),
+            'username': self.username,
+            'created_date': self.created_date,
+            'notes': url_for('api.get_user_notes', id=self.id, _external=True),
+            'note_count': self.notes.count()
+        }
+        return json_user
+
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
@@ -166,6 +191,23 @@ class Note(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
 
     tags = db.relationship("Tag", secondary=note_tag, backref="Note", passive_deletes=True)
+
+    def to_json(self):
+        json_note = {
+            'url': url_for('api.get_note', id=self.id, _external=True),
+            'body': self.body,
+            'body_html': self.body_html,
+            'timestamp': self.timestamp,
+            'author': self.author_id,
+        }
+        return json_note
+
+    @staticmethod
+    def from_json(json_post):
+        body = json_post.get('body')
+        if body is None or body == '':
+            raise ValidationError('note does not have a body')
+        return Note(body=body)
 
     def _find_or_create_tag(self, tag):
         q = Tag.query.filter_by(tag=tag)
@@ -186,6 +228,7 @@ class Note(db.Model):
     str_tags = property(_get_tags,
                         _set_tags,
                         "Property str_tags is a simple wrapper for the tags relationship")
+
 
 class Notebook(db.Model):
     __tablename__ = 'notebooks'
