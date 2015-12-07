@@ -41,6 +41,8 @@ def register():
             username=form.username.data,
             password=form.password.data)
         db.session.add(user)
+        default_notebook = Notebook(title='Default',author_id=user.id)
+        db.session.add(default_notebook)
         db.session.commit()
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm Your Account',
