@@ -24,7 +24,12 @@ def index():
         notes = Note.query.filter_by(author_id=current_user.id,is_deleted=False).order_by(Note.timestamp.desc()).all()
         return render_template('app/app.html', form=form, notes=notes)
     else:
-        return render_template('index.html')
+        stats = []
+        users = User.query.count()
+        stats.append(users)
+        notes = Note.query.count()
+        stats.append(notes)
+        return render_template('index.html', stats=stats)
 
 @main.route('/add', methods=['GET', 'POST'])
 @login_required
