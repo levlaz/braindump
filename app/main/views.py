@@ -183,6 +183,18 @@ def notebook(id):
         abort(403)
     return render_template('app/notebook.html', notebook=notebook, notes=notebook._show_notes())
 
+@main.route('/search')
+@login_required
+def search():
+    form = SearchForm()
+    if request.args.get('search_field', ''):
+        query = request.args.get('search_field', '')
+        results = Note.query.search(query).all()
+        if len(results) == 0:
+            flash('Hmm, we did not find any braindumps matching your search. Try again?')
+        return render_template('app/search.html', form=form, notes=results)
+    return render_template('app/search.html', form=form)
+
 
 @main.route('/shutdown')
 def server_shutdown():
