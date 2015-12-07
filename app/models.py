@@ -8,8 +8,16 @@ from flask import current_app
 from datetime import datetime
 from app.exceptions import ValidationError
 
+# Full Text Search
+from flask.ext.sqlalchemy import SQLAlchemy, BaseQuery
+from sqlalchemy_searchable import SearchQueryMixin
+from sqlalchemy_searchable import make_searchable
+from sqlalchemy_utils.types import TSVectorType
+
 import bleach
 import hashlib
+
+make_searchable()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -179,7 +187,11 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
+class NoteQuery(BaseQuery, SearchQueryMixin):
+    pass
+
 class Note(db.Model):
+    query_class = NoteQuery
     __tablename__ = 'notes'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
@@ -191,6 +203,9 @@ class Note(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
 
     tags = db.relationship("Tag", secondary=note_tag, backref="Note", passive_deletes=True)
+
+    # Full Text Search
+    search_vector = db.Column(TSVectorType('title', 'body'))
 
     def to_json(self):
         json_note = {
