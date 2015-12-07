@@ -6,6 +6,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from flask import current_app
 from datetime import datetime
+from app.exceptions import ValidationError
 
 import bleach
 import hashlib
@@ -133,6 +134,16 @@ class User(UserMixin, db.Model):
             return None
         return User.query.get(data['id'])
 
+    def to_json(self):
+        json_user = {
+            'url': url_for('api.get_note', id=self.id, _external=True),
+            'username': self.username,
+            'created_date': self.created_date,
+            'notes': url_for('api.get_user_notes', id=self.id, _external=True),
+            'note_count': self.notes.count()
+        }
+        return json_user
+
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
@@ -153,9 +164,17 @@ class Note(db.Model):
             'body': self.body,
             'body_html': self.body_html,
             'timestamp': self.timestamp,
+            'author': self.author_id,
             #'author': url_for('api.get_user', id=self.author_id, _external=True),
         }
         return json_note
+
+    @staticmethod
+    def from_json(json_post):
+        body = json_post.get('body')
+        if body is None or body == '':
+            raise ValidationError('note does not have a body')
+        return Note(body=body)
 
 class Notebook(db.Model):
     __tablename__ = 'notebooks'
