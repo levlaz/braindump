@@ -1,6 +1,7 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     MAIL_SERVER = 'mail.gandi.net'
@@ -16,6 +17,7 @@ class Config:
     def init_app(app):
         pass
 
+
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
@@ -24,6 +26,7 @@ class DevelopmentConfig(Config):
         'localhost',
         'braindump')
 
+
 class TestingConfig(Config):
     TESTING = True
     WTF_CSRF_ENABLED = False
@@ -31,6 +34,7 @@ class TestingConfig(Config):
         'ubuntu',
         'localhost',
         'circle_test')
+
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
@@ -61,6 +65,7 @@ class ProductionConfig(Config):
             secure=secure)
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
+
 
 class UnixConfig(ProductionConfig):
     @classmethod

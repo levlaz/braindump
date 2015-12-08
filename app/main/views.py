@@ -11,18 +11,11 @@ from ..models import User, Note, Tag, Notebook
 @main.route('/', methods=['GET', 'POST'])
 def index():
     if current_user.is_authenticated():
-        form = NoteForm()
-        if form.validate_on_submit():
-            note = Note(title=form.title.data,body=form.body.data, body_html=form.body_html.data, author=current_user._get_current_object())
-            db.session.add(note)
-            tags = []
-            for tag in form.tags.data.split(','):
-                tags.append(tag)
-            note.str_tags = (tags)
-            db.session.commit()
-            return redirect(url_for('.index'))
-        notes = Note.query.filter_by(author_id=current_user.id,is_deleted=False).order_by(Note.timestamp.desc()).all()
-        return render_template('app/app.html', form=form, notes=notes)
+        notes = Note.query.filter_by(
+            author_id=current_user.id,
+            is_deleted=False).order_by(
+            Note.timestamp.desc()).all()
+        return render_template('app/app.html', notes=notes)
     else:
         stats = []
         users = User.query.count()
