@@ -26,10 +26,12 @@ def edit_note(id):
 
 @api.route('/notes/')
 def get_notes():
-    notes = Note.query.all()
+    notes = Note.query.filter_by(author=g.current_user).all()
     return jsonify({ 'notes': [note.to_json() for note in notes] })
 
 @api.route('/notes/<int:id>')
 def get_note(id):
     note = Note.query.get_or_404(id)
+    if g.current_user != note.author:
+        abort(403)
     return jsonify(note.to_json())

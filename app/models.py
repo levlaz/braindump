@@ -1,7 +1,7 @@
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, request, url_for
-from flask.ext.login import UserMixin, current_user
+from flask.ext.login import UserMixin, current_user, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from flask import current_app
@@ -186,6 +186,17 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User {0}>'.format(self.username)
+
+class AnonymousUser(AnonymousUserMixin):
+    confirmed = False
+    
+    def can(self):
+        return False
+
+    def is_administrator(self):
+        return False
+
+login_manager.anonymous_user = AnonymousUser
 
 class NoteQuery(BaseQuery, SearchQueryMixin):
     pass
