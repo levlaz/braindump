@@ -188,7 +188,6 @@ class User(UserMixin, db.Model):
         return '<User {0}>'.format(self.username)
 
 class AnonymousUser(AnonymousUserMixin):
-    confirmed = False
     
     def can(self):
         return False
