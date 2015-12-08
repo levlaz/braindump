@@ -1,5 +1,7 @@
 import unittest
-from app import create_app, db, url_for
+
+from flask import url_for
+from app import create_app, db
 from app.models import User, Role
 
 class FlaskTestClientCase(unittest.TestCase):
