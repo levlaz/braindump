@@ -39,7 +39,7 @@ class APITestCase(unittest.TestCase):
     def test_no_auth(self):
         response = self.client.get(url_for('api.get_notes'),
             content_type='application/json')
-        self.assertTrue(response.status_code == 403)
+        self.assertTrue(response.status_code == 401)
 
     def test_bad_auth(self):
         # add a user
@@ -81,10 +81,17 @@ class APITestCase(unittest.TestCase):
         self.assertTrue(response.status_code == 200)
 
     def test_anonymous(self):
+        # Try to get notes
         response = self.client.get(
             url_for('api.get_notes'),
             headers = self.get_api_headers('', ''))
-        self.assertTrue(response.status_code == 403)
+        self.assertTrue(response.status_code == 401)
+
+        # Try to get a token
+        response = self.client.get(
+            url_for('api.get_token'),
+            headers = self.get_api_headers('', ''))
+        self.assertTrue(response.status_code == 401)
 
     def test_unconfirmed_acount(self):
         # add an unconfirmed user
