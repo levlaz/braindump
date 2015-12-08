@@ -189,7 +189,7 @@ def search():
     form = SearchForm()
     if request.args.get('search_field', ''):
         query = request.args.get('search_field', '')
-        results = Note.query.search(query).all()
+        results = Note.query.search(query).filter_by(author_id=current_user.id).all()
         if len(results) == 0:
             flash('Hmm, we did not find any braindumps matching your search. Try again?')
         return render_template('app/search.html', form=form, notes=results)
