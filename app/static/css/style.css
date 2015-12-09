@@ -153,6 +153,10 @@ h1.top {
   margin-left: 30px;
 }
 
+.favorite {
+    color: rgba(236,208,120,1)
+}
+
 .note-actions a{
   text-decoration: none;
 }
