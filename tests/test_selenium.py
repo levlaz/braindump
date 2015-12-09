@@ -6,6 +6,7 @@ from selenium import webdriver
 from app import create_app, db
 from app.models import User
 
+
 class SeleniumTestCase(unittest.TestCase):
     client = None
 
@@ -34,7 +35,8 @@ class SeleniumTestCase(unittest.TestCase):
             User.generate_fake(10)
 
             # add admin user
-            admin = User(email='test@example.com',
+            admin = User(
+                email='test@example.com',
                 username='test',
                 password='test',
                 confirmed=True)
@@ -71,7 +73,9 @@ class SeleniumTestCase(unittest.TestCase):
     def test_home_page(self):
         # navigate to home page
         self.client.get('http://localhost:5000')
-        self.assertTrue(re.search('BrainDump',self.client.page_source))
+        self.assertTrue(re.search(
+            'BrainDump',
+            self.client.page_source))
 
         # navigate to login page
         self.client.find_element_by_link_text('Log In').click()
@@ -80,6 +84,7 @@ class SeleniumTestCase(unittest.TestCase):
         # login
         self.client.find_element_by_name('email').\
             send_keys('test@xample.com')
-        self.client.find_element_by_name('password').send_keys('test')
+        self.client.find_element_by_name(
+            'password').send_keys('test')
         self.client.find_element_by_nameI('submit').click()
         self.assertTrue('Log Out' in self.client.page_source)

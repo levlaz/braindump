@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
@@ -24,8 +25,14 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Note=Note, Role=Role, Tag=Tag, Notebook=Notebook)
-manager.add_command("shell", Shell(make_context=make_shell_context))
+    return dict(
+        app=app, db=db, User=User,
+        Note=Note, Role=Role, Tag=Tag,
+        Notebook=Notebook)
+
+manager.add_command(
+    "shell",
+    Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
 
@@ -39,7 +46,7 @@ def test(coverage=False):
     import unittest
     import xmlrunner
     tests = unittest.TestLoader().discover('tests')
-    #unittest.TextTestRunner(verbosity=2).run(tests)
+    # unittest.TextTestRunner(verbosity=2).run(tests)
     xmlrunner.XMLTestRunner(output='test-reports').run(tests)
     if COV:
         COV.stop()

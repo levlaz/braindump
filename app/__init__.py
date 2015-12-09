@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.mail import Mail
 from flask.ext.moment import Moment
@@ -14,6 +14,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
+
 
 def create_app(config_name):
     app = Flask(__name__)
