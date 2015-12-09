@@ -1,8 +1,8 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, TextAreaField, HiddenField, SelectField
-from wtforms.validators import Required, Length, Email, Regexp, EqualTo
-from .. import db
-from ..models import Notebook
+from wtforms import StringField, SubmitField, \
+    TextAreaField, SelectField
+from wtforms.validators import Required
+
 
 class NoteForm(Form):
     title = StringField('Title:', validators=[Required()])
@@ -12,13 +12,16 @@ class NoteForm(Form):
     notebook = SelectField(coerce=int)
     submit = SubmitField('Submit')
 
+
 class ShareForm(Form):
     recipient_email = StringField('Recipient Email', validators=[Required()])
     submit = SubmitField('Share')
 
+
 class NotebookForm(Form):
     title = StringField('Title:', validators=[Required()])
     submit = SubmitField('Submit')
+
 
 class SearchForm(Form):
     search_field = StringField()
