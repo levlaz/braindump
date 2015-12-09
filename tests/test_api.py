@@ -1,10 +1,10 @@
 import unittest
 import json
-import re
 from base64 import b64encode
-from flask import url_for, jsonify
+from flask import url_for
 from app import create_app, db
-from app.models import User, Note
+from app.models import User
+
 
 class APITestCase(unittest.TestCase):
 
@@ -33,11 +33,13 @@ class APITestCase(unittest.TestCase):
             '/wrong/url',
             headers=self.get_api_headers('email', 'password'))
         self.assertTrue(response.status_code == 404)
-        json_response = json.loads(response.data.decode('utf-8'))
+        json_response = json.loads(
+            response.data.decode('utf-8'))
         self.assertTrue(json_response['error'] == 'not found')
 
     def test_no_auth(self):
-        response = self.client.get(url_for('api.get_notes'),
+        response = self.client.get(
+            url_for('api.get_notes'),
             content_type='application/json')
         self.assertTrue(response.status_code == 401)
 
@@ -50,11 +52,12 @@ class APITestCase(unittest.TestCase):
         # attempt to authenticate with bad password
         response = self.client.get(
             url_for('api.get_notes'),
-            headers = self.get_api_headers('test@example.com', 'wrong password'))
+            headers=self.get_api_headers(
+                'test@example.com', 'wrong password'))
         self.assertTrue(response.status_code == 401)
 
     def test_token_auth(self):
-        #add a user
+        # add a user
         u = User(email='test@example.com', password='password', confirmed=True)
         db.session.add(u)
         db.session.commit()
@@ -62,45 +65,50 @@ class APITestCase(unittest.TestCase):
         # issue request with bad token
         response = self.client.get(
             url_for('api.get_notes'),
-            headers = self.get_api_headers('bad-token', ''))
+            headers=self.get_api_headers('bad-token', ''))
         self.assertTrue(response.status_code == 401)
 
         # get a token
         response = self.client.get(
             url_for('api.get_token'),
-            headers = self.get_api_headers('test@example.com', 'password'))
+            headers=self.get_api_headers('test@example.com', 'password'))
         self.assertTrue(response.status_code == 200)
-        json_response = json.loads(response.data.decode('utf-8'))
+        json_response = json.loads(
+            response.data.decode('utf-8'))
         self.assertIsNotNone(json_response.get('token'))
         token = json_response['token']
 
         # issue a request with the new token
         response = self.client.get(
             url_for('api.get_notes'),
-            headers = self.get_api_headers(token, ''))
+            headers=self.get_api_headers(token, ''))
         self.assertTrue(response.status_code == 200)
 
     def test_anonymous(self):
         # Try to get notes
         response = self.client.get(
             url_for('api.get_notes'),
-            headers = self.get_api_headers('', ''))
+            headers=self.get_api_headers('', ''))
         self.assertTrue(response.status_code == 401)
 
         # Try to get a token
         response = self.client.get(
             url_for('api.get_token'),
-            headers = self.get_api_headers('', ''))
+            headers=self.get_api_headers('', ''))
         self.assertTrue(response.status_code == 401)
 
     def test_unconfirmed_acount(self):
         # add an unconfirmed user
-        u = User(email='test@example.com', password='password2', confirmed=False)
+        u = User(
+            email='test@example.com',
+            password='password2',
+            confirmed=False)
         db.session.add(u)
         db.session.commit()
 
         # get notes from unconfirmed account
         response = self.client.get(
             url_for('api.get_notes'),
-            headers = self.get_api_headers('test@example.com', 'password2'))
+            headers=self.get_api_headers(
+                'test@example.com', 'password2'))
         self.assertTrue(response.status_code == 403)
