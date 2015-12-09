@@ -6,7 +6,7 @@ from wtforms.validators import Required, Length
 def validate_tags(form, field):
     if field.data:
         for x in field.data.split(','):
-            if len(x) not in range(200+1):  
+            if len(x) not in range(200+1):
                 raise ValidationError('All tags must be less than 200 characters')
 
 class NoteForm(Form):
