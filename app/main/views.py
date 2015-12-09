@@ -105,7 +105,7 @@ def edit(id):
         note.body = form.body.data
         note.body_html = form.body_html.data
         note.notebook_id = form.notebook.data
-        note.updated_date = datetime.datetime.now()
+        note.updated_date = datetime.now()
         db.session.add(note)
         print form.tags.data
         tags = []
@@ -228,9 +228,9 @@ def search():
     form = SearchForm()
     if request.args.get('search_field', ''):
         query = request.args.get('search_field', '')
-        results = Note.query.search(query)
-            .filter_by(author_id=current_user.id)
-            .order_by(updated_date).desc().all()
+        results = Note.query.search(query) \
+            .filter_by(author_id=current_user.id) \
+            .order_by(Note.updated_date.desc()).all()
         if len(results) == 0:
             flash('Hmm, we did not find any \
             braindumps matching your search. Try again?')

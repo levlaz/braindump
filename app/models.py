@@ -222,7 +222,7 @@ class Note(db.Model):
             'url': url_for('api.get_note', id=self.id, _external=True),
             'body': self.body,
             'body_html': self.body_html,
-            'timestamp': self.timestamp,
+            'created_date': self.created_date,
             'author': self.author_id,
         }
         return json_note
