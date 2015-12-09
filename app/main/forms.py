@@ -1,14 +1,19 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, \
     TextAreaField, SelectField
-from wtforms.validators import Required
+from wtforms.validators import Required, Length
 
+def validate_tags(form, field):
+    if field.data:
+        for x in field.data.split(','):
+            if len(x) not in range(200+1):  
+                raise ValidationError('All tags must be less than 200 characters')
 
 class NoteForm(Form):
     title = StringField('Title:', validators=[Required(), Length(1, 200)])
     body = TextAreaField('Dump Your Brain:', validators=[Required()])
     body_html = TextAreaField()
-    tags = StringField()
+    tags = StringField(validators=[validate_tags])
     notebook = SelectField(coerce=int)
     submit = SubmitField('Submit')
 
