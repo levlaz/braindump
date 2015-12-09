@@ -4,21 +4,23 @@
       <div class="note-content">
 
         <div class="note-date">
-          <p>{{ moment(note.updated_date).format("MMMM D, YYYY") }}</p>
+          {{ moment(note.updated_date).format("MMMM D, YYYY") }}
         </div>
 
         <div class="note-title">
-          <a href="{{ url_for('.note', id=note.id) }}"><h4>{{ note.title }}</h4></a>
+          <a href="{{ url_for('.note', id=note.id) }}"><h5>{{ note.title | truncate(100) }}</h5></a>
+        </div>
 
+
+        <div class="note-tags">
+          {{ note.get_notebook(note.notebook_id).title }}
           <p><b> Tags:</b>
             {% if current_user == note.author %}
               {% for tag in note._get_tags() %}
-              <a class="tags" href="{{ url_for('.tag', name=tag) }}"> {{ tag }} </a>
+              <a class="tags label label-default" href="{{ url_for('.tag', name=tag) }}"> {{ tag }} </a>
               {% endfor %}
             {% endif %}
           </p>
-
-          {{ note.body | truncate(100) }}
         </div>
 
         <div class="note-actions">

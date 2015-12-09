@@ -102,6 +102,7 @@ h1.top {
   margin-bottom: 10px;
   margin-right: 10px;
   height: 250px;
+  word-wrap: break-word;
 }
 
 .note-content:hover {
@@ -115,13 +116,21 @@ h1.top {
 
 .note-date {
   border-bottom: solid 1px rgb(192,41,66);
-  font-weight: bold;
+  font-size: small;
+  font-style: oblique;
   padding-top: 5px;
+  padding-bottom: 5px;
   padding-left: 5px;
 }
 
 .note-title {
   padding-left: 5px;
+  padding-right: 5px;
+  height: 100px;
+}
+
+.note-title a{
+  font-weight: bold;
 }
 
 .note-tags {
@@ -141,7 +150,7 @@ h1.top {
   color: rgb(84,36,55);
   font-size: 16px;
   line-height: 40px;
-  margin-left: 10px;
+  margin-left: 30px;
 }
 
 .note-actions a{
