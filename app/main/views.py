@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import render_template, redirect, \
     url_for, flash, abort, current_app, request
 from flask.ext.login import current_user, login_required
@@ -16,7 +17,7 @@ def index():
         notes = Note.query.filter_by(
             author_id=current_user.id,
             is_deleted=False).order_by(
-            Note.timestamp.desc()).all()
+            Note.updated_date.desc()).all()
         return render_template('app/app.html', notes=notes)
     else:
         stats = []
@@ -70,7 +71,7 @@ def trash():
         notes = Note.query.filter_by(
             author_id=current_user.id,
             is_deleted=True).order_by(
-                Note.timestamp.desc()).all()
+                Note.updated_date.desc()).all()
         if len(notes) == 0:
             flash("Trash is empty, you are so Tidy!")
             return redirect(url_for('.index'))
@@ -104,6 +105,7 @@ def edit(id):
         note.body = form.body.data
         note.body_html = form.body_html.data
         note.notebook_id = form.notebook.data
+        note.updated_date = datetime.now()
         db.session.add(note)
         print form.tags.data
         tags = []
@@ -226,9 +228,9 @@ def search():
     form = SearchForm()
     if request.args.get('search_field', ''):
         query = request.args.get('search_field', '')
-        results = Note.query.search(
-            query).filter_by(
-                author_id=current_user.id).all()
+        results = Note.query.search(query) \
+            .filter_by(author_id=current_user.id) \
+            .order_by(Note.updated_date.desc()).all()
         if len(results) == 0:
             flash('Hmm, we did not find any \
             braindumps matching your search. Try again?')

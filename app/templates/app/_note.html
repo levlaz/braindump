@@ -6,7 +6,7 @@
     </div>
 
     <div class="single-note-date">
-      {{ moment(note.timestamp).format("MMMM D, YYYY") }}
+      {{ moment(note.updated_date).format("MMMM D, YYYY") }}
       <div class="single-note-actions">
       <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true"></a></span>
       <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true"></a></span>
