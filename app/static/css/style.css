@@ -135,6 +135,8 @@ h1.top {
 
 .note-tags {
   margin-left: 5px;
+  height: 60px;
+  overflow: hidden;
 }
 
 .note-actions {
@@ -162,11 +164,21 @@ h1.top {
 }
 
 .label-default {
-  background-color: rgb(83,119,122);
+  background-color: rgba(83,119,122,0.9);
+  margin-right: 1px;
 }
 
 .label-default:hover {
   background-color: rgba(83,119,122,0.7);
+  margin-right: 1px;
+}
+
+.label-notebook {
+    background-color: rgba(217,91,67,0.9)
+}
+
+.label-notebook:hover {
+    background-color: rgba(217,91,67,0.7)
 }
 
 a.tags {

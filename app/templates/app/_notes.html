@@ -13,11 +13,12 @@
 
 
         <div class="note-tags">
-          {{ note.get_notebook(note.notebook_id).title }}
+            <a class="tags label label-notebook" href="{{ url_for('.notebook', id=note.notebook_id) }}"> {{ note.get_notebook(note.notebook_id).title | truncate(20) }} Notebook </a>
+
           <p>
             {% if current_user == note.author %}
               {% for tag in note._get_tags() %}
-              <a class="tags label label-default" href="{{ url_for('.tag', name=tag) }}"> {{ tag }} </a>
+              <a class="tags label label-default" href="{{ url_for('.tag', name=tag) }}"> {{ tag | truncate(10) }} </a>
               {% endfor %}
             {% endif %}
           </p>
