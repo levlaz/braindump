@@ -209,6 +209,7 @@ class Note(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
     is_deleted = db.Column(db.Boolean, default=False)
+    is_favorite = db.Column(db.Boolean, default=False)
 
     tags = db.relationship(
         "Tag", secondary=note_tag,
@@ -226,6 +227,11 @@ class Note(db.Model):
             'author': self.author_id,
         }
         return json_note
+
+    def get_notebook(self, id):
+        notebook = Notebook.query.filter_by(
+            id=id).first()
+        return notebook
 
     @staticmethod
     def from_json(json_post):

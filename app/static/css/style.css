@@ -102,6 +102,7 @@ h1.top {
   margin-bottom: 10px;
   margin-right: 10px;
   height: 250px;
+  word-wrap: break-word;
 }
 
 .note-content:hover {
@@ -115,17 +116,27 @@ h1.top {
 
 .note-date {
   border-bottom: solid 1px rgb(192,41,66);
-  font-weight: bold;
+  font-size: small;
+  font-style: oblique;
   padding-top: 5px;
+  padding-bottom: 5px;
   padding-left: 5px;
 }
 
 .note-title {
   padding-left: 5px;
+  padding-right: 5px;
+  height: 100px;
+}
+
+.note-title a{
+  font-weight: bold;
 }
 
 .note-tags {
   margin-left: 5px;
+  height: 60px;
+  overflow: hidden;
 }
 
 .note-actions {
@@ -141,7 +152,11 @@ h1.top {
   color: rgb(84,36,55);
   font-size: 16px;
   line-height: 40px;
-  margin-left: 10px;
+  margin-left: 30px;
+}
+
+.favorite {
+    color: rgba(236,208,120,1)
 }
 
 .note-actions a{
@@ -149,11 +164,21 @@ h1.top {
 }
 
 .label-default {
-  background-color: rgb(83,119,122);
+  background-color: rgba(83,119,122,0.9);
+  margin-right: 1px;
 }
 
 .label-default:hover {
   background-color: rgba(83,119,122,0.7);
+  margin-right: 1px;
+}
+
+.label-notebook {
+    background-color: rgba(217,91,67,0.9)
+}
+
+.label-notebook:hover {
+    background-color: rgba(217,91,67,0.7)
 }
 
 a.tags {
