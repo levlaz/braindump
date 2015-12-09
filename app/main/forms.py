@@ -5,7 +5,7 @@ from wtforms.validators import Required
 
 
 class NoteForm(Form):
-    title = StringField('Title:', validators=[Required()])
+    title = StringField('Title:', validators=[Required(), Length(1, 200)])
     body = TextAreaField('Dump Your Brain:', validators=[Required()])
     body_html = TextAreaField()
     tags = StringField()
@@ -19,7 +19,7 @@ class ShareForm(Form):
 
 
 class NotebookForm(Form):
-    title = StringField('Title:', validators=[Required()])
+    title = StringField('Title:', validators=[Required(), Length(1, 200)])
     submit = SubmitField('Submit')
 
 
