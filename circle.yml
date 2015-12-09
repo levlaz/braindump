@@ -19,3 +19,7 @@ deployment:
       - rsync -avz app circle@braindump.pw:/var/www
       - rsync -avz migrations circle@braindump.pw:/var/www
       - rsync -avz *.{py,txt} circle@braindump.pw:/var/www
+
+notify:
+  webhooks:
+    - url: https://webhooks.gitter.im/e/18fb1c063d1a93631ce9
