@@ -28,6 +28,7 @@ See something missing? Add a [feature-request](https://github.com/levlaz/braindu
 I am building [docker images](https://hub.docker.com/r/levlaz/braindump/) which make it super easy to deploy braindump.
 
 Requirements:
+
 1. PostgreSQL Database
 2. SMTP (Required for Creating new Accounts and Sharing Notes)
 
@@ -62,8 +63,6 @@ braindump is an open source project that is built on top of the shoulders of gia
 1. Flask
 2. PostgreSQL
 3. SQLAlchemy
-4. Gunicorn
-5. Docker
 
 ## Frontend
 1. Jinja
@@ -76,3 +75,8 @@ braindump is an open source project that is built on top of the shoulders of gia
 1. Vagrant
 2. Flake8
 3. Coverage
+
+## Production 
+1. Gunicorn
+2. Docker
+3. nginx 
