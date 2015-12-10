@@ -9,7 +9,7 @@
       <h1 class="top"> Search for Anything </h1>
 
       <form class="form form-horizontal" action="/search" role="form">
-          {{ wtf.form_field(form.search_field) }}
+          {{ wtf.form_field(form.search_field, autofocus="true") }}
           {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
         </form>
 

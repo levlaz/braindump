@@ -8,7 +8,7 @@
 
 <form class="form form-horizontal" action="" method="post" role="form">
   {{ form.csrf_token }}
-  {{ wtf.form_field(form.title) }}
+  {{ wtf.form_field(form.title, autofocus=true) }}
   {{ wtf.form_field(form.body) }}
   {{ wtf.form_field(form.body_html) }}
   <div id="editor"></div>
