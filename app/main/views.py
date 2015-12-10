@@ -45,6 +45,7 @@ def add():
             notebook_id=form.notebook.data,
             author=current_user._get_current_object())
         db.session.add(note)
+        db.session.commit()
         tags = []
         if not len(form.tags.data) == 0:
             for tag in form.tags.data.split(','):
