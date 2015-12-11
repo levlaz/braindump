@@ -17,6 +17,10 @@
     {{ wtf.form_field(form.notebook, default="{{ note.notebook_id }}") }}
     {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
   </form>
+
+<hr />
+<div id="preview"></div>
+
 {% endblock %}
 
 {% block scripts %}

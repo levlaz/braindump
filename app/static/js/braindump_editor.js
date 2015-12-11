@@ -34,3 +34,9 @@ editor.commands.addCommand({
     },
     readOnly: true // false if this command should not apply in readOnly mode
 });
+
+function showHTML() {
+  $('#preview').html(marked(editor.getSession().getValue()));
+}
+
+editor.getSession().on('change', showHTML)
