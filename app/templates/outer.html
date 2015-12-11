@@ -1,25 +1,32 @@
 <div class="jumbotron">
-  <h1>Welcome to BrainDump</h1>
-  <p class="lead">BrainDump is a simple, powerful, and open note taking platfform that makes it easy to organize your life. So far, braindump has helped {{ stats[0] }} people organize their life with {{ stats[1] }} notes. Join them!</p>
-  <p><a class="btn btn-lg btn-success" href="/auth/register" role="button">Dump Your Brain</a></p>
+  <h1>Welcome to braindump</h1>
+  <p class="lead">BrainDump is a simple, powerful, and open note taking platform that makes it easy to organize your life. So far, braindump has helped {{ stats[0] }} people organize their life with {{ stats[1] }} notes. Join them!</p>
+  <p><a class="btn btn-lg btn-action" href="/auth/register" role="button">Dump Your Brain</a></p>
 
 </div>
 
-  <div class="alert alert-info">
-    <p>Braindump is still alpha software that is in <a href="https://github.com/levlaz/braindump">heavy development</a>. Please keep this in mind as you use it. :) Basic functionality now works and we would love for you to give it a try! Please report any bugs or other issues <a href="https://github.com/levlaz/braindump/issues">here. </a> </p>
-
-  </div>
-
-  <div class="container">
-    <h2> Known Issues </h2>
-    <ul id="bugs">
-    </ul>
-    <h2> Release Announcements </h2>
-    <hr />
-    <ul id="releases">
-    </ul>
-    <p id="more-releases">
-    </p>
-  </div>
-
+      <div class="row">
+        <div class="col-md-4">
+          <div class="content">
+          <h2>Dump</h2>
+          <p> braindumps powerful markdown editor makes it easy for you to dump your brain out. 
+          </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="content">
+          <h2>Organize</h2>
+          <p> Organize your notes with tags, notebooks, and favorites </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="content">
+          <h2>Share</h2>
+          <p> Share your great ideas with your friends and colleauges via email, no
+          login required. </p>
+          </div>
+        </div>
+        
+      </div>
+    
 {% include 'footer.html' %}
