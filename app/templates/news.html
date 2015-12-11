@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}BrainDump{% endblock %}
+
+{% block page_content %}
+
+<h1 class="top"> Known Issues </h1>
+<ul id="bugs">
+</ul>
+<h1> Release Announcements </h1>
+<hr />
+<ul id="releases">
+</ul>
+<p id="more-releases">
+</p>
+
+
+{% include 'footer.html' %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/libs/marked.js') }}"></script>
+<script src="{{ url_for('static', filename='js/libs/releases.js') }}"></script>
+<script src="{{ url_for('static', filename='js/braindump.js') }}"></script>
+{% endblock %}

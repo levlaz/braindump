@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Cantarell);
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -7,6 +9,8 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 80px;
+  font-family: 'Cantarell', sans-serif;
+  font-size: 16px;
 }
 
 h1 {
@@ -18,11 +22,11 @@ h4 {
 }
 
 a {
-  color: rgb(192,41,66);
+  color: rgb(155, 105, 226);
 }
 
 a:hover {
-  color: rgb(84,36,55);
+  color:  rgba(155, 105, 226,0.7);
 }
 .footer {
   position: absolute;
@@ -30,7 +34,8 @@ a:hover {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 80px;
-  background-color: rgba(84,36,55,0.1);
+  background-color: rgba(13,6,23,0.8);
+  color: rgb(222, 207, 244);
 }
 
 /* Braindump Custom Styles */
@@ -45,7 +50,9 @@ div.navbar {
 }
 
 .navbar-inverse {
-  background-color: rgb(84,36,55);
+  background-color: rgb(85,66,111);
+  border-color:  rgb(85,66,111);
+  // background-color: rgb(84,36,55);
   color: white;
 }
 
@@ -63,8 +70,22 @@ div.navbar {
   padding: 5px;
   margin-top: 5px;
   margin-left: 15px;
+  margin-right: 10px;
   background-color:white;
   border-radius: 10px;
+}
+
+.nav {
+    font-weight: bold;
+}
+
+.btn {
+    margin-top: 7px;
+    font-weight: bold;
+}
+
+.btn-success {
+    background-color: rgb(147,158,89);
 }
 
 .app-logo {
@@ -90,6 +111,40 @@ div.navbar {
 h1.top {
   margin-top: 0;
 }
+
+
+/* Outer Content */ 
+
+.jumbotron {
+    background-color: rgb(105,60,106);
+    border-radius: 20px;
+    color: white;
+}
+
+div.col-md-4 {
+    padding: 10px;
+}
+
+.content {
+    padding: 20px;
+    border-radius: 20px;
+    background-color: rgb(222, 207, 244);
+    color: rgb(6, 5, 7);
+    height: 250px;
+}
+
+.btn-action {
+    background-color: rgb(247, 254, 211);
+    color: black;
+}
+
+.btn-action:hover {
+    background-color: rgba(247, 254, 211, 0.9);
+    color: black;
+}
+
+
+
 /* Notes */
 
 .row {
@@ -106,7 +161,6 @@ h1.top {
 }
 
 .note-content:hover {
-  background-color: rgba(236,208,120,0.1);
   border: solid 1px rgb(84,36,55);
   border-radius: 5px;
   margin-bottom: 10px;

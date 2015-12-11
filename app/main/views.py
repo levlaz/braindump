@@ -58,8 +58,9 @@ def add():
 
 @main.route('/news')
 def home():
-    return render_template('app/news.html')
-
+    if current_user.is_authenticated():
+        return render_template('app/news.html')
+    return render_template('news.html')
 
 @main.route('/settings')
 @login_required
