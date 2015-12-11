@@ -1,6 +1,6 @@
 # Contributors
 
-Original author and main developer: Lev Lazinskiy [levlaz](https://github.com/levlaz)
+Original author and main developer: [Lev Lazinskiy](https://github.com/levlaz)
 
 Contributors:
 
