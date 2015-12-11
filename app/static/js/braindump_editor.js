@@ -10,6 +10,7 @@ editor.setOption("maxLines", 25);
 var textarea = $('textarea[id="body"]').hide();
 var textarea_html_label = $('label[for="body_html"]').hide();
 var textarea_html = $('textarea[id="body_html"]').hide();
+textarea_html.val(marked(textarea.val()));
 editor.getSession().setValue(textarea.val());
 editor.getSession().on('change', function(){
   textarea_html.val(marked(editor.getSession().getValue()));
