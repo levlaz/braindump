@@ -21,7 +21,11 @@ See something missing? Add a [feature-request](https://github.com/levlaz/braindu
 
 # Screenshots
 
-![UI V2](https://cloud.githubusercontent.com/assets/7981032/11611650/4d811b74-9ba6-11e5-8159-b1d924997bc2.png)
+## Note Editor 
+![UI V2](https://github.com/levlaz/braindump/blob/master/app/static/images/outer_edit.png)
+
+## Note View 
+![UI V2](https://github.com/levlaz/braindump/blob/master/app/static/images/outer_preview.png)
 
 # Deployment
 
