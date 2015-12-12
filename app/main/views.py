@@ -200,11 +200,14 @@ def tag(name):
 def notebooks():
     form = NotebookForm()
     if form.validate_on_submit():
-        notebook = Notebook(
-            title=form.title.data,
-            author_id=current_user.id)
-        db.session.add(notebook)
-        db.session.commit()
+        if Notebook.query.filter_by(title=form.title.data).first() == None:
+            notebook = Notebook(
+                title=form.title.data,
+                author_id=current_user.id)
+            db.session.add(notebook)
+            db.session.commit()
+        else:
+            flash('A notebook with name {0} already exists.'.format(form.title.data))
         return redirect(url_for('.notebooks'))
     notebooks = Notebook.query.filter_by(
         author_id=current_user.id,
