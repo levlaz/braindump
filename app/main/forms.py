@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, \
     TextAreaField, SelectField
-from wtforms.validators import Required, Length
+from wtforms.validators import Required, Length, Email
 
 def validate_tags(form, field):
     if field.data:
@@ -19,7 +19,7 @@ class NoteForm(Form):
 
 
 class ShareForm(Form):
-    recipient_email = StringField('Recipient Email', validators=[Required()])
+    recipient_email = StringField('Recipient Email', validators=[Required(), Length(1, 254), Email()])
     submit = SubmitField('Share')
 
 
