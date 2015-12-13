@@ -65,7 +65,6 @@ def register():
 
 
 @auth.route('/confirm')
-@login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
     send_email(
