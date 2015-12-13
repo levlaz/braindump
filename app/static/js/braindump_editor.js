@@ -7,6 +7,13 @@ editor.setAutoScrollEditorIntoView(true);
 editor.setOption("minLines", 10);
 editor.setOption("maxLines", 25);
 
+// marked.js table renderer
+var renderer = new marked.Renderer();
+renderer.table = function (header, body) {
+    return '<table class="table table-bordered"><thead>' + header + '</thead><tbody>' + body + '</tbody></table>';
+};
+marked.setOptions({ renderer: renderer });
+
 var textarea = $('textarea[id="body"]').hide();
 var textarea_html_label = $('label[for="body_html"]').hide();
 var textarea_html = $('textarea[id="body_html"]').hide();
