@@ -1,39 +1,41 @@
 {% for note in notes %}
-  <div class="single-note">
+{% if loop.index == 1 %}
+<div class="tab-pane active" id="{{ note.id }}">
+{% else %}
+<div class="tab-pane" id="{{ note.id }}">
+{% endif %}
 
-    <div class="single-note-title">
-      <h1>{{ note.title }}</h1>
-    </div>
+    <h1> {{ note.title }} </h1>
 
-    <div class="single-note-date">
-      {{ moment(note.updated_date).format("MMMM D, YYYY") }}
-      <div class="single-note-actions">
+    <div class="note-date">
+    {{ moment(note.created_date).format("MMMM  DD, YYYY") }}
+    <span class="updated">
+    Updated: {{ moment(note.updated_date).fromNow() }}</span>
+  </div>
+
+  <div class="note-actions">
+      <a href="{{ url_for('.favorite', id=note.id) }}"><span class="actions glyphicon glyphicon-star" aria-hidden="true"></a></span>
       <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true"></a></span>
       <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true"></a></span>
       <a href="{{ url_for('.delete', id=note.id) }}"><span class="actions glyphicon glyphicon-remove" aria-hidden="true"></a></span>
-      </div>
-    </div>
-
-    <a class="tags label label-notebook" href="{{ url_for('.notebook', id=note.notebook_id) }}"> {{ note.get_notebook(note.notebook_id).title | truncate(20) }} Notebook </a>
-
-    <div class="single-note-tags">
-      <p>
-        {% if current_user == note.author %}
-          {% for tag in note._get_tags() %}
-          <a class="tags label label-default" href="{{ url_for('.tag', name=tag) }}"> {{ tag }} </a>
-          {% endfor %}
-        {% endif %}
-      </p>
-    </div>
-
-    <div class="single-note-body">
-      {% if note.body_html %}
-          {{ note.body_html | safe }}
-      {% else %}
-          {{ note.body }}
-      {% endif %}
-    </div>
-
   </div>
 
+  <div class="note-notebook">
+      <a class="label label-notebook" href="{{ url_for('.notebook', id=note.notebook_id) }}"> {{ note.get_notebook(note.notebook_id).title | truncate(20) }} Notebook </a>
+  </div>
+
+
+
+  <div class="note-tags">
+    <p>
+      {% if current_user == note.author %}
+        {% for tag in note._get_tags() %}
+        <a class="label label-tag" href="{{ url_for('.tag', name=tag) }}"> {{ tag }} </a>
+        {% endfor %}
+      {% endif %}
+    </p>
+  </div>
+
+    {{ note.body_html | safe  }}
+</div>
 {% endfor %}
