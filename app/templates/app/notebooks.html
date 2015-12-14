@@ -6,7 +6,7 @@
 
 {% block page_content %}
 
-      <div class="col-sm-10">
+      <div class="col-sm-11">
       <h1 class="top"> Add a New Notebook </h1>
 
       <form class="form form-horizontal" method="post" action="/notebooks" role="form">
@@ -16,7 +16,7 @@
       </form>
 
       <h4> Notebooks </h4>
-      <ul>
+      <ul class="notebooks">
       {% for notebook in notebooks %}
       <li>
       <a href="{{ url_for('.notebook', id=notebook.id)}}">{{ notebook.title }}</a>

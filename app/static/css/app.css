@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7 {
+html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -92,7 +92,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7 {
 
 /* Note Preview */
 .col-sm-7 {
-    padding-left: 15px;
+    padding-left: 30px;
     background-color: white;
     overflow-y: auto;
 }
@@ -150,6 +150,16 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7 {
 }
 
 /* Edit View */
-.col-sm-10 {
-    margin-top: 15px;
+.col-sm-11 {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    overflow-y: auto;
+    word-wrap: break-word;
+}
+
+/* Notebooks View */
+
+.notebooks {
+    margin-left: 20px;
 }
