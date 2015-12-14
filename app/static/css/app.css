@@ -150,6 +150,10 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     margin-left: 20px;
 }
 
+.note-content ul{
+    margin-left: 20px;
+}
+
 /* Edit View */
 .col-sm-11 {
     padding-left: 15px;
