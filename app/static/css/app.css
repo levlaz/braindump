@@ -93,6 +93,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 /* Note Preview */
 .col-sm-7 {
     padding-left: 30px;
+    padding-right: 15px;
     background-color: white;
     overflow-y: auto;
     word-wrap: break-word;
