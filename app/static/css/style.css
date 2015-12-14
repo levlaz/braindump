@@ -11,14 +11,7 @@ body {
   margin-bottom: 80px;
   font-family: 'Cantarell', sans-serif;
   font-size: 16px;
-}
-
-h1 {
-  color: rgb(84,36,55);
-}
-
-h4 {
-  color: rgb(192,41,66);
+  background-color: rgb(240,244,247);
 }
 
 a {
@@ -113,7 +106,7 @@ h1.top {
 }
 
 
-/* Outer Content */ 
+/* Outer Content */
 
 .jumbotron {
     background-color: rgb(105,60,106);
@@ -129,6 +122,7 @@ div.col-md-4 {
     padding: 20px;
     border-radius: 20px;
     background-color: rgb(222, 207, 244);
+    border: solid 1px rgb(85,66,111);
     color: rgb(6, 5, 7);
     height: 250px;
 }
@@ -144,109 +138,6 @@ div.col-md-4 {
 }
 
 
-
-/* Notes */
-
-.row {
-  margin: 0;
-}
-
-.note-content {
-  border: solid 1px rgb(84,36,55);
-  border-radius: 5px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  height: 250px;
-  word-wrap: break-word;
-}
-
-.note-content:hover {
-  border: solid 1px rgb(84,36,55);
-  border-radius: 5px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  height: 250px;
-}
-
-.note-date {
-  border-bottom: solid 1px rgb(192,41,66);
-  font-size: small;
-  font-style: oblique;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-}
-
-.note-title {
-  padding-left: 5px;
-  padding-right: 5px;
-  height: 100px;
-}
-
-.note-title a{
-  font-weight: bold;
-}
-
-.note-tags {
-  margin-left: 5px;
-  height: 60px;
-  overflow: hidden;
-}
-
-.note-actions {
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 15px;
-  right: 0;
-  margin-right: 15px;
-  clear: both;
-}
-
-.actions  {
-  color: rgb(84,36,55);
-  font-size: 16px;
-  line-height: 40px;
-  margin-left: 30px;
-}
-
-.favorite {
-    color: rgba(236,208,120,1)
-}
-
-.note-actions a{
-  text-decoration: none;
-}
-
-.label-default {
-  background-color: rgba(83,119,122,0.9);
-  margin-right: 1px;
-}
-
-.label-default:hover {
-  background-color: rgba(83,119,122,0.7);
-  margin-right: 1px;
-}
-
-.label-notebook {
-    background-color: rgba(217,91,67,0.9)
-}
-
-.label-notebook:hover {
-    background-color: rgba(217,91,67,0.7)
-}
-
-a.tags {
-  text-decoration: none;
-}
-
-.note-action {
-  padding-top: 5px;
-  padding-left: 5px;
-}
-
-.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
-  padding: 0;
-}
 
 /* Style for Releases Plugin */
 #releases {

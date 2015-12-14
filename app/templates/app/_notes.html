@@ -1,49 +1,15 @@
-<div class="row">
-  {% for note in notes %}
-    <div class="note col-xs-6 col-sm-4 col-md-3 col-lg-2">
-      <div class="note-content">
+{% for note in notes %}
 
-        <div class="note-date">
-          {{ moment(note.updated_date).format("MMMM D, YYYY") }}
-        </div>
+<div class="note-content">
 
-        <div class="note-title">
-          <a href="{{ url_for('.note', id=note.id) }}"><h5>{{ note.title | truncate(100) }}</h5></a>
-        </div>
+  <div class="note-date">
+    {{ moment(note.updated_date).format("MMMM D, YYYY") }}
+  </div>
 
+  <div class="note-title">
+    <a href="{{ url_for('.note', id=note.id) }}"><h5>{{ note.title | truncate(100) }}</h5></a>
+  </div>
 
-        <div class="note-tags">
-            <a class="tags label label-notebook" href="{{ url_for('.notebook', id=note.notebook_id) }}"> {{ note.get_notebook(note.notebook_id).title | truncate(20) }} Notebook </a>
-
-          <p>
-            {% if current_user == note.author %}
-              {% for tag in note._get_tags() %}
-              <a class="tags label label-default" href="{{ url_for('.tag', name=tag) }}"> {{ tag | truncate(10) }} </a>
-              {% endfor %}
-            {% endif %}
-          </p>
-        </div>
-
-        <div class="note-actions">
-          {% if note.is_deleted %}
-          <a class="buttons" href="{{ url_for('.restore', id=note.id) }}">
-            <span class="label label-success">Undelete</span>
-          </a>
-          <a class="buttons" href="{{ url_for('.delete_forever', id=note.id) }}">
-            <span class="label label-danger">Delete Permanently</span>
-          </a>
-          {% else %}
-          {% if note.is_favorite == True %}
-          <a href="{{ url_for('.favorite', id=note.id) }}"><span class="actions favorite glyphicon glyphicon-star" aria-hidden="true"></a></span>
-          {% else %}
-           <a href="{{ url_for('.favorite', id=note.id) }}"><span class="actions glyphicon glyphicon-star" aria-hidden="true"></a></span>
-           {% endif %}
-          <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true"></a></span>
-          <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true"></a></span>
-          <a href="{{ url_for('.delete', id=note.id) }}"><span class="actions glyphicon glyphicon-remove" aria-hidden="true"></a></span>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endfor %}
 </div>
+
+{% endfor %}

@@ -6,8 +6,28 @@
 
 {% block page_content %}
 
-      <h1 class="top"> All Notes </h1>
-      {% include 'app/_notes.html' %}
+      <div class="col-sm-4">
+          <ul class="nav nav-pills nav-stacked">
+          {% for note in notes %}
+            {% if loop.index == 1 %}
+              <li class="note-content active">
+            {% else %}
+              <li class="note-content">
+            {% endif %}
+                    <a href="#{{ note.id }}" data-toggle="pill">
+                        {{ note.title }} <br />
+                        <small>{{ moment(note.updated_date).fromNow() }}</small>
+                    </a>
+              </li>
+          {% endfor %}
+          </ul>
+      </div>
+
+      <div class="col-sm-7 preview">
+          <div class="tab-content">
+              {% include 'app/_note.html' %}
+          </div>
+      </div>
 
 {% endblock %}
 
