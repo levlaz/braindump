@@ -213,6 +213,23 @@ def notebooks():
         notebooks=notebooks,
         form=form)
 
+@main.route('/favorites', methods=['GET', 'POST'])
+@login_required
+def favorites():
+    if current_user.is_authenticated():
+        notes = Note.query.filter_by(
+            author_id=current_user.id,
+            is_deleted=False,
+            is_favorite=True).order_by(
+            Note.updated_date.desc()).all()
+        return render_template('app/app.html', notes=notes)
+    else:
+        stats = []
+        users = User.query.count()
+        stats.append(users)
+        notes = Note.query.count()
+        stats.append(notes)
+        return render_template('index.html', stats=stats)
 
 @main.route('/notebook/<int:id>')
 @login_required
