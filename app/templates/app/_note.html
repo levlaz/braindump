@@ -15,13 +15,13 @@
 
   <div class="note-actions">
       {% if note.is_favorite %}
-      <a href="{{ url_for('.favorite', id=note.id) }}"><span class="favorite actions glyphicon glyphicon-star" aria-hidden="true"></a></span>
+      <a href="{{ url_for('.favorite', id=note.id) }}"><span class="favorite actions glyphicon glyphicon-star" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Unmark as favorite" ></a></span>
       {% else %}
-      <a href="{{ url_for('.favorite', id=note.id) }}"><span class="actions glyphicon glyphicon-star" aria-hidden="true"></a></span>
+      <a href="{{ url_for('.favorite', id=note.id) }}"><span class="actions glyphicon glyphicon-star" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Mark as favorite"></a></span>
       {% endif %}
-      <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true"></a></span>
-      <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true"></a></span>
-      <a href="{{ url_for('.delete', id=note.id) }}"><span class="actions glyphicon glyphicon-remove" aria-hidden="true"></a></span>
+      <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Share"></a></span>
+      <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"></a></span>
+      <a href="{{ url_for('.delete', id=note.id) }}"><span class="actions glyphicon glyphicon-remove" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"></a></span>
   </div>
 
   <div class="note-notebook">
