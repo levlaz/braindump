@@ -168,6 +168,11 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     word-wrap: break-word;
 }
 
+.col-sm-11 ul{
+    padding-left: 15px;
+}
+
+
 /* Notebooks View */
 
 .notebooks {
