@@ -834,7 +834,7 @@ Renderer.prototype.listitem = function(text, checked) {
   }
 
   return '<li class="task-list-item">'
-    + '<input type="checkbox" class="task-list-item-checkbox"'
+    + '<input type="checkbox" class="task-list-item-checkbox" onchange = "checkUncheck(this)"'
     + (checked ? ' checked' : '')
     + '> '
     + text

@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, redirect, \
-    url_for, flash, abort, current_app, request
+    url_for, flash, abort, current_app, request, jsonify
 from flask.ext.login import current_user, login_required
 
 from . import main
@@ -9,6 +9,7 @@ from .forms import NoteForm, ShareForm, \
     NotebookForm, SearchForm
 from ..email import send_email
 from ..models import User, Note, Tag, Notebook
+import re
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -225,6 +226,8 @@ def favorites():
         is_deleted=False,
         is_favorite=True).order_by(
         Note.updated_date.desc()).all()
+    if len(notes) == 0:
+        flash("no favorites yet")
     return render_template('app/app.html', notes=notes)
 
 
@@ -276,6 +279,28 @@ def favorite(id):
             db.session.commit()
             flash('Note removed as favorite')
         return redirect(url_for('.index'))
+
+@main.route('/checkuncheck/', methods=['POST'])
+@login_required
+def checkuncheck():
+    #post variables
+    id = request.form["note_id"]
+    property = request.form["property"]
+    new_body_html = request.form["body_html"]
+    todo_item = request.form["todo_item"]
+
+    note = Note.query.get_or_404(id)
+    if current_user != note.author:
+        abort(403)
+    results = {"success" : 0}
+
+    old_body = note.body
+
+    print todo_item
+    print old_body.split("\n")
+    pattern = re.compile(".*"+"(\[ \])"+mainstr)
+    return jsonify(**results)
+
 
 
 @main.route('/shutdown')
