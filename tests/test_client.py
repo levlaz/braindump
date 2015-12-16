@@ -26,6 +26,16 @@ class FlaskTestClientCase(unittest.TestCase):
         response = self.client.get('/non-existent-page')
         self.assertTrue('Not Found' in response.get_data(as_text=True))
 
+    def test_news_page(self):
+        response = self.client.get(url_for('main.news'))
+        self.assertTrue(
+            'Known Issues' in response.get_data(as_text=True))
+
+    def test_setings_page(self):
+        response = self.client.get(url_for('main.settings'))
+        self.assertTrue(
+            'Settings' in response.get_data(as_text=True))
+
     def test_register_and_login(self):
         # register a new account
         response = self.client.post(url_for('auth.register'), data={
@@ -84,6 +94,10 @@ class FlaskTestClientCase(unittest.TestCase):
             follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertTrue('You have confirmed your account' in data)
+
+        # verify that default notebook is created
+        user = User.query.filter_by(email='test@example.com').first()
+        self.assertTrue('Default' in user.notebooks[0].title)
 
         # log out
         response = self.client.get(
