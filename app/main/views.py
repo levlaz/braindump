@@ -57,7 +57,7 @@ def add():
 
 
 @main.route('/news')
-def home():
+def news():
     if current_user.is_authenticated():
         return render_template('app/news.html')
     return render_template('news.html')
