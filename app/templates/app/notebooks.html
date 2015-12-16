@@ -6,19 +6,24 @@
 
 {% block page_content %}
 
+      <div class="col-sm-11">
       <h1 class="top"> Add a New Notebook </h1>
 
-      {{ wtf.quick_form(form) }}
+      <form class="form form-horizontal" method="post" action="/notebooks" role="form">
+          {{ form.csrf_token }}
+          {{ wtf.form_field(form.title, autofocus=true) }}
+          {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
+      </form>
 
       <h4> Notebooks </h4>
-      <ul>
+      <ul class="notebooks">
       {% for notebook in notebooks %}
       <li>
       <a href="{{ url_for('.notebook', id=notebook.id)}}">{{ notebook.title }}</a>
       </li>
       {% endfor %}
       </ul>
-
+  </div>
 
 
 {% endblock %}

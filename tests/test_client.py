@@ -1,6 +1,9 @@
 import unittest
-from app import create_app, db, url_for
-from app.models import User, Role
+
+from flask import url_for
+from app import create_app, db
+from app.models import User
+
 
 class FlaskTestClientCase(unittest.TestCase):
     def setUp(self):
@@ -28,10 +31,34 @@ class FlaskTestClientCase(unittest.TestCase):
         response = self.client.post(url_for('auth.register'), data={
             'email': 'test@example.com',
             'username': 'test',
-            'password' : 'test',
-            'password2' : 'test'
+            'password': 'test',
+            'password2': 'test'
         })
         self.assertTrue(response.status_code == 302)
+
+        # Attempt to register with same email
+        response = self.client.post(url_for('auth.register'), data={
+            'email': 'test@example.com',
+            'username': 'same_email',
+            'password': 'test',
+            'password2': 'test'
+        })
+        data = response.get_data(as_text=True)
+        self.assertTrue(
+            'Email already registered.'
+            in data)
+
+        # Attempt to register with same username
+        response = self.client.post(url_for('auth.register'), data={
+            'email': 'same_username@example.com',
+            'username': 'test',
+            'password': 'test',
+            'password2': 'test'
+        })
+        data = response.get_data(as_text=True)
+        self.assertTrue(
+            'Username already in use.'
+            in data)
 
         # login with the new account
         response = self.client.post(url_for('auth.login'), data={
@@ -52,13 +79,15 @@ class FlaskTestClientCase(unittest.TestCase):
         # send a confirmation token
         user = User.query.filter_by(email='test@example.com').first()
         token = user.generate_confirmation_token()
-        response = self.client.get(url_for('auth.confirm', token=token),
+        response = self.client.get(
+            url_for('auth.confirm', token=token),
             follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertTrue('You have confirmed your account' in data)
 
         # log out
-        response = self.client.get(url_for('auth.logout'),
+        response = self.client.get(
+            url_for('auth.logout'),
             follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertTrue('You have been logged out' in data)

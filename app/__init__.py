@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.mail import Mail
 from flask.ext.moment import Moment
@@ -14,6 +14,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
+
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -38,5 +39,15 @@ def create_app(config_name):
     with app.app_context():
         db.create_all()
         db.session.commit()
+        from app.models import User
+        if app.config['DEBUG']:
+            if not User.query.filter_by(username='admin').first():
+                admin = User(password='admin',
+                         email="admin@email.com",
+                         username='admin',
+                         confirmed=True)
+                db.session.add(admin)
+                db.session.commit()
+
 
     return app

@@ -5,18 +5,17 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-tagsinput.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/single_note.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" type="text/css">
 {% endblock %}
 
 {% block title %} BrainDump {% endblock %}
 
 {% block navbar %}
 
-<div id="wrapper">
+<div class="container">
+    <div class="row">
 
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper">
+    <div class="col-sm-1">
         <ul class="sidebar-nav">
             <li class="sidebar-item">
                 <a href="/"><img class="app-logo" src="{{ url_for('static', filename='images/logo.png')}}"></img></a>
@@ -29,6 +28,9 @@
             </li>
             <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Notebooks">
                 <a href="/notebooks"><span class="nav-item glyphicon glyphicon-book" aria-hidden="true"></a></span>
+            </li>
+            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Favorites">
+                <a href="/favorites"><span class="nav-item glyphicon glyphicon-star" aria-hidden="true"></a></span>
             </li>
             <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Settings">
                 <a href="#"><span class="nav-item glyphicon glyphicon-cog" aria-hidden="true"></a></span>
@@ -47,15 +49,12 @@
             </li>
         </ul>
     </div>
-    <!-- /#sidebar-wrapper -->
 
 
 {% endblock %}
 
 {% block content %}
-<!-- Page Content -->
-<div id="page-content-wrapper">
-    <div class="container-fluid">
+
         {% for message in get_flashed_messages() %}
         <div class="alert alert-warning">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -63,12 +62,8 @@
         </div>
         {% endfor %}
       {% block page_content %}{% endblock %}
-    </div>
-</div>
-<!-- /#page-content-wrapper -->
 
 </div>
-<!-- /#wrapper -->
 {% endblock %}
 
 

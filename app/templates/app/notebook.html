@@ -3,6 +3,8 @@
 {% block title %} Braindump | Note {% endblock %}
 
 {% block page_content %}
+<div class="col-sm-11">
 <h1 class="top"> Notes in {{ notebook.title }}</h1>
 {% include 'app/_notes.html' %}
+</div>
 {% endblock %}

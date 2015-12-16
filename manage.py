@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
@@ -14,7 +15,7 @@ if os.path.exists('.env'):
             os.environ[var[0]] = var[1]
 
 from app import create_app, db
-from app.models import User, Role, Note, Tag, Notebook
+from app.models import User, Note, Tag, Notebook
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 
@@ -24,23 +25,28 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Note=Note, Role=Role, Tag=Tag, Notebook=Notebook)
-manager.add_command("shell", Shell(make_context=make_shell_context))
+    return dict(
+        app=app, db=db, User=User,
+        Note=Note, Tag=Tag,
+        Notebook=Notebook)
+
+manager.add_command(
+    "shell",
+    Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
 
 @manager.command
 def test(coverage=False):
     """Run the unit tests."""
+    import sys
     if coverage and not os.environ.get('FLASK_COVERAGE'):
-        import sys
         os.environ['FLASK_COVERAGE'] = '1'
         os.execvp(sys.executable, [sys.executable] + sys.argv)
     import unittest
     import xmlrunner
     tests = unittest.TestLoader().discover('tests')
-    #unittest.TextTestRunner(verbosity=2).run(tests)
-    xmlrunner.XMLTestRunner(output='test-reports').run(tests)
+    results = xmlrunner.XMLTestRunner(output='test-reports').run(tests)
     if COV:
         COV.stop()
         COV.save()
@@ -51,6 +57,8 @@ def test(coverage=False):
         COV.html_report(directory=covdir)
         print('HTML version: file://%s/index.html' % covdir)
         COV.erase()
+    if len(results.failures) > 0:
+        sys.exit(1)
 
 
 @manager.command

@@ -1,29 +1,29 @@
+import hashlib
+
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import current_app, request, url_for
+from flask import current_app, url_for
 from flask.ext.login import UserMixin, current_user, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-
-from flask import current_app
 from datetime import datetime
 from app.exceptions import ValidationError
-
-# Full Text Search
-from flask.ext.sqlalchemy import SQLAlchemy, BaseQuery
+from flask.ext.sqlalchemy import BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
-import bleach
-import hashlib
-
 make_searchable()
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Association Tables
+
+"""
+Association Table to resolve M:M Relationship between
+Note and Tag
+"""
 note_tag = db.Table(
     'note_tag',
     db.Column(
@@ -35,30 +35,24 @@ note_tag = db.Table(
         db.Integer,
         db.ForeignKey('tags.id', ondelete="CASCADE")))
 
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-
-    users = db.relationship('User', backref='role')
-
-    def __repr__(self):
-        return '<Role {0}>'.format(self.name)
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(254), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(256))
     confirmed = db.Column(db.Boolean, default=False)
     avatar_hash = db.Column(db.String(32))
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
-    notes = db.relationship('Note', backref='author', lazy='dynamic')
-    notebooks = db.relationship('Notebook', backref='author', lazy='dynamic')
+    notes = db.relationship(
+        'Note', backref='author',
+        lazy='dynamic', cascade="all, delete-orphan")
+    notebooks = db.relationship(
+        'Notebook', backref='author',
+        lazy='dynamic', cascade="all, delete-orphan")
 
     @staticmethod
     def generate_fake(count=100):
@@ -68,7 +62,8 @@ class User(UserMixin, db.Model):
 
         seed()
         for i in range(count):
-            u = User(email=f.internet.email_address(),
+            u = User(
+                email=f.internet.email_address(),
                 username=f.internet.user_name(True),
                 password=f.lorem_ipsum.word(),
                 confirmed=True)
@@ -90,7 +85,9 @@ class User(UserMixin, db.Model):
 
     @password.setter
     def password(self, password):
-        self.password_hash = generate_password_hash(password,method='pbkdf2:sha512')
+        self.password_hash = generate_password_hash(
+            password,
+            method='pbkdf2:sha512')
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -161,8 +158,9 @@ class User(UserMixin, db.Model):
             url=url, hash=hash, size=size, default=default, rating=rating)
 
     def generate_auth_token(self, expiration):
-        s = Serializer(current_app.config['SECRET_KEY'],
-            expires_in = expiration)
+        s = Serializer(
+            current_app.config['SECRET_KEY'],
+            expires_in=expiration)
         return s.dumps({'id': self.id})
 
     @staticmethod
@@ -187,8 +185,9 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
+
 class AnonymousUser(AnonymousUserMixin):
-    
+
     def can(self):
         return False
 
@@ -197,8 +196,10 @@ class AnonymousUser(AnonymousUserMixin):
 
 login_manager.anonymous_user = AnonymousUser
 
+
 class NoteQuery(BaseQuery, SearchQueryMixin):
     pass
+
 
 class Note(db.Model):
     query_class = NoteQuery
@@ -207,12 +208,16 @@ class Note(db.Model):
     title = db.Column(db.String(200))
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    created_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
     is_deleted = db.Column(db.Boolean, default=False)
+    is_favorite = db.Column(db.Boolean, default=False)
 
-    tags = db.relationship("Tag", secondary=note_tag, backref="Note", passive_deletes=True)
+    tags = db.relationship(
+        "Tag", secondary=note_tag,
+        backref="Note", passive_deletes=True)
 
     # Full Text Search
     search_vector = db.Column(TSVectorType('title', 'body'))
@@ -222,10 +227,15 @@ class Note(db.Model):
             'url': url_for('api.get_note', id=self.id, _external=True),
             'body': self.body,
             'body_html': self.body_html,
-            'timestamp': self.timestamp,
+            'created_date': self.created_date,
             'author': self.author_id,
         }
         return json_note
+
+    def get_notebook(self, id):
+        notebook = Notebook.query.filter_by(
+            id=id).first()
+        return notebook
 
     @staticmethod
     def from_json(json_post):
@@ -250,9 +260,9 @@ class Note(db.Model):
         for tag in value:
             self.tags.append(self._find_or_create_tag(tag))
 
+    # simple wrapper for tags relationship
     str_tags = property(_get_tags,
-                        _set_tags,
-                        "Property str_tags is a simple wrapper for the tags relationship")
+                        _set_tags)
 
 
 class Notebook(db.Model):
@@ -267,9 +277,10 @@ class Notebook(db.Model):
     def _show_notes(self):
         notes = []
         for note in self.notes:
-            if note.is_deleted == False:
+            if note.is_deleted is False:
                 notes.append(note)
         return notes
+
 
 class Tag(db.Model):
     __tablename__ = 'tags'

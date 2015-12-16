@@ -4,6 +4,7 @@
 {% block title %} BrainDump | Share Note {% endblock %}
 
 {% block page_content %}
+  <div class="col-sm-11">
   <h1 class="top"> Share Note </h1>
 
   <form class="form form-horizontal" action="" method="post" role="form">
@@ -13,7 +14,7 @@
   </form>
 
   {% include 'app/_note.html' %}
-
+  </div>
 {% endblock %}
 
 {% block scripts %}

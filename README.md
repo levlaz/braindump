@@ -1,15 +1,45 @@
 # braindump
-BrainDump is a simple, powerful, and open note taking platfform that makes it easy to organize your life. It lives [here](http://braindump.pw) if you would like to check it out. :)
 
-[![CI](https://circleci.com/gh/levlaz/braindump.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/levlaz/braindump) ![MIT License](https://img.shields.io/github/license/mashape/apistatus.svg)
+BrainDump is a simple, powerful, and open note taking platform that makes it easy to organize your life. It lives [here](http://braindump.pw) if you would like to check it out. :)
 
-# Screenshots 
+[![CI](https://circleci.com/gh/levlaz/braindump.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/levlaz/braindump) ![MIT License](https://img.shields.io/github/license/mashape/apistatus.svg) [![Join the chat at https://gitter.im/levlaz/braindump](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/levlaz/braindump?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-![UI V2](https://cloud.githubusercontent.com/assets/7981032/11611650/4d811b74-9ba6-11e5-8159-b1d924997bc2.png)
+# Features
+
+Braindump is under heavy development and features are being added every week. Some highlights are:
+
+* RESTful API (WIP)
+* Full Markdown Editing
+* Full Markdown Viewing
+* Share Notes via Email
+* Categorize Notes into Notebooks
+* Categorize Notes with Tags
+* Full Text Search
+* Mark notes as Favorites
+
+See something missing? Add a [feature-request](https://github.com/levlaz/braindump/issues)!
+
+# Screenshots
+
+## Note Editor 
+![UI V2](https://github.com/levlaz/braindump/blob/master/app/static/images/outer_edit.png)
+
+## Note View 
+![UI V2](https://github.com/levlaz/braindump/blob/master/app/static/images/outer_preview.png)
+
+# Deployment
+
+I am building [docker images](https://hub.docker.com/r/levlaz/braindump/) which make it super easy to deploy braindump.
+
+Requirements:
+
+1. PostgreSQL Database
+2. SMTP (Required for Creating new Accounts and Sharing Notes)
 
 # Development
 
-[Dev Blog](https://levlaz.org/tag/braindump/) 
+* [Dev Blog](https://levlaz.org/tag/braindump/)
+* [Roadmap](https://github.com/levlaz/braindump/issues?q=is%3Aopen+is%3Aissue+label%3Afeature)
 
 ## Develop with Vagrant
 
@@ -27,3 +57,30 @@ BrainDump is a simple, powerful, and open note taking platfform that makes it ea
 5. Install all dependencies: `pip install -r requirements.txt`
 6. Start the app: `python manage.py runserver`
 7. Navigate to localhost:5000 to view the app in your browser
+
+# Technologies Used
+
+braindump is an open source project that is built on top of the shoulders of giants. It could not be possible without the following awesome tools:
+
+## Backend
+0. Python
+1. Flask
+2. PostgreSQL
+3. SQLAlchemy
+
+## Frontend
+1. Jinja
+2. WTForms
+3. Bootstrap
+4. Marked.JS
+5. ACE Editor
+
+## Development
+1. Vagrant
+2. Flake8
+3. Coverage
+
+## Production 
+1. Gunicorn
+2. Docker
+3. nginx 

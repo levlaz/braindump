@@ -25,7 +25,6 @@ Werkzeug==0.11.2
 alabaster==0.7.6
 alembic==0.8.3
 argparse==1.2.1
-bleach==1.4.2
 blinker==1.4
 coverage==4.0.2
 decorator==4.0.4

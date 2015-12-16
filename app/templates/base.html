@@ -2,9 +2,12 @@
 
 {% block head %}
 {{ super() }}
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-tagsinput.css') }}" type="text/css">
+    <link rel="shortcut icon" href="{{ url_for('static', 
+                                 filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', 
+                                 filename='css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', 
+                                 filename='css/bootstrap-tagsinput.css') }}" type="text/css">
 {% endblock %}
 
 {% block title %} BrainDump {% endblock %}
@@ -12,41 +15,35 @@
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
   <div class="container">
+    
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <button type="button" class="navbar-toggle"
+              data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle Navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/"><img class="logo" src="{{ url_for('static', filename='images/logo.png')}}"></img></a>
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="{{ url_for('static', filename='images/logo.png')}}"></img>
+      </a>
     </div>
-
+    
     <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a class="nav-item" href="/news">News</a></li>
+          <!-- TODO Add Documentation -->
+          <li><a href="#">Documentation</a></li>
+          <li><a href="https://github.com/levlaz/braindump/issues">Support</a></li>
+        </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        {% if current_user.is_authenticated() %}
-                <li>
-                  <a title="Trash" href="/trash"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a></span>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img class="gravatar" src="{{ current_user.gravatar(size=18) }}">
-                        Account <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
-                        <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
-                        <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
-                    </ul>
-                </li>
-        {% else %}
-        <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
-        {% endif %}
-      </ul>
+    <div class="navbar-right">
+        <a class="btn btn-action" href="{{ url_for('auth.register') }}">Sign up</a>
+        <a class="btn btn-default" href="{{ url_for('auth.login') }}">Sign In</a>
+    </div>
     </div>
 
-  </div>
+    </div>
 </div>
 {% endblock %}
 
