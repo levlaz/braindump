@@ -219,7 +219,7 @@ class Note(db.Model):
     is_favorite = db.Column(db.Boolean, default=False)
 
     todo_items = db.relationship(
-        "Todo", backref = "note")
+        "Todo", backref = "note", cascade="all")
     tags = db.relationship(
         "Tag", secondary=note_tag,
         backref="Note", passive_deletes=True)
@@ -249,8 +249,8 @@ class Note(db.Model):
             raise ValidationError('note does not have a body')
         return Note(body=body)
 
-    def get_todo_items(self):
-        return [todo.title for todo in todo_items]
+    def _get_todo_items(self):
+        return [todo for todo in self.todo_items]
 
     def _find_or_create_tag(self, tag):
         q = Tag.query.filter_by(tag=tag)
@@ -346,6 +346,22 @@ class Todo(db.Model):
         # return li
         # element = html.fromstring(line.strip())
         # todo_item = element.text_content()
+
+    @staticmethod
+    def toggle_checked_property_markdown(markdown_body, item):
+        checked = lambda x: "[x]" in x
+        body = [line.encode('utf-8') for line in markdown_body.split("\n")]
+        pattern = re.compile(".*-\s"+"(\[[\sx]\]).*") # pattern for a markdown todo-list ()
+        for i,line in enumerate(body):
+            if pattern.match(line) is not None and item in line:
+                if (checked(line)):
+                    new_line = line.replace("[x]", "[ ]")
+                else:
+                    new_line = line.replace("[ ]", "[x]")
+                    body[i] = new_line
+        new_body = "\n".join(body)
+        new_body = unicode(new_body, "utf-8")
+        return new_body            
 '''
 
 

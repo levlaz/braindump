@@ -67,13 +67,15 @@ function checkUncheck (checkbox) {
   var todo_item = ($(checkbox).parent().text()); // todo item text
   var content_div = $(checkbox).parents(".note-content"); 
   var body_html = content_div.html();// body_html of the note
-  console.log(note_id+property+body_html+todo_item);
+  var todo_item_id = $(checkbox).parent().attr("id");
+  console.log("id is"+ todo_item_id)
+  // console.log(note_id+property+body_html+todo_item+"iddddd"+ todo_item_id/);
 
   $.ajax({
     url: "{{ url_for('.checkuncheck') }}",
     cache: false,
     type: "POST",
-    data: {note_id : note_id, property: property, body_html: body_html, todo_item: todo_item},
+    data: {note_id : note_id, property: property, body_html: body_html, todo_item: todo_item,todo_item_id:todo_item_id},
     success: function(result){
       console.log(result);
     },
