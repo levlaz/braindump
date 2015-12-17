@@ -47,8 +47,12 @@ class User(UserMixin, db.Model):
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
-    notes = db.relationship('Note', backref='author', lazy='dynamic')
-    notebooks = db.relationship('Notebook', backref='author', lazy='dynamic')
+    notes = db.relationship(
+        'Note', backref='author',
+        lazy='dynamic', cascade="all, delete-orphan")
+    notebooks = db.relationship(
+        'Notebook', backref='author',
+        lazy='dynamic', cascade="all, delete-orphan")
 
     @staticmethod
     def generate_fake(count=100):

@@ -39,15 +39,14 @@ manager.add_command('db', MigrateCommand)
 @manager.command
 def test(coverage=False):
     """Run the unit tests."""
+    import sys
     if coverage and not os.environ.get('FLASK_COVERAGE'):
-        import sys
         os.environ['FLASK_COVERAGE'] = '1'
         os.execvp(sys.executable, [sys.executable] + sys.argv)
     import unittest
     import xmlrunner
     tests = unittest.TestLoader().discover('tests')
-    # unittest.TextTestRunner(verbosity=2).run(tests)
-    xmlrunner.XMLTestRunner(output='test-reports').run(tests)
+    results = xmlrunner.XMLTestRunner(output='test-reports').run(tests)
     if COV:
         COV.stop()
         COV.save()
@@ -58,6 +57,8 @@ def test(coverage=False):
         COV.html_report(directory=covdir)
         print('HTML version: file://%s/index.html' % covdir)
         COV.erase()
+    if len(results.failures) > 0:
+        sys.exit(1)
 
 
 @manager.command
