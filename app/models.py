@@ -11,6 +11,9 @@ from flask.ext.sqlalchemy import BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
+import re
+from lxml import etree
+from lxml import html
 
 make_searchable()
 
@@ -215,6 +218,8 @@ class Note(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
     is_favorite = db.Column(db.Boolean, default=False)
 
+    todo_items = db.relationship(
+        "Todo", backref = "note")
     tags = db.relationship(
         "Tag", secondary=note_tag,
         backref="Note", passive_deletes=True)
@@ -243,6 +248,9 @@ class Note(db.Model):
         if body is None or body == '':
             raise ValidationError('note does not have a body')
         return Note(body=body)
+
+    def get_todo_items(self):
+        return [todo.title for todo in todo_items]
 
     def _find_or_create_tag(self, tag):
         q = Tag.query.filter_by(tag=tag)
@@ -295,3 +303,70 @@ class Tag(db.Model):
             if note.author == current_user:
                 notes.append(note)
         return notes
+
+class Todo(db.Model):
+    __tablename__ = 'todo_items'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200))
+    is_checked = db.Column(db.Boolean, default=False)
+    note_id = db.Column(db.Integer, db.ForeignKey('notes.id'))
+    created_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    checked_date = db.Column(db.DateTime())
+
+    def get_note(self, id):
+        note = Note.query.filter_by(
+            id=id).first()
+        return note
+
+    @staticmethod
+    def parse_markdown(markdown_body):
+        checked = lambda x: "[x]" in x
+        body = [line.encode('utf-8') for line in markdown_body.split("\n")]
+        pattern = re.compile(".*-\s"+"(\[[\sx]\]).*") # pattern for a markdown todo-list ()
+        todo_list = [line for line in body if pattern.match(line) is not None]
+        for i, todo in enumerate(todo_list):
+            delim = "\r"
+            item = todo[todo.find(']')+1:]
+            found = item.find(delim)
+            if found != -1:
+                item = item[:found]
+            todo_list[i] = (item, checked(todo))
+        return todo_list        
+
+    @staticmethod
+    def add_id_to_li_element(li, ID):
+        li = li.encode('utf-8')
+        root = etree.fromstring(li.strip(), etree.HTMLParser())
+        elem = root[0][0]
+        elem.attrib["id"] = ID
+        new_li = etree.tostring(elem, method="html")
+        new_li = unicode(new_li, "utf-8")
+        return new_li
+        # return li
+        # element = html.fromstring(line.strip())
+        # todo_item = element.text_content()
+'''
+
+
+update_checked_property_markdown
+update_checked_property_html
+1. when adding a note
+    * parse for todo_items
+    * add each item to the todo Table(check/unchecked)
+    * add an id tag to each li element
+    * save to db
+
+2. when editing a note 
+    * if does not exist, add
+    * if exists, update status if necessary
+    * check todo table to check for deleted todo_items
+
+3. when checking/unchecking
+    * ajax and compare based on id
+    * update body
+    * update body_html
+    * update todo table
+
+4. delete all notes when deleting a note
+'''

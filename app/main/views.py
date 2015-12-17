@@ -8,9 +8,10 @@ from .. import db
 from .forms import NoteForm, ShareForm, \
     NotebookForm, SearchForm
 from ..email import send_email
-from ..models import User, Note, Tag, Notebook
+from ..models import User, Note, Tag, Notebook, Todo
 import re
-
+from lxml import etree
+from lxml import html
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -47,6 +48,33 @@ def add():
             author=current_user._get_current_object())
         db.session.add(note)
         db.session.commit()
+        # adding each todo list to the table
+        todo_list = Todo.parse_markdown(note.body)
+        todo_ids = []
+        for todo_item in todo_list:
+            todo = Todo(
+                title = todo_item[0],
+                is_checked = todo_item[1],
+                note_id = note.id)
+            db.session.add(todo)
+            db.session.commit()
+            todo_ids.append(todo.id)
+        # adding an id tag to the li element of each todo list item
+        count = 0
+        body_html_list = note.body_html.split("\n")
+        for i, element in enumerate(body_html_list):
+            if '<li class="task-list-item">' in element:
+                # print "---------------"
+                # print "before", element, type(element)
+                new_element = Todo.add_id_to_li_element(element, str(todo_ids[count]))
+                count = count + 1
+                # print "after",  new_element, type(new_element)
+                # print "---------------"
+                body_html_list[i] = new_element
+        note.body_html = "\n".join(body_html_list)
+        db.session.add(note)
+        db.session.commit()
+
         tags = []
         if not len(form.tags.data) == 0:
             for tag in form.tags.data.split(','):
@@ -296,9 +324,31 @@ def checkuncheck():
 
     old_body = note.body
 
-    print todo_item
-    print old_body.split("\n")
-    pattern = re.compile(".*"+"(\[ \])"+mainstr)
+    lines = new_body_html.encode('utf-8').split("\n")
+    print "new body", lines
+    # print ""
+    # lines = note.body_html.split("\n")
+    # print "old body", lines
+
+    for line in lines:
+        if '<li class="task-list-item">' in line:
+            # print line
+            root = etree.fromstring(line.strip(), etree.HTMLParser())
+            elem = root[0][0]
+            elem.attrib["id"] = "123"
+            # element = html.fromstring(line.strip())
+            # todo_item = element.text_content()
+            print etree.tostring(elem, method="html")
+
+    # print new_body_html,type(new_body_html)
+    # tree = etree.fromstring(new_body_html.encode('utf-8').strip())
+    # print tree
+    # print todo_item
+    # todo_list = Todo.parse(old_body)
+    # print "todo list is ", todo_list
+    # todo = Todo.query.filter_by(title = todo_list[0][0]).first()
+    # print todo
+    # pattern = re.compile(".*"+"(\[ \])"+mainstr)
     return jsonify(**results)
 
 
