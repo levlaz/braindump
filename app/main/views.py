@@ -57,7 +57,7 @@ def add():
 
 
 @main.route('/news')
-def home():
+def news():
     if current_user.is_authenticated():
         return render_template('app/news.html')
     return render_template('news.html')
@@ -216,6 +216,16 @@ def notebooks():
         'app/notebooks.html',
         notebooks=notebooks,
         form=form)
+
+@main.route('/favorites', methods=['GET'])
+@login_required
+def favorites():
+    notes = Note.query.filter_by(
+        author_id=current_user.id,
+        is_deleted=False,
+        is_favorite=True).order_by(
+        Note.updated_date.desc()).all()
+    return render_template('app/app.html', notes=notes)
 
 
 @main.route('/notebook/<int:id>')
