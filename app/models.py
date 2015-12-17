@@ -343,9 +343,14 @@ class Todo(db.Model):
         new_li = etree.tostring(elem, method="html")
         new_li = unicode(new_li, "utf-8")
         return new_li
-        # return li
-        # element = html.fromstring(line.strip())
-        # todo_item = element.text_content()
+
+    @staticmethod
+    def get_todo_item_id_from_li(li):
+        li = li.encode("utf-8")
+        element = html.fromstring(li.strip())
+        todo_item = element.text_content()
+        todo = Todo.query.filter_by(title = todo_item).first()
+        return todo.id
 
     @staticmethod
     def toggle_checked_property_markdown(markdown_body, item):
@@ -358,31 +363,7 @@ class Todo(db.Model):
                     new_line = line.replace("[x]", "[ ]")
                 else:
                     new_line = line.replace("[ ]", "[x]")
-                    body[i] = new_line
+                body[i] = new_line
         new_body = "\n".join(body)
         new_body = unicode(new_body, "utf-8")
         return new_body            
-'''
-
-
-update_checked_property_markdown
-update_checked_property_html
-1. when adding a note
-    * parse for todo_items
-    * add each item to the todo Table(check/unchecked)
-    * add an id tag to each li element
-    * save to db
-
-2. when editing a note 
-    * if does not exist, add
-    * if exists, update status if necessary
-    * check todo table to check for deleted todo_items
-
-3. when checking/unchecking
-    * ajax and compare based on id
-    * update body
-    * update body_html
-    * update todo table
-
-4. delete all notes when deleting a note
-'''

@@ -10,8 +10,7 @@ from .forms import NoteForm, ShareForm, \
 from ..email import send_email
 from ..models import User, Note, Tag, Notebook, Todo
 import re
-from lxml import etree
-from lxml import html
+
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -64,12 +63,8 @@ def add():
         body_html_list = note.body_html.split("\n")
         for i, element in enumerate(body_html_list):
             if '<li class="task-list-item">' in element:
-                # print "---------------"
-                # print "before", element, type(element)
                 new_element = Todo.add_id_to_li_element(element, str(todo_ids[count]))
                 count = count + 1
-                # print "after",  new_element, type(new_element)
-                # print "---------------"
                 body_html_list[i] = new_element
         note.body_html = "\n".join(body_html_list)
         db.session.add(note)
@@ -180,22 +175,22 @@ def edit(id):
                 old_item = old_todo_list_objects[index]
                 if checked != old_item.is_checked:
                     old_item.is_checked = not old_item.is_checked
+                    old_item.updated_date = datetime.now()
+                    if checked is True:
+                        old_item.checked_date = datetime.now()
                     db.session.add(old_item)
                     db.session.commit()
 
 
         # adding the id tags to the html elements
         todo_ids = [item.id for item in Todo.query.filter_by(note_id = note.id).all()]
-        count = 0
+        # count = 0
         body_html_list = note.body_html.split("\n")
         for i, element in enumerate(body_html_list):
             if '<li class="task-list-item">' in element:
-                # print "---------------"
-                # print "before", element, type(element)
-                new_element = Todo.add_id_to_li_element(element, str(todo_ids[count]))
-                count = count + 1
-                # print "after",  new_element, type(new_element)
-                # print "---------------"
+                todo_id = Todo.get_todo_item_id_from_li(element)
+                new_element = Todo.add_id_to_li_element(element, str(todo_id))
+                # count = count + 1
                 body_html_list[i] = new_element
         note.body_html = "\n".join(body_html_list)
         db.session.add(note)
@@ -376,40 +371,19 @@ def checkuncheck():
         abort(403)
     results = {"success" : 0}
 
-    print todo_item
+    #updates
     new_body = Todo.toggle_checked_property_markdown(note.body, todo_item)
     note.body = new_body
     note.body_html = new_body_html
     db.session.add(note)
     todo = Todo.query.get_or_404(todo_item_id)
+    todo.updated_date = datetime.now()
     todo.is_checked = not todo.is_checked
+    if todo.is_checked is True:
+        todo.checked_date =  datetime.now()
     db.session.add(todo)
     db.session.commit()
     results["success"] = 1
-
-    # print ""
-    # lines = note.body_html.split("\n")
-    # print "old body", lines
-
-    # for line in lines:
-    #     if '<li class="task-list-item">' in line:
-    #         # print line
-    #         root = etree.fromstring(line.strip(), etree.HTMLParser())
-    #         elem = root[0][0]
-    #         elem.attrib["id"] = "123"
-    #         # element = html.fromstring(line.strip())
-    #         # todo_item = element.text_content()
-    #         print etree.tostring(elem, method="html")
-
-    # print new_body_html,type(new_body_html)
-    # tree = etree.fromstring(new_body_html.encode('utf-8').strip())
-    # print tree
-    # print todo_item
-    # todo_list = Todo.parse(old_body)
-    # print "todo list is ", todo_list
-    # todo = Todo.query.filter_by(title = todo_list[0][0]).first()
-    # print todo
-    # pattern = re.compile(".*"+"(\[ \])"+mainstr)
     return jsonify(**results)
 
 

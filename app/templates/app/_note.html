@@ -49,9 +49,7 @@
 <script type="text/javascript">
 function checkUncheck (checkbox) {
   // body...
-  console.log("changed");
   var property;
-  console.log($(checkbox).is(':checked'));
   if ($(checkbox).is(':checked') == false){
     $(checkbox).removeAttr("checked");
     property = "uncheck";
@@ -68,9 +66,7 @@ function checkUncheck (checkbox) {
   var content_div = $(checkbox).parents(".note-content"); 
   var body_html = content_div.html();// body_html of the note
   var todo_item_id = $(checkbox).parent().attr("id");
-  console.log("id is"+ todo_item_id)
-  // console.log(note_id+property+body_html+todo_item+"iddddd"+ todo_item_id/);
-
+  console.log("id is "+ todo_item_id);
   $.ajax({
     url: "{{ url_for('.checkuncheck') }}",
     cache: false,
@@ -83,7 +79,6 @@ function checkUncheck (checkbox) {
       console.log(result);
     }
   });
-  // console.log(content_div.html());
 }
 
 </script>
