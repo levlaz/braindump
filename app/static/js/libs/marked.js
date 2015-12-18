@@ -834,7 +834,7 @@ Renderer.prototype.listitem = function(text, checked) {
   }
 
   return '<li class="task-list-item">'
-    + '<input type="checkbox" class="task-list-item-checkbox" onchange = "checkUncheck(this)"'
+    + '<input type="checkbox" class="task-list-item-checkbox"'
     + (checked ? ' checked' : '')
     + '> '
     + text
@@ -1091,7 +1091,7 @@ Parser.prototype.tok = function() {
         body += this.tok();
       }
 
-      return this.renderer.listitem(body, checked);
+      return this.renderer.listitem(body, checked); 
     }
     case 'html': {
       var html = !this.token.pre && !this.options.pedantic
