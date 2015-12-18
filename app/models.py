@@ -292,6 +292,6 @@ class Tag(db.Model):
     def _get_notes(self):
         notes = []
         for note in self.notes:
-            if note.author == current_user:
+            if note.author == current_user and not note.is_deleted:
                 notes.append(note)
         return notes
