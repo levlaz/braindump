@@ -1,4 +1,5 @@
 import os
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -21,8 +22,8 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
-        'braindump',
-        'braindump',
+        'postgres',
+        'vivek123',
         'localhost',
         'braindump')
 
@@ -86,4 +87,15 @@ config = {
     'unix': UnixConfig,
 
     'default': DevelopmentConfig
+}
+
+GITHUB_SETTINGS={
+    'consumer_key': os.environ.get('GITHUB_CONSUMER_KEY'),
+    'consumer_secret':os.environ.get('GITHUB_CONSUMER_SECRET'),
+    'request_token_params':{'scope': 'user:email'},
+    'base_url':'https://api.github.com/',
+    'request_token_url':None,
+    'access_token_method':'POST',
+    'access_token_url':'https://github.com/login/oauth/access_token',
+    'authorize_url':'https://github.com/login/oauth/authorize'
 }
