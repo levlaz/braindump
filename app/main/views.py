@@ -200,7 +200,9 @@ def tag(name):
 def notebooks():
     form = NotebookForm()
     if form.validate_on_submit():
-        if Notebook.query.filter_by(title=form.title.data).first() == None:
+        if Notebook.query.filter_by(
+                title=form.title.data, 
+                author_id=current_user.id).first() == None:
             notebook = Notebook(
                 title=form.title.data,
                 author_id=current_user.id)
