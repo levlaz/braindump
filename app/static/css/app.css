@@ -155,6 +155,10 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     margin-left: 20px;
 }
 
+.note-content ol{
+    margin-left: 20px;
+}
+
 .favorite {
     color: rgb(255, 241, 106);
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -172,6 +176,9 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     padding-left: 15px;
 }
 
+.col-sm-11 ol {
+    padding-left: 15px;
+}
 
 /* Notebooks View */
 
