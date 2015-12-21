@@ -189,7 +189,6 @@ def authorized(auth):
             flash('You denied the request to sign in.')
             return redirect(request.args.get('next') or url_for('main.index'))
         session['github_token'] = (resp['access_token'], '')
-        print resp
         success=1
     if success == 1:
         me = github.get('user')
@@ -198,7 +197,7 @@ def authorized(auth):
             user = User(
                 email=me.data['email'],
                 username=me.data['login'],
-                password='',
+                password=resp['access_token'],
                 confirmed=True)
             db.session.add(user)
             db.session.commit()
