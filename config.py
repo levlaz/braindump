@@ -22,8 +22,8 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
-        'postgres',
-        'vivek123',
+        'braindump',
+        'braindump',
         'localhost',
         'braindump')
 
