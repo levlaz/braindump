@@ -12,6 +12,19 @@ var renderer = new marked.Renderer();
 renderer.table = function (header, body) {
     return '<table class="table table-bordered"><thead>' + header + '</thead><tbody>' + body + '</tbody></table>';
 };
+renderer.listitem = function(text, checked) {
+  if (checked === undefined) {
+    return '<li>' + text + '</li>\n';
+  }
+
+  return '<li class="task-list-item">'
+    + '<input type="checkbox" class="task-list-item-checkbox" onchange = "checkUncheck(this)"'
+    + (checked ? ' checked' : '')
+    + '> '
+    + text
+    + '</li>\n';
+};
+
 marked.setOptions({ renderer: renderer });
 
 var textarea = $('textarea[id="body"]').hide();

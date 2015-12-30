@@ -1091,7 +1091,7 @@ Parser.prototype.tok = function() {
         body += this.tok();
       }
 
-      return this.renderer.listitem(body, checked);
+      return this.renderer.listitem(body, checked); 
     }
     case 'html': {
       var html = !this.token.pre && !this.options.pedantic

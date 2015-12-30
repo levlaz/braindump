@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, redirect, \
-    url_for, flash, abort, current_app, request
+    url_for, flash, abort, current_app, request, jsonify
 from flask.ext.login import current_user, login_required
 
 from . import main
@@ -8,7 +8,8 @@ from .. import db
 from .forms import NoteForm, ShareForm, \
     NotebookForm, SearchForm
 from ..email import send_email
-from ..models import User, Note, Tag, Notebook
+from ..models import User, Note, Tag, Notebook, Todo
+import re
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -46,6 +47,29 @@ def add():
             author=current_user._get_current_object())
         db.session.add(note)
         db.session.commit()
+        # adding each todo list to the table
+        todo_list = Todo.parse_markdown(note.body)
+        todo_ids = []
+        for todo_item in todo_list:
+            todo = Todo(
+                title = todo_item[0],
+                is_checked = todo_item[1],
+                note_id = note.id)
+            db.session.add(todo)
+            db.session.commit()
+            todo_ids.append(todo.id)
+        # adding an id tag to the li element of each todo list item
+        count = 0
+        body_html_list = note.body_html.split("\n")
+        for i, element in enumerate(body_html_list):
+            if '<li class="task-list-item">' in element:
+                new_element = Todo.add_id_to_li_element(element, str(todo_ids[count]))
+                count = count + 1
+                body_html_list[i] = new_element
+        note.body_html = "\n".join(body_html_list)
+        db.session.add(note)
+        db.session.commit()
+
         tags = []
         if not len(form.tags.data) == 0:
             for tag in form.tags.data.split(','):
@@ -120,8 +144,59 @@ def edit(id):
                 print tags
         print tags
         note.str_tags = (tags)
-
         db.session.commit()
+
+        #todo list
+        old_todo_list_objects = note._get_todo_items()
+        old_todo_list = [item.title for item in old_todo_list_objects]
+        new_todo_list_checked = Todo.parse_markdown(note.body)
+        new_todo_list = [item[0] for item in new_todo_list_checked]
+
+        # delete from table if removed
+        for item in old_todo_list_objects:
+            if item.title not in new_todo_list:
+                db.session.delete(item)
+                db.session.commit()
+
+        for item_checked in new_todo_list_checked:
+            item = item_checked[0]
+            checked = item_checked[1]
+            if item not in old_todo_list:
+                #need to add
+                todo = Todo(
+                    title = item,
+                    is_checked = checked,
+                    note_id = note.id)
+                db.session.add(todo)
+                db.session.commit()
+            else:
+                #may require an update in the table
+                index = old_todo_list.index(item)
+                old_item = old_todo_list_objects[index]
+                if checked != old_item.is_checked:
+                    old_item.is_checked = not old_item.is_checked
+                    old_item.updated_date = datetime.now()
+                    if checked is True:
+                        old_item.checked_date = datetime.now()
+                    db.session.add(old_item)
+                    db.session.commit()
+
+
+        # adding the id tags to the html elements
+        todo_ids = [item.id for item in Todo.query.filter_by(note_id = note.id).all()]
+        # count = 0
+        body_html_list = note.body_html.split("\n")
+        for i, element in enumerate(body_html_list):
+            if '<li class="task-list-item">' in element:
+                todo_id = Todo.get_todo_item_id_from_li(element)
+                new_element = Todo.add_id_to_li_element(element, str(todo_id))
+                # count = count + 1
+                body_html_list[i] = new_element
+        note.body_html = "\n".join(body_html_list)
+        db.session.add(note)
+        db.session.commit()
+
+
         flash('The note has been updated.')
         return redirect(url_for('.index'))
     form.title.data = note.title
@@ -227,6 +302,8 @@ def favorites():
         is_deleted=False,
         is_favorite=True).order_by(
         Note.updated_date.desc()).all()
+    if len(notes) == 0:
+        flash("no favorites yet")
     return render_template('app/app.html', notes=notes)
 
 
@@ -278,6 +355,39 @@ def favorite(id):
             db.session.commit()
             flash('Note removed as favorite')
         return redirect(url_for('.index'))
+
+#AJAX API ENDPOINT
+@main.route('/checkuncheck/', methods=['POST'])
+@login_required
+def checkuncheck():
+    #post variables
+    note_id = request.form["note_id"]
+    property = request.form["property"]
+    new_body_html = request.form["body_html"]
+    todo_item = request.form["todo_item"]
+    todo_item_id = request.form["todo_item_id"]
+
+
+    note = Note.query.get_or_404(note_id)
+    if current_user != note.author:
+        abort(403)
+    results = {"success" : 0}
+
+    #updates
+    new_body = Todo.toggle_checked_property_markdown(note.body, todo_item)
+    note.body = new_body
+    note.body_html = new_body_html
+    db.session.add(note)
+    todo = Todo.query.get_or_404(todo_item_id)
+    todo.updated_date = datetime.now()
+    todo.is_checked = not todo.is_checked
+    if todo.is_checked is True:
+        todo.checked_date =  datetime.now()
+    db.session.add(todo)
+    db.session.commit()
+    results["success"] = 1
+    return jsonify(**results)
+
 
 
 @main.route('/shutdown')

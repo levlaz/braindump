@@ -11,6 +11,9 @@ from flask.ext.sqlalchemy import BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
+import re
+from lxml import etree
+from lxml import html
 
 make_searchable()
 
@@ -215,6 +218,8 @@ class Note(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
     is_favorite = db.Column(db.Boolean, default=False)
 
+    todo_items = db.relationship(
+        "Todo", backref = "note", cascade="all")
     tags = db.relationship(
         "Tag", secondary=note_tag,
         backref="Note", passive_deletes=True)
@@ -243,6 +248,9 @@ class Note(db.Model):
         if body is None or body == '':
             raise ValidationError('note does not have a body')
         return Note(body=body)
+
+    def _get_todo_items(self):
+        return [todo for todo in self.todo_items]
 
     def _find_or_create_tag(self, tag):
         q = Tag.query.filter_by(tag=tag)
@@ -295,3 +303,67 @@ class Tag(db.Model):
             if note.author == current_user and not note.is_deleted:
                 notes.append(note)
         return notes
+
+class Todo(db.Model):
+    __tablename__ = 'todo_items'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200))
+    is_checked = db.Column(db.Boolean, default=False)
+    note_id = db.Column(db.Integer, db.ForeignKey('notes.id'))
+    created_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    checked_date = db.Column(db.DateTime())
+
+    def get_note(self, id):
+        note = Note.query.filter_by(
+            id=id).first()
+        return note
+
+    @staticmethod
+    def parse_markdown(markdown_body):
+        checked = lambda x: "[x]" in x
+        body = [line.encode('utf-8') for line in markdown_body.split("\n")]
+        pattern = re.compile(".*-\s"+"(\[[\sx]\]).*") # pattern for a markdown todo-list ()
+        todo_list = [line for line in body if pattern.match(line) is not None]
+        for i, todo in enumerate(todo_list):
+            delim = "\r"
+            item = todo[todo.find(']')+1:]
+            found = item.find(delim)
+            if found != -1:
+                item = item[:found]
+            todo_list[i] = (item, checked(todo))
+        return todo_list        
+
+    @staticmethod
+    def add_id_to_li_element(li, ID):
+        li = li.encode('utf-8')
+        root = etree.fromstring(li.strip(), etree.HTMLParser())
+        elem = root[0][0]
+        elem.attrib["id"] = ID
+        new_li = etree.tostring(elem, method="html")
+        new_li = unicode(new_li, "utf-8")
+        return new_li
+
+    @staticmethod
+    def get_todo_item_id_from_li(li):
+        li = li.encode("utf-8")
+        element = html.fromstring(li.strip())
+        todo_item = element.text_content()
+        todo = Todo.query.filter_by(title = todo_item).first()
+        return todo.id
+
+    @staticmethod
+    def toggle_checked_property_markdown(markdown_body, item):
+        checked = lambda x: "[x]" in x
+        body = [line.encode('utf-8') for line in markdown_body.split("\n")]
+        pattern = re.compile(".*-\s"+"(\[[\sx]\]).*") # pattern for a markdown todo-list ()
+        for i,line in enumerate(body):
+            if pattern.match(line) is not None and item in line:
+                if (checked(line)):
+                    new_line = line.replace("[x]", "[ ]")
+                else:
+                    new_line = line.replace("[ ]", "[x]")
+                body[i] = new_line
+        new_body = "\n".join(body)
+        new_body = unicode(new_body, "utf-8")
+        return new_body            
