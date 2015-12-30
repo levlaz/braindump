@@ -17,6 +17,7 @@ login_manager.login_view = 'auth.login'
 oauth=OAuth()
 github=oauth.remote_app('github',**GITHUB_SETTINGS)
 
+
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
