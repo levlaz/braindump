@@ -54,3 +54,4 @@ visitor==0.1.2
 wheel==0.24.0
 wsgiref==0.1.2
 Flask-OAuthlib==0.9.2
+lxml==3.5.0
