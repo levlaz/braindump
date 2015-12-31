@@ -5,7 +5,7 @@ apt-get update
 apt-get upgrade -y
 
 # Install Package Dependencies
-apt-get install python-pip python-dev libpq-dev -y
+apt-get install python-pip python-dev libxml2-dev libxslt1-dev libpq-dev -y
 
 # Postgresql Configuration
 

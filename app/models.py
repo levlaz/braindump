@@ -219,7 +219,7 @@ class Note(db.Model):
     is_favorite = db.Column(db.Boolean, default=False)
 
     todo_items = db.relationship(
-        "Todo", backref = "note", cascade="all")
+        "Todo", backref="note", cascade="all")
     tags = db.relationship(
         "Tag", secondary=note_tag,
         backref="Note", passive_deletes=True)
@@ -304,6 +304,7 @@ class Tag(db.Model):
                 notes.append(note)
         return notes
 
+
 class Todo(db.Model):
     __tablename__ = 'todo_items'
     id = db.Column(db.Integer, primary_key=True)
@@ -323,23 +324,24 @@ class Todo(db.Model):
     def parse_markdown(markdown_body):
         checked = lambda x: "[x]" in x
         body = [line.encode('utf-8') for line in markdown_body.split("\n")]
-        pattern = re.compile(".*-\s"+"(\[[\sx]\]).*") # pattern for a markdown todo-list ()
+        # pattern for a markdown todo-list ()
+        pattern = re.compile(".*-\s" + "(\[[\sx]\]).*")
         todo_list = [line for line in body if pattern.match(line) is not None]
         for i, todo in enumerate(todo_list):
             delim = "\r"
-            item = todo[todo.find(']')+1:]
+            item = todo[todo.find(']') + 1:]
             found = item.find(delim)
             if found != -1:
                 item = item[:found]
             todo_list[i] = (item, checked(todo))
-        return todo_list        
+        return todo_list
 
     @staticmethod
-    def add_id_to_li_element(li, ID):
+    def add_id_to_li_element(li, id):
         li = li.encode('utf-8')
         root = etree.fromstring(li.strip(), etree.HTMLParser())
         elem = root[0][0]
-        elem.attrib["id"] = ID
+        elem.attrib["id"] = id
         new_li = etree.tostring(elem, method="html")
         new_li = unicode(new_li, "utf-8")
         return new_li
@@ -349,15 +351,16 @@ class Todo(db.Model):
         li = li.encode("utf-8")
         element = html.fromstring(li.strip())
         todo_item = element.text_content()
-        todo = Todo.query.filter_by(title = todo_item).first()
+        todo = Todo.query.filter_by(title=todo_item).first()
         return todo.id
 
     @staticmethod
     def toggle_checked_property_markdown(markdown_body, item):
         checked = lambda x: "[x]" in x
         body = [line.encode('utf-8') for line in markdown_body.split("\n")]
-        pattern = re.compile(".*-\s"+"(\[[\sx]\]).*") # pattern for a markdown todo-list ()
-        for i,line in enumerate(body):
+        # pattern for a markdown todo-list ()
+        pattern = re.compile(".*-\s" + "(\[[\sx]\]).*")
+        for i, line in enumerate(body):
             if pattern.match(line) is not None and item in line:
                 if (checked(line)):
                     new_line = line.replace("[x]", "[ ]")
@@ -366,4 +369,4 @@ class Todo(db.Model):
                 body[i] = new_line
         new_body = "\n".join(body)
         new_body = unicode(new_body, "utf-8")
-        return new_body            
+        return new_body
