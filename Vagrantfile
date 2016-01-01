@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
     # Base Box
     config.vm.box = "ubuntu/trusty64"
     config.vm.synced_folder ".", "/var/www"
-    config.memory = 1024 
+    config.vm.memory = 1024 
 
     #Provisioning
     # First Time Provision
