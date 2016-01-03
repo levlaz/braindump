@@ -6,8 +6,16 @@
 
 {% block page_content %}
 
-<h1> Settings </h1>
-<hr>
+<div class="col-sm-11">
+
+    <h1 class="top"> Settings </h1>
+    <hr>
+
+    <p> Hi {{ current_user.username }}! You can change your settings here. </p>
+
+    <a class="btn btn-default" href="/auth/change-email">Change Email</a>
+    <a class="btn btn-default" href="/auth/change-password">Change Password</a>
+</div>
 
 
 {% endblock %}
