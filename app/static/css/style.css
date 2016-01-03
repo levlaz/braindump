@@ -8,7 +8,7 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 80px;
+  margin-bottom: 120px;
   font-family: 'Cantarell', sans-serif;
   font-size: 16px;
   background-color: rgb(240,244,247);
@@ -26,7 +26,7 @@ a:hover {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 80px;
+  height: 120px;
   background-color: rgba(13,6,23,0.8);
   color: rgb(222, 207, 244);
 }
