@@ -347,12 +347,14 @@ class Todo(db.Model):
         return new_li
 
     @staticmethod
-    def get_todo_item_id_from_li(li):
+    def get_todo_item_id(li, todo_objs):
         li = li.encode("utf-8")
         element = html.fromstring(li.strip())
         todo_item = element.text_content()
-        todo = Todo.query.filter_by(title=todo_item).first()
-        return todo.id
+        for item in todo_objs:
+            if item.title == todo_item:
+                return item.id
+        return -1
 
     @staticmethod
     def toggle_checked_property_markdown(markdown_body, item):

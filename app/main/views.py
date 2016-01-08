@@ -183,12 +183,13 @@ def edit(id):
 
 
         # adding the id tags to the html elements
-        todo_ids = [item.id for item in Todo.query.filter_by(note_id = note.id).all()]
+        todo_objs = Todo.query.filter_by(note_id = note.id).all()
+        todo_ids = [item.id for item in todo_objs]
         # count = 0
         body_html_list = note.body_html.split("\n")
         for i, element in enumerate(body_html_list):
             if '<li class="task-list-item">' in element:
-                todo_id = Todo.get_todo_item_id_from_li(element)
+                todo_id = Todo.get_todo_item_id(element, todo_objs)
                 new_element = Todo.add_id_to_li_element(element, str(todo_id))
                 # count = count + 1
                 body_html_list[i] = new_element
