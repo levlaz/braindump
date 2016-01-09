@@ -381,7 +381,10 @@ def checkuncheck():
     db.session.add(note)
     todo = Todo.query.get_or_404(todo_item_id)
     todo.updated_date = datetime.now()
-    todo.is_checked = not todo.is_checked
+    if property == "check":
+        todo.is_checked = True
+    else:
+        todo.is_checked = False
     if todo.is_checked is True:
         todo.checked_date =  datetime.now()
     db.session.add(todo)
@@ -389,7 +392,17 @@ def checkuncheck():
     results["success"] = 1
     return jsonify(**results)
 
-
+@main.route('/todolist', methods=['GET'])
+@login_required
+def todolist():
+    notes = Note.query.filter_by(
+        author_id=current_user.id,
+        is_deleted=False).order_by(
+        Note.updated_date.asc()).all()
+    if len(notes) == 0:
+        flash("Your TODO list is empty!")
+    return render_template('app/todolist.html', notes=notes)
+        
 
 @main.route('/shutdown')
 def server_shutdown():

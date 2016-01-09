@@ -219,7 +219,7 @@ class Note(db.Model):
     is_favorite = db.Column(db.Boolean, default=False)
 
     todo_items = db.relationship(
-        "Todo", backref="note", cascade="all")
+        "Todo", backref="note", cascade="all, delete-orphan")
     tags = db.relationship(
         "Tag", secondary=note_tag,
         backref="Note", passive_deletes=True)
