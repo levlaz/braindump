@@ -9,7 +9,6 @@ from .forms import NoteForm, ShareForm, \
     NotebookForm, SearchForm
 from ..email import send_email
 from ..models import User, Note, Tag, Notebook, Todo
-import re
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -52,9 +51,9 @@ def add():
         todo_ids = []
         for todo_item in todo_list:
             todo = Todo(
-                title = todo_item[0],
-                is_checked = todo_item[1],
-                note_id = note.id)
+                title=todo_item[0],
+                is_checked=todo_item[1],
+                note_id=note.id)
             db.session.add(todo)
             db.session.commit()
             todo_ids.append(todo.id)
@@ -63,7 +62,8 @@ def add():
         body_html_list = note.body_html.split("\n")
         for i, element in enumerate(body_html_list):
             if '<li class="task-list-item">' in element:
-                new_element = Todo.add_id_to_li_element(element, str(todo_ids[count]))
+                new_element = Todo.add_id_to_li_element(
+                    element, str(todo_ids[count]))
                 count = count + 1
                 body_html_list[i] = new_element
         note.body_html = "\n".join(body_html_list)
@@ -85,6 +85,7 @@ def news():
     if current_user.is_authenticated():
         return render_template('app/news.html')
     return render_template('news.html')
+
 
 @main.route('/settings')
 @login_required
@@ -146,7 +147,7 @@ def edit(id):
         note.str_tags = (tags)
         db.session.commit()
 
-        #todo list
+        # todo list
         old_todo_list_objects = note._get_todo_items()
         old_todo_list = [item.title for item in old_todo_list_objects]
         new_todo_list_checked = Todo.parse_markdown(note.body)
@@ -162,15 +163,15 @@ def edit(id):
             item = item_checked[0]
             checked = item_checked[1]
             if item not in old_todo_list:
-                #need to add
+                # need to add
                 todo = Todo(
-                    title = item,
-                    is_checked = checked,
-                    note_id = note.id)
+                    title=item,
+                    is_checked=checked,
+                    note_id=note.id)
                 db.session.add(todo)
                 db.session.commit()
             else:
-                #may require an update in the table
+                # may require an update in the table
                 index = old_todo_list.index(item)
                 old_item = old_todo_list_objects[index]
                 if checked != old_item.is_checked:
@@ -181,10 +182,6 @@ def edit(id):
                     db.session.add(old_item)
                     db.session.commit()
 
-
-        # adding the id tags to the html elements
-        todo_ids = [item.id for item in Todo.query.filter_by(note_id = note.id).all()]
-        # count = 0
         body_html_list = note.body_html.split("\n")
         for i, element in enumerate(body_html_list):
             if '<li class="task-list-item">' in element:
@@ -195,7 +192,6 @@ def edit(id):
         note.body_html = "\n".join(body_html_list)
         db.session.add(note)
         db.session.commit()
-
 
         flash('The note has been updated.')
         return redirect(url_for('.index'))
@@ -276,15 +272,16 @@ def notebooks():
     form = NotebookForm()
     if form.validate_on_submit():
         if Notebook.query.filter_by(
-                title=form.title.data, 
-                author_id=current_user.id).first() == None:
+                title=form.title.data,
+                author_id=current_user.id).first() is None:
             notebook = Notebook(
                 title=form.title.data,
                 author_id=current_user.id)
             db.session.add(notebook)
             db.session.commit()
         else:
-            flash('A notebook with name {0} already exists.'.format(form.title.data))
+            flash('A notebook with name {0} already exists.'.format(
+                form.title.data))
         return redirect(url_for('.notebooks'))
     notebooks = Notebook.query.filter_by(
         author_id=current_user.id,
@@ -293,6 +290,7 @@ def notebooks():
         'app/notebooks.html',
         notebooks=notebooks,
         form=form)
+
 
 @main.route('/favorites', methods=['GET'])
 @login_required
@@ -341,6 +339,7 @@ def search():
         'app/search.html',
         form=form)
 
+
 @main.route('/favorite/<int:id>', methods=['GET', 'POST'])
 @login_required
 def favorite(id):
@@ -348,7 +347,7 @@ def favorite(id):
     if current_user != note.author:
         abort(403)
     else:
-        if note.is_favorite == False:
+        if not note.is_favorite:
             note.is_favorite = True
             db.session.commit()
             flash('Note marked as favorite')
@@ -358,24 +357,23 @@ def favorite(id):
             flash('Note removed as favorite')
         return redirect(url_for('.index'))
 
-#AJAX API ENDPOINT
+
+# AJAX API ENDPOINT
 @main.route('/checkuncheck/', methods=['POST'])
 @login_required
 def checkuncheck():
-    #post variables
+    # post variables
     note_id = request.form["note_id"]
-    property = request.form["property"]
     new_body_html = request.form["body_html"]
     todo_item = request.form["todo_item"]
     todo_item_id = request.form["todo_item_id"]
 
-
     note = Note.query.get_or_404(note_id)
     if current_user != note.author:
         abort(403)
-    results = {"success" : 0}
+    results = {"success": 0}
 
-    #updates
+    # updates
     new_body = Todo.toggle_checked_property_markdown(note.body, todo_item)
     note.body = new_body
     note.body_html = new_body_html
@@ -384,12 +382,11 @@ def checkuncheck():
     todo.updated_date = datetime.now()
     todo.is_checked = not todo.is_checked
     if todo.is_checked is True:
-        todo.checked_date =  datetime.now()
+        todo.checked_date = datetime.now()
     db.session.add(todo)
     db.session.commit()
     results["success"] = 1
     return jsonify(**results)
-
 
 
 @main.route('/shutdown')
