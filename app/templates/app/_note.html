@@ -14,6 +14,7 @@
   </div>
 
   <div class="note-actions">
+      {% if not note.is_deleted %}
       {% if note.is_favorite %}
       <a href="{{ url_for('.favorite', id=note.id) }}"><span class="favorite actions glyphicon glyphicon-star" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Unmark as favorite" ></a></span>
       {% else %}
@@ -22,6 +23,10 @@
       <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Share"></a></span>
       <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"></a></span>
       <a href="{{ url_for('.delete', id=note.id) }}"><span class="actions glyphicon glyphicon-remove" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"></a></span>
+      {% else %}
+      <a href="{{ url_for('.restore', id=note.id) }}"><span class="good actions glyphicon glyphicon-check" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Restore"></a></span>
+      <a href="{{ url_for('.delete_forever', id=note.id) }}"><span class="bad actions glyphicon glyphicon-remove" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete Forever"></a></span>
+      {% endif %}
   </div>
 
   <div class="note-notebook">
