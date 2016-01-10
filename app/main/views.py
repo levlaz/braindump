@@ -303,7 +303,9 @@ def favorites():
         is_favorite=True).order_by(
         Note.updated_date.desc()).all()
     if len(notes) == 0:
-        flash("no favorites yet")
+        flash("No favorites yet, click on the star in a note to mark \
+            it as a favorite.")
+        return redirect(url_for('.index'))
     return render_template('app/app.html', notes=notes)
 
 
