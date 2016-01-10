@@ -10,6 +10,8 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 }
 
 .container {
+    min-height: 100%;
+    overflow: hidden;
     padding: 0;
     margin: 0;
     width: 100%;
