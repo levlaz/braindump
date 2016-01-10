@@ -295,6 +295,7 @@ def notebooks():
 @main.route('/favorites', methods=['GET'])
 @login_required
 def favorites():
+    heading = "Favorite Notes"
     notes = Note.query.filter_by(
         author_id=current_user.id,
         is_deleted=False,
@@ -304,7 +305,7 @@ def favorites():
         flash("No favorites yet, click on the star in a note to mark \
             it as a favorite.")
         return redirect(url_for('.index'))
-    return render_template('app/app.html', notes=notes)
+    return render_template('app/app.html', notes=notes, heading=heading)
 
 
 @main.route('/notebook/<int:id>')

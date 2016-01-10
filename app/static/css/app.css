@@ -17,10 +17,16 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     width: 100%;
 }
 
+.heading {
+  padding-top: 10px;
+  font-weight: bold;
+}
+
 /* Side bar */
 .col-sm-1 {
     background-color: rgb(85,66,111);
     padding: 0;
+    overflow-y: auto;
 }
 
 .col-sm-1 ul {
@@ -29,12 +35,11 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 .col-sm-1 li {
     list-style: none;
-    line-height: 40px;
 }
 
 .sidebar-nav li a {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: block;
   text-decoration: none;
   color: white;
@@ -69,6 +74,9 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
   opacity: 1;
 }
 
+.nav-description {
+  font-size: 12px;
+}
 
 /* Note List */
 .col-sm-4 {
@@ -186,4 +194,14 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 .notebooks {
     margin-left: 20px;
+}
+
+/* Icons */ 
+
+.good {
+  font-color: green;
+}
+
+.bad {
+  font-color: red;
 }
