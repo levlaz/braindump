@@ -57,27 +57,6 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     text-decoration: none;
 }
 
-.tooltip {
-  width: 100px;
-}
-
-.tooltip-arrow {
-  display: none;
-}
-
-.tooltip-inner {
-  background-color: rgb(85, 66, 111);
-  opacity: 100%;
-}
-
-.tooltip.in {
-  opacity: 1;
-}
-
-.nav-description {
-  font-size: 12px;
-}
-
 /* Note List */
 .col-sm-4 {
     overflow-y: auto;
@@ -196,7 +175,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     margin-left: 20px;
 }
 
-/* Icons */ 
+/* Icons */
 
 .good {
   color: green;
