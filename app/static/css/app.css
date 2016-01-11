@@ -80,6 +80,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 /* Note List */
 .col-sm-4 {
+    border-top: solid 1px rgb(155, 105, 226);
     overflow-y: auto;
 }
 
@@ -102,6 +103,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 /* Note Preview */
 .col-sm-7 {
+    border-top: solid 1px rgb(155, 105, 226);
     padding-left: 30px;
     padding-right: 15px;
     background-color: white;
@@ -196,7 +198,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     margin-left: 20px;
 }
 
-/* Icons */ 
+/* Icons */
 
 .good {
   color: green;
