@@ -6,49 +6,68 @@
 
 {% block page_content %}
 
+
 <div class="col-sm-11">
+<h1 class="top"> TODO list </h1>
+<hr>
 
-    <h1 class="top"> TODO list </h1>
-    <hr>
+<p> Hi {{ current_user.username }}! Here are all your TODOs. </p>
 
-    <p> Hi {{ current_user.username }}! Here are all your TODOs. </p>
+{% for note in notes %}
+    <div id="note{{note.id}}" hidden>
+        {{note.body_html}}
+    </div>
+{% endfor %}
 
-        <div id="" >
-           
-            <div class="row">
-                <div class="col-sm-3">
-                {% for note in notes %}
-                    <div id="note{{note.id}}" hidden>
-                        {{note.body_html}}
-                    </div>
-                    <table class="table table-hover table-condensed" >
-                    <thead>
-                        <tr>
+<div class="container">
+  <div class="row">
+    <div class="col-s-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          
+          <thead>
+            <tr>
+              <th>TODO</th>
+              <th>Note</th>
+              <th>Created</th>
+              <th>Completed</th>
+            </tr>
+          </thead>
                             
-                            <th colspan="2" >{{ note.title }} </th>
-
-                        </tr>
-                    </thead>
-                        <tbody >
-                        	{% for todo in note.todo_items %}
-                            <tr>
-                                <td class="col-sm-2">
-								{% if todo.is_checked %}
-                                <input type="checkbox" onchange="checkUncheckDirect(this,{{ note.id }},{{todo.id}},'{{todo.title}}')" checked="checked">
-
-								{% else %}
-								<input type="checkbox" onchange="checkUncheckDirect(this,{{ note.id }},{{todo.id}},'{{todo.title}}')" >
-								{% endif %}
-                                </td>
-                                <td>{{ todo.title }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+          <tbody>
+          {% for note in notes|sort(attribute='created_date') %}
+            {% for todo in note.todo_items|sort(attribute='created_date') %}
+                <tr>
+                    <td class="col-sm-2">
+                    {% if todo.is_checked %}
+                    <input type="checkbox" onchange="checkUncheckDirect(this,{{ note.id }},{{todo.id}},'{{todo.title}}')" checked="checked">
+                    {{ todo.title }}
+                    {% else %}
+                    <input type="checkbox" onchange="checkUncheckDirect(this,{{ note.id }},{{todo.id}},'{{todo.title}}')" >
+                    {{ todo.title }}
+                    {% endif %}
+                    </td>
+                    <td><a href="{{ url_for('.note', id=note.id) }}"><h5>{{ note.title | truncate(100) }}</h5></a></td>
+                    <td>{{ moment(todo.created_date).format("MMMM  DD, YYYY") }}</td>
+                    <td>{% if todo.checked_date %}
+                            {{ moment(todo.checked_date).format("MMMM  DD, YYYY") }}
+                        {% else %}
+                            Not yet completed!
+                        {% endif %}
+                    </td>
+                </tr>
                 {% endfor %}
-                </div>  
-            </div>
-        </div>
+            {% endfor %}
+
+            
+          </tbody>
+          
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
 
 </div>

@@ -385,6 +385,8 @@ def checkuncheck():
         todo.is_checked = True
     else:
         todo.is_checked = False
+        if todo.checked_date:
+            todo.checked_date = None
     if todo.is_checked is True:
         todo.checked_date =  datetime.now()
     db.session.add(todo)
