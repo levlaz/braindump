@@ -374,6 +374,7 @@ def checkuncheck():
     new_body_html = request.form["body_html"]
     todo_item = request.form["todo_item"]
     todo_item_id = request.form["todo_item_id"]
+    property_ = request.form["property"]
 
     note = Note.query.get_or_404(note_id)
     if current_user != note.author:
@@ -387,7 +388,7 @@ def checkuncheck():
     db.session.add(note)
     todo = Todo.query.get_or_404(todo_item_id)
     todo.updated_date = datetime.now()
-    if property == "check":
+    if property_ == "check":
         todo.is_checked = True
     else:
         todo.is_checked = False
@@ -409,6 +410,7 @@ def todolist():
         is_deleted=False).order_by(
         Note.updated_date.asc()).all()
     if len(notes) == 0:
+        notes = None
         flash("Your TODO list is empty!")
     return render_template('app/todolist.html', notes=notes)
         

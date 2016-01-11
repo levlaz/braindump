@@ -6,7 +6,7 @@
 
 {% block page_content %}
 
-
+{% if notes %}
 <div class="col-sm-11">
 <h1 class="top"> TODO list </h1>
 <hr>
@@ -71,6 +71,7 @@
 
 
 </div>
+{% endif %}
 {% endblock %}
 
 {% block scripts %}
