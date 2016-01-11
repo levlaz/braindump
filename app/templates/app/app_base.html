@@ -2,6 +2,8 @@
 
 {% block head %}
 {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',
+                             filename='css/font-awesome.css') }}" type="text/css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-tagsinput.css') }}" type="text/css">
