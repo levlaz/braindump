@@ -36,6 +36,7 @@ a:hover {
 /* Navigation */
 div.navbar {
   border-radius: 0px;
+  margin: 0;
 }
 
 .navbar-brand {
@@ -109,9 +110,10 @@ h1.top {
 /* Outer Content */
 
 .jumbotron {
-    background-color: rgb(105,60,106);
-    border-radius: 20px;
-    color: white;
+  height: 400px;
+  background-image: url(/static/images/ocean.jpg);
+  background-size: cover; 
+  background-position: 0% 55%;
 }
 
 div.col-md-4 {
@@ -128,13 +130,13 @@ div.col-md-4 {
 }
 
 .btn-action {
-    background-color: rgb(247, 254, 211);
-    color: black;
+    background-color: rgb(85,66,111);
+    color: white;
 }
 
 .btn-action:hover {
-    background-color: rgba(247, 254, 211, 0.9);
-    color: black;
+    background-color: rgba(85,66,111,0.8);
+    color: white;
 }
 
 

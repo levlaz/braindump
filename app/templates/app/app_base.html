@@ -2,6 +2,8 @@
 
 {% block head %}
 {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',
+                             filename='css/font-awesome.css') }}" type="text/css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-tagsinput.css') }}" type="text/css">
@@ -20,35 +22,35 @@
             <li class="sidebar-item">
                 <a href="/"><img class="app-logo" src="{{ url_for('static', filename='images/logo.png')}}"></img></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Search">
-                <a href="/search"><span class="nav-item glyphicon glyphicon-search" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="Search">
+                <a href="/search" class="text-center"><span class="nav-item glyphicon glyphicon-search" aria-hidden="true"></span><br><span class="nav-description">Search</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Add a Note">
-                <a href="/add"><span class="nav-item glyphicon glyphicon-plus" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="Add a Note">
+                <a href="/add"><span class="nav-item glyphicon glyphicon-plus" aria-hidden="true"></span><br><span class="nav-description">Add a Note</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Notebooks">
-                <a href="/notebooks"><span class="nav-item glyphicon glyphicon-book" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="Notebooks">
+                <a href="/notebooks"><span class="nav-item glyphicon glyphicon-book" aria-hidden="true"></span><br><span class="nav-description">Notebooks</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Favorites">
-                <a href="/favorites"><span class="nav-item glyphicon glyphicon-star" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="Favorites">
+                <a href="/favorites"><span class="nav-item glyphicon glyphicon-star" aria-hidden="true"></span><br><span class="nav-description">Favorites</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="TODO">
-                <a href="/todolist"><span class="nav-item glyphicon glyphicon-th-list" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="TODO">
+                <a href="/todolist"><span class="nav-item glyphicon glyphicon-th-list" aria-hidden="true"></span><br><span class="nav-description">TODO</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Settings">
-                <a href="/settings"><span class="nav-item glyphicon glyphicon-cog" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="Settings">
+                <a href="/settings"><span class="nav-item glyphicon glyphicon-cog" aria-hidden="true"></span><br><span class="nav-description">Settings</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="View Trash">
-                <a href="/trash"><span class="nav-item glyphicon glyphicon-trash" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="View Trash">
+                <a href="/trash"><span class="nav-item glyphicon glyphicon-trash" aria-hidden="true"></span><br><span class="nav-description">Trash</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="News">
-                <a href="/news"><span class="nav-item glyphicon glyphicon-bullhorn" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="News">
+                <a href="/news"><span class="nav-item glyphicon glyphicon-bullhorn" aria-hidden="true"></span><br><span class="nav-description">News</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Support">
-                <a href="https://github.com/levlaz/braindump/issues"><span class="nav-item glyphicon glyphicon-exclamation-sign" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="Support">
+                <a href="https://github.com/levlaz/braindump/issues"><span class="nav-item glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><br><span class="nav-description">Support</span></a>
             </li>
-            <li class="sidebar-item" data-toggle="tooltip" data-placement="right" title="Log Out">
-                <a href="{{ url_for('auth.logout') }}"><span class="nav-item glyphicon glyphicon-off" aria-hidden="true"></a></span>
+            <li class="sidebar-item" title="Log Out">
+                <a href="{{ url_for('auth.logout') }}"><span class="nav-item glyphicon glyphicon-off" aria-hidden="true"></span><br><span class="nav-description">Logout</span></a>
             </li>
         </ul>
     </div>

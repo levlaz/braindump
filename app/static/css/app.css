@@ -10,15 +10,23 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 }
 
 .container {
+    min-height: 100%;
+    overflow: hidden;
     padding: 0;
     margin: 0;
     width: 100%;
+}
+
+.heading {
+  padding-top: 10px;
+  font-weight: bold;
 }
 
 /* Side bar */
 .col-sm-1 {
     background-color: rgb(85,66,111);
     padding: 0;
+    overflow-y: auto;
 }
 
 .col-sm-1 ul {
@@ -27,12 +35,11 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 .col-sm-1 li {
     list-style: none;
-    line-height: 40px;
 }
 
 .sidebar-nav li a {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: block;
   text-decoration: none;
   color: white;
@@ -50,26 +57,13 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     text-decoration: none;
 }
 
-.tooltip {
-  width: 100px;
+.nav-description {
+  font-size: 12px;
 }
-
-.tooltip-arrow {
-  display: none;
-}
-
-.tooltip-inner {
-  background-color: rgb(85, 66, 111);
-  opacity: 100%;
-}
-
-.tooltip.in {
-  opacity: 1;
-}
-
 
 /* Note List */
 .col-sm-4 {
+    border-top: solid 1px rgb(155, 105, 226);
     overflow-y: auto;
 }
 
@@ -92,6 +86,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 /* Note Preview */
 .col-sm-7 {
+    border-top: solid 1px rgb(155, 105, 226);
     padding-left: 30px;
     padding-right: 15px;
     background-color: white;
@@ -184,4 +179,14 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 .notebooks {
     margin-left: 20px;
+}
+
+/* Icons */
+
+.good {
+  color: green;
+}
+
+.bad {
+  color: red;
 }
