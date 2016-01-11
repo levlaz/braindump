@@ -182,10 +182,16 @@ def edit(id):
                     db.session.add(old_item)
                     db.session.commit()
 
+
+
+        # adding the id tags to the html elements
+        todo_objs = Todo.query.filter_by(note_id = note.id).all()
+        todo_ids = [item.id for item in todo_objs]
+
         body_html_list = note.body_html.split("\n")
         for i, element in enumerate(body_html_list):
             if '<li class="task-list-item">' in element:
-                todo_id = Todo.get_todo_item_id_from_li(element)
+                todo_id = Todo.get_todo_item_id(element, todo_objs)
                 new_element = Todo.add_id_to_li_element(element, str(todo_id))
                 # count = count + 1
                 body_html_list[i] = new_element
@@ -368,6 +374,7 @@ def checkuncheck():
     new_body_html = request.form["body_html"]
     todo_item = request.form["todo_item"]
     todo_item_id = request.form["todo_item_id"]
+    property_ = request.form["property"]
 
     note = Note.query.get_or_404(note_id)
     if current_user != note.author:
@@ -381,13 +388,32 @@ def checkuncheck():
     db.session.add(note)
     todo = Todo.query.get_or_404(todo_item_id)
     todo.updated_date = datetime.now()
-    todo.is_checked = not todo.is_checked
+    if property_ == "check":
+        todo.is_checked = True
+    else:
+        todo.is_checked = False
+        if todo.checked_date:
+            todo.checked_date = None
     if todo.is_checked is True:
         todo.checked_date = datetime.now()
     db.session.add(todo)
     db.session.commit()
     results["success"] = 1
     return jsonify(**results)
+
+
+@main.route('/todolist', methods=['GET'])
+@login_required
+def todolist():
+    notes = Note.query.filter_by(
+        author_id=current_user.id,
+        is_deleted=False).order_by(
+        Note.updated_date.asc()).all()
+    if len(notes) == 0:
+        notes = None
+        flash("Your TODO list is empty!")
+    return render_template('app/todolist.html', notes=notes)
+        
 
 
 @main.route('/shutdown')
