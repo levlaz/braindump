@@ -57,6 +57,10 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     text-decoration: none;
 }
 
+.nav-description {
+  font-size: 12px;
+}
+
 /* Note List */
 .col-sm-4 {
     overflow-y: auto;
