@@ -4,30 +4,31 @@
 {% block title %}Braindump - Login{% endblock %}
 
 {% block page_content %}
-<div class="page-header">
-  <h1>Login</h1>
+<div class="container">
+  <div class="page-header">
+    <h1>Login</h1>
+  </div>
+
+  <div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+
+  <br />
+  <p>Forgot your password? <a href="{{ url_for('auth.password_reset_request') }}">Click here to reset it</a>.</p>
+  <p> New User? <a href="{{ url_for('auth.register') }}"> Click here to register.</a></p>
+
+  </div>
+  <div class="col-md-4 col-md-offset-4">
+    <h3>Sign In the quick way: </h3>
+  	<a class="btn btn-block btn-social btn-github" href="login/github">
+    		<span class="fa fa-github"></span>
+    		Sign in with Github
+  	</a>
+  	{# <a class="btn btn-block btn-social btn-google">
+    		<span class="fa fa-google"></span>
+    		Sign in with Google
+  	</a> #}
+  </div>
 </div>
-
-<div class="col-md-4">
-  {{ wtf.quick_form(form) }}
-
-<br />
-<p>Forgot your password? <a href="{{ url_for('auth.password_reset_request') }}">Click here to reset it</a>.</p>
-<p> New User? <a href="{{ url_for('auth.register') }}"> Click here to register.</a></p>
-
-</div>
-<div class="col-md-4 col-md-offset-4">
-  <h3>Sign In the quick way: </h3>
-	<a class="btn btn-block btn-social btn-github" href="login/github">
-  		<span class="fa fa-github"></span>
-  		Sign in with Github
-	</a>
-	{# <a class="btn btn-block btn-social btn-google">
-  		<span class="fa fa-google"></span>
-  		Sign in with Google
-	</a> #}
-</div>
-
 {% endblock %}
 
 {% include 'footer.html' %}
