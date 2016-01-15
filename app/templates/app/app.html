@@ -14,16 +14,17 @@
   </p>
 {% endif %}
 </div>
-
+{{ request.query_string }}
 <div class="row">
-
       <div class="col-sm-4">
           <ul class="nav nav-pills nav-stacked">
           {% for note in notes %}
-            {% if loop.index == 1 %}
+            {% if request.query_string == '' and loop.index == 1 %}
+            <li class="note-content active">
+            {% elif request.args.get('active_note')|int == note.id %}
               <li class="note-content active">
             {% else %}
-              <li class="note-content">
+                <li class="note-content">
             {% endif %}
                     <a href="#{{ note.id }}" data-toggle="pill">
                         {{ note.title }} <br />

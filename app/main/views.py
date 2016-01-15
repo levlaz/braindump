@@ -200,7 +200,7 @@ def edit(id):
         db.session.commit()
 
         flash('The note has been updated.')
-        return redirect(url_for('.index'))
+        return redirect(url_for('.index', active_note=note.id))
     form.title.data = note.title
     form.body.data = note.body
     form.tags.data = ', '.join(note._get_tags())

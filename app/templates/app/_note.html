@@ -1,5 +1,7 @@
 {% for note in notes %}
-{% if loop.index == 1 %}
+{% if request.query_string == '' and loop.index == 1 %}
+<div class="tab-pane active" id="{{ note.id }}">
+{% elif request.args.get('active_note')|int == note.id %}
 <div class="tab-pane active" id="{{ note.id }}">
 {% else %}
 <div class="tab-pane" id="{{ note.id }}">
