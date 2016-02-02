@@ -34,8 +34,10 @@
             <li class="sidebar-item" title="Favorites">
                 <a href="/favorites"><span class="nav-item glyphicon glyphicon-star" aria-hidden="true"></span><br><span class="nav-description">Favorites</span></a>
             </li>
-            <li class="sidebar-item" title="TODO">
-                <a href="/todolist"><span class="nav-item glyphicon glyphicon-th-list" aria-hidden="true"></span><br><span class="nav-description">TODO</span></a>
+            <li class="sidebar-item" title="Tasks">
+                <a href="{{ url_for('main.tasks', status='open') }}"><span class="nav-item glyphicon
+                        glyphicon-th-list" aria-hidden="true"></span><br><span
+                        class="nav-description">Tasks</span></a>
             </li>
             <li class="sidebar-item" title="Settings">
                 <a href="/settings"><span class="nav-item glyphicon glyphicon-cog" aria-hidden="true"></span><br><span class="nav-description">Settings</span></a>

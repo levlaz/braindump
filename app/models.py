@@ -218,8 +218,8 @@ class Note(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
     is_favorite = db.Column(db.Boolean, default=False)
 
-    todo_items = db.relationship(
-        "Todo", backref="note", cascade="all, delete-orphan")
+    tasks = db.relationship(
+        "Task", backref="note", cascade="all, delete-orphan")
     tags = db.relationship(
         "Tag", secondary=note_tag,
         backref="Note", passive_deletes=True)
@@ -242,6 +242,17 @@ class Note(db.Model):
             id=id).first()
         return notebook
 
+    def get_tasks(self, status):
+        if status == 'open':
+            tasks = Task.query.filter_by(
+                note_id=self.id, is_checked=False).all()
+        if status == 'closed':
+            tasks = Task.query.filter_by(
+                note_id=self.id, is_checked=True).all()
+        if status == 'all':
+            tasks = Task.query.filter_by(note_id=self.id).all()
+        return tasks
+
     @staticmethod
     def from_json(json_post):
         body = json_post.get('body')
@@ -249,8 +260,8 @@ class Note(db.Model):
             raise ValidationError('note does not have a body')
         return Note(body=body)
 
-    def _get_todo_items(self):
-        return [todo for todo in self.todo_items]
+    def _get_task_items(self):
+        return [task for task in self.tasks]
 
     def _find_or_create_tag(self, tag):
         q = Tag.query.filter_by(tag=tag)
@@ -305,19 +316,18 @@ class Tag(db.Model):
         return notes
 
 
-class Todo(db.Model):
-    __tablename__ = 'todo_items'
+class Task(db.Model):
+    __tablename__ = 'tasks'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
-    is_checked = db.Column(db.Boolean, default=False)
     note_id = db.Column(db.Integer, db.ForeignKey('notes.id'))
+    is_checked = db.Column(db.Boolean, default=False)
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
     checked_date = db.Column(db.DateTime())
 
-    def get_note(self, id):
-        note = Note.query.filter_by(
-            id=id).first()
+    def get_note(self):
+        note = Note.query.filter_by(id=self.note_id).first()
         return note
 
     @staticmethod
@@ -347,7 +357,7 @@ class Todo(db.Model):
         return new_li
 
     @staticmethod
-    def get_todo_item_id(li, todo_objs):
+    def get_task_item_id(li, todo_objs):
         li = li.encode("utf-8")
         element = html.fromstring(li.strip())
         todo_item = element.text_content()

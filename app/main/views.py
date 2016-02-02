@@ -8,7 +8,7 @@ from .. import db
 from .forms import NoteForm, ShareForm, \
     NotebookForm, SearchForm
 from ..email import send_email
-from ..models import User, Note, Tag, Notebook, Todo
+from ..models import User, Note, Tag, Notebook, Task
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -46,24 +46,24 @@ def add():
             author=current_user._get_current_object())
         db.session.add(note)
         db.session.commit()
-        # adding each todo list to the table
-        todo_list = Todo.parse_markdown(note.body)
-        todo_ids = []
-        for todo_item in todo_list:
-            todo = Todo(
-                title=todo_item[0],
-                is_checked=todo_item[1],
+        # adding each task list to the table
+        task_list = Task.parse_markdown(note.body)
+        task_ids = []
+        for task_item in task_list:
+            task = Task(
+                title=task_item[0],
+                is_checked=task_item[1],
                 note_id=note.id)
-            db.session.add(todo)
+            db.session.add(task)
             db.session.commit()
-            todo_ids.append(todo.id)
-        # adding an id tag to the li element of each todo list item
+            task_ids.append(task.id)
+        # adding an id tag to the li element of each task list item
         count = 0
         body_html_list = note.body_html.split("\n")
         for i, element in enumerate(body_html_list):
             if '<li class="task-list-item">' in element:
-                new_element = Todo.add_id_to_li_element(
-                    element, str(todo_ids[count]))
+                new_element = Task.add_id_to_li_element(
+                    element, str(task_ids[count]))
                 count = count + 1
                 body_html_list[i] = new_element
         note.body_html = "\n".join(body_html_list)
@@ -136,44 +136,42 @@ def edit(id):
         note.notebook_id = form.notebook.data
         note.updated_date = datetime.now()
         db.session.add(note)
-        print form.tags.data
         tags = []
         if not len(form.tags.data) == 0:
             for tag in form.tags.data.split(','):
                 tags.append(tag.replace(" ", ""))
                 print form.tags.data
                 print tags
-        print tags
         note.str_tags = (tags)
         db.session.commit()
 
-        # todo list
-        old_todo_list_objects = note._get_todo_items()
-        old_todo_list = [item.title for item in old_todo_list_objects]
-        new_todo_list_checked = Todo.parse_markdown(note.body)
-        new_todo_list = [item[0] for item in new_todo_list_checked]
+        # task list
+        old_task_list_objects = note._get_task_items()
+        old_task_list = [item.title for item in old_task_list_objects]
+        new_task_list_checked = Task.parse_markdown(note.body)
+        new_task_list = [item[0] for item in new_task_list_checked]
 
         # delete from table if removed
-        for item in old_todo_list_objects:
-            if item.title not in new_todo_list:
+        for item in old_task_list_objects:
+            if item.title not in new_task_list:
                 db.session.delete(item)
                 db.session.commit()
 
-        for item_checked in new_todo_list_checked:
+        for item_checked in new_task_list_checked:
             item = item_checked[0]
             checked = item_checked[1]
-            if item not in old_todo_list:
+            if item not in old_task_list:
                 # need to add
-                todo = Todo(
+                task = Task(
                     title=item,
                     is_checked=checked,
                     note_id=note.id)
-                db.session.add(todo)
+                db.session.add(task)
                 db.session.commit()
             else:
                 # may require an update in the table
-                index = old_todo_list.index(item)
-                old_item = old_todo_list_objects[index]
+                index = old_task_list.index(item)
+                old_item = old_task_list_objects[index]
                 if checked != old_item.is_checked:
                     old_item.is_checked = not old_item.is_checked
                     old_item.updated_date = datetime.now()
@@ -185,14 +183,14 @@ def edit(id):
 
 
         # adding the id tags to the html elements
-        todo_objs = Todo.query.filter_by(note_id = note.id).all()
-        todo_ids = [item.id for item in todo_objs]
+        task_objs = Task.query.filter_by(note_id = note.id).all()
+        task_ids = [item.id for item in task_objs]
 
         body_html_list = note.body_html.split("\n")
         for i, element in enumerate(body_html_list):
             if '<li class="task-list-item">' in element:
-                todo_id = Todo.get_todo_item_id(element, todo_objs)
-                new_element = Todo.add_id_to_li_element(element, str(todo_id))
+                task_id = Task.get_task_item_id(element, task_objs)
+                new_element = Task.add_id_to_li_element(element, str(task_id))
                 # count = count + 1
                 body_html_list[i] = new_element
         note.body_html = "\n".join(body_html_list)
@@ -365,55 +363,48 @@ def favorite(id):
         return redirect(url_for('.index'))
 
 
-# AJAX API ENDPOINT
-@main.route('/checkuncheck/', methods=['POST'])
+@main.route('/tasks')
 @login_required
-def checkuncheck():
-    # post variables
-    note_id = request.form["note_id"]
-    new_body_html = request.form["body_html"]
-    todo_item = request.form["todo_item"]
-    todo_item_id = request.form["todo_item_id"]
-    property_ = request.form["property"]
-
-    note = Note.query.get_or_404(note_id)
-    if current_user != note.author:
-        abort(403)
-    results = {"success": 0}
-
-    # updates
-    new_body = Todo.toggle_checked_property_markdown(note.body, todo_item)
-    note.body = new_body
-    note.body_html = new_body_html
-    db.session.add(note)
-    todo = Todo.query.get_or_404(todo_item_id)
-    todo.updated_date = datetime.now()
-    if property_ == "check":
-        todo.is_checked = True
-    else:
-        todo.is_checked = False
-        if todo.checked_date:
-            todo.checked_date = None
-    if todo.is_checked is True:
-        todo.checked_date = datetime.now()
-    db.session.add(todo)
-    db.session.commit()
-    results["success"] = 1
-    return jsonify(**results)
-
-
-@main.route('/todolist', methods=['GET'])
-@login_required
-def todolist():
+def tasks():
     notes = Note.query.filter_by(
         author_id=current_user.id,
         is_deleted=False).order_by(
         Note.updated_date.asc()).all()
-    if len(notes) == 0:
-        notes = None
-        flash("Your TODO list is empty!")
-    return render_template('app/todolist.html', notes=notes)
-        
+    if request.args.get('status') == 'closed':
+        tasks = (note.get_tasks('closed') for note in notes)
+    if request.args.get('status') == 'open':
+        tasks = (note.get_tasks('open') for note in notes)
+    if request.args.get('status') == 'all':
+        tasks = (note.get_tasks('all') for note in notes)
+    return render_template('app/tasks.html', notes=notes, tasks=tasks)
+
+
+@main.route('/tasks/close/<int:task_id>')
+def close_task(task_id):
+    task = Task.query.filter_by(id=task_id).first()
+    if task.get_note().author != current_user:
+        abort(403)
+    else:
+        task.is_checked = True
+        task.checked_date = datetime.utcnow()
+        task.updated_date = datetime.utcnow()
+        db.session.add(task)
+        db.session.commit()
+        return redirect(url_for('main.tasks', status='open'))
+
+
+@main.route('/tasks/reopen/<int:task_id>')
+def reopen_task(task_id):
+    task = Task.query.filter_by(id=task_id).first()
+    if task.get_note().author != current_user:
+        abort(403)
+    else:
+        task.is_checked = False
+        task.checked_date = None
+        task.updated_date = datetime.utcnow()
+        db.session.add(task)
+        db.session.commit()
+        return redirect(url_for('main.tasks', status='closed'))
 
 
 @main.route('/shutdown')
