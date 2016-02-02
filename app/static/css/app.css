@@ -165,6 +165,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     padding-top: 15px;
     overflow-y: auto;
     word-wrap: break-word;
+    background-color: #fff;
 }
 
 .col-sm-11 ul{
@@ -189,4 +190,14 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 .bad {
   color: red;
+}
+
+/* Tasks View */ 
+.task-heading {
+    margin-bottom: 10px;
+}
+
+.task-heading > .btn {
+    width: 100px;
+    margin-right: 10px;
 }
