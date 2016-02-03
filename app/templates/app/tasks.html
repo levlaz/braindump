@@ -40,10 +40,14 @@
 				<a href="{{ url_for('main.note', id=task.get_note().id) }}">{{ task.get_note().title }}</a>
 				</td>
 				<td>
-				{{ task.created_date }}
+				{{ moment(task.created_date).format("MM/DD/YY") }}
 				</td>
 				<td>
-				{{ task.checked_date }}
+				{% if task.is_checked %}
+				{{ moment(task.checked_date).format("MM/DD/YY") }}
+				{% else %}
+				Incomplete 
+				{% endif %}
 				</td>
 				<td>
 				{% if task.is_checked %}
