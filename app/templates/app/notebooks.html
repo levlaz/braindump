@@ -7,7 +7,7 @@
 {% block page_content %}
 
       <div class="col-sm-11">
-      <h1 class="top"> Add a New Notebook </h1>
+      <p> Add a New Notebook </p>
 
       <form class="form form-horizontal" method="post" action="/notebooks" role="form">
           {{ form.csrf_token }}
@@ -16,13 +16,15 @@
       </form>
 
       <h4> Notebooks </h4>
-      <ul class="notebooks">
+	  <div class="notebook">
       {% for notebook in notebooks %}
-      <li>
-      <a href="{{ url_for('.notebook', id=notebook.id)}}">{{ notebook.title }}</a>
-      </li>
+	  <a class="btn btn-primary" href="{{ url_for('.notebook', id=notebook.id)}}">
+		  {{ notebook.title }}
+		  <br />
+		  <span class="badge"> {{ notebook.notes | length }} Notes </span>
+	  </a>
       {% endfor %}
-      </ul>
+      </div>
   </div>
 
 
