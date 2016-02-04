@@ -56,6 +56,9 @@ class User(UserMixin, db.Model):
     notebooks = db.relationship(
         'Notebook', backref='author',
         lazy='dynamic', cascade="all, delete-orphan")
+    tasks = db.relationship(
+        'Task', backref='author',
+        lazy='dynamic', cascade="all, delete-orphan")
 
     @staticmethod
     def generate_fake(count=100):
@@ -218,8 +221,6 @@ class Note(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
     is_favorite = db.Column(db.Boolean, default=False)
 
-    tasks = db.relationship(
-        "Task", backref="note", cascade="all, delete-orphan")
     tags = db.relationship(
         "Tag", secondary=note_tag,
         backref="Note", passive_deletes=True)
@@ -242,16 +243,6 @@ class Note(db.Model):
             id=id).first()
         return notebook
 
-    def get_tasks(self, status):
-        if status == 'open':
-            tasks = Task.query.filter_by(
-                note_id=self.id, is_checked=False).all()
-        if status == 'closed':
-            tasks = Task.query.filter_by(
-                note_id=self.id, is_checked=True).all()
-        if status == 'all':
-            tasks = Task.query.filter_by(note_id=self.id).all()
-        return tasks
 
     @staticmethod
     def from_json(json_post):
@@ -293,6 +284,8 @@ class Notebook(db.Model):
 
     notes = db.relationship('Note', backref='notebook')
 
+    tasks = db.relationship('Task', backref='notebook')
+
     def _show_notes(self):
         notes = []
         for note in self.notes:
@@ -320,15 +313,20 @@ class Task(db.Model):
     __tablename__ = 'tasks'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
-    note_id = db.Column(db.Integer, db.ForeignKey('notes.id'))
-    is_checked = db.Column(db.Boolean, default=False)
+    note_id = db.Column(db.Integer)
+    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
-    checked_date = db.Column(db.DateTime())
+    closed_date = db.Column(db.DateTime())
 
     def get_note(self):
         note = Note.query.filter_by(id=self.note_id).first()
         return note
+
+    def get_notebook(self):
+        notebook = Notebook.query.filter_by(id=self.notebook_id).first()
+        return notebook
 
     @staticmethod
     def parse_markdown(markdown_body):

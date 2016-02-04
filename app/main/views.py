@@ -6,7 +6,7 @@ from flask.ext.login import current_user, login_required
 from . import main
 from .. import db
 from .forms import NoteForm, ShareForm, \
-    NotebookForm, SearchForm
+    NotebookForm, SearchForm, TaskForm
 from ..email import send_email
 from ..models import User, Note, Tag, Notebook, Task
 
@@ -32,7 +32,12 @@ def index():
 @main.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
-    form = NoteForm()
+    if request.args.get('notebook'):
+        notebook = Notebook.query.filter_by(
+            id=int(request.args.get('notebook'))).first()
+        form = NoteForm(notebook=notebook.id)
+    else:
+        form = NoteForm()
     form.notebook.choices = [
         (n.id, n.title) for n in
         Notebook.query.filter_by(
@@ -52,8 +57,9 @@ def add():
         for task_item in task_list:
             task = Task(
                 title=task_item[0],
-                is_checked=task_item[1],
-                note_id=note.id)
+                note_id=note.id,
+                notebook_id=note.notebook_id,
+                author_id=current_user.id)
             db.session.add(task)
             db.session.commit()
             task_ids.append(task.id)
@@ -366,27 +372,24 @@ def favorite(id):
 @main.route('/tasks')
 @login_required
 def tasks():
-    notes = Note.query.filter_by(
-        author_id=current_user.id,
-        is_deleted=False).order_by(
-        Note.updated_date.asc()).all()
     if request.args.get('status') == 'closed':
-        tasks = (note.get_tasks('closed') for note in notes)
+        tasks = [task for task in current_user.tasks if task.closed_date is
+                 not None]
     if request.args.get('status') == 'open':
-        tasks = (note.get_tasks('open') for note in notes)
+        tasks = [task for task in current_user.tasks if task.closed_date is
+                 None]
     if request.args.get('status') == 'all':
-        tasks = (note.get_tasks('all') for note in notes)
-    return render_template('app/tasks.html', notes=notes, tasks=tasks)
+        tasks = current_user.tasks
+    return render_template('app/tasks.html', tasks=tasks)
 
 
 @main.route('/tasks/close/<int:task_id>')
 def close_task(task_id):
     task = Task.query.filter_by(id=task_id).first()
-    if task.get_note().author != current_user:
+    if task.author_id != current_user.id:
         abort(403)
     else:
-        task.is_checked = True
-        task.checked_date = datetime.utcnow()
+        task.closed_date = datetime.utcnow()
         task.updated_date = datetime.utcnow()
         db.session.add(task)
         db.session.commit()
@@ -396,15 +399,33 @@ def close_task(task_id):
 @main.route('/tasks/reopen/<int:task_id>')
 def reopen_task(task_id):
     task = Task.query.filter_by(id=task_id).first()
-    if task.get_note().author != current_user:
+    if task.author_id != current_user.id:
         abort(403)
     else:
-        task.is_checked = False
-        task.checked_date = None
+        task.closed_date = None
         task.updated_date = datetime.utcnow()
         db.session.add(task)
         db.session.commit()
         return redirect(url_for('main.tasks', status='closed'))
+
+
+@main.route('/tasks/add', methods=['GET', 'POST'])
+@login_required
+def add_task():
+    form = TaskForm()
+    form.notebook.choices = [
+        (n.id, n.title) for n in
+        Notebook.query.filter_by(
+            author_id=current_user.id).all()]
+    if form.validate_on_submit():
+        task = Task(
+            title=form.title.data,
+            notebook_id=form.notebook.data,
+            author_id=current_user.id)
+        db.session.add(task)
+        db.session.commit()
+        return redirect(url_for('.tasks', status="open"))
+    return render_template('app/add_task.html', form=form)
 
 
 @main.route('/shutdown')
