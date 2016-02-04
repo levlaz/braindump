@@ -1,0 +1,19 @@
+{% extends "app/app_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}BrainDump | Add Task {% endblock %}
+
+{% block page_content %}
+
+<div class="col-sm-11">
+
+	<p> Add a New Task </p>
+	
+	{{ wtf.quick_form(form) }}
+
+</div>
+
+
+{% endblock %}
+

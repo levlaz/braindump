@@ -30,45 +30,52 @@
             </tr>
           </thead>
           <tbody>
-          {% for task_gen in tasks %}
-			{%for task in task_gen %}
+			{%for task in tasks %}
 			<tr>
 				<td>
 				{{ task.title }}
 				</td>
 				<td>
+                {% if task.note_id %}
 				<a href="{{ url_for('main.note', id=task.get_note().id) }}">{{ task.get_note().title }}</a>
+                {% else %}
+                <a class="btn btn-sm btn-default" href="{{ url_for('main.add',
+                notebook=task.get_notebook().id) }}"><i class="fa
+                        fa-plus"></i> Add Note for this Task<a/>
+                {% endif %}
 				</td>
 				<td>
 				{{ moment(task.created_date).format("MM/DD/YY") }}
 				</td>
 				<td>
 				{% if task.is_checked %}
-				{{ moment(task.checked_date).format("MM/DD/YY") }}
+				{{ moment(task.closed_date).format("MM/DD/YY") }}
 				{% else %}
-				Incomplete 
+				Incomplete
 				{% endif %}
 				</td>
 				<td>
-				{% if task.is_checked %}
+				{% if task.closed_date %}
 				<a class="btn btn-sm btn-default" href="{{ url_for('main.reopen_task', task_id=task.id) }}">Reopen</a>
 				{% else %}
 				<a class="btn btn-sm btn-default" href="{{ url_for('main.close_task', task_id=task.id) }}">Close</a>
 				{% endif %}
 			  </tr>
-			  {% endfor %}
             {% endfor %}
 
           </tbody>
          </table>
 
+
+        <a class="btn btn-default" href="/tasks/add"><i class="fa fa-plus"> Add
+        Task</i></a>
+
       </div>
     </div>
   </div>
 </div>
-</div>
 
 
-</div>
+
 {% endblock %}
 
