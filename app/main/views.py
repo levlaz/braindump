@@ -152,16 +152,8 @@ def edit(id):
         db.session.commit()
 
         # task list
-        old_task_list_objects = note._get_task_items()
-        old_task_list = [item.title for item in old_task_list_objects]
         new_task_list_checked = Task.parse_markdown(note.body)
         new_task_list = [item[0] for item in new_task_list_checked]
-
-        # delete from table if removed
-        for item in old_task_list_objects:
-            if item.title not in new_task_list:
-                db.session.delete(item)
-                db.session.commit()
 
         for item_checked in new_task_list_checked:
             item = item_checked[0]
