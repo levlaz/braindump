@@ -22,6 +22,18 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
   font-weight: bold;
 }
 
+/* Alerts */
+.alert {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.alert-warning {
+    padding: 20px;
+}
+
 /* Side bar */
 .col-sm-1 {
     background-color: rgb(85,66,111);
