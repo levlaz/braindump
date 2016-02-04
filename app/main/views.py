@@ -82,7 +82,7 @@ def add():
                 tags.append(tag.replace(" ", ""))
             note.str_tags = (tags)
             db.session.commit()
-        return redirect(url_for('.index'))
+        return redirect(url_for('main.notebook', id=note.notebook_id))
     return render_template('app/add.html', form=form)
 
 
