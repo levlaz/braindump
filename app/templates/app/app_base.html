@@ -25,9 +25,11 @@
             <li class="sidebar-item" title="Search">
                 <a href="/search" class="text-center"><span class="nav-item glyphicon glyphicon-search" aria-hidden="true"></span><br><span class="nav-description">Search</span></a>
             </li>
+			{% block add %}
             <li class="sidebar-item" title="Add a Note">
-                <a href="/add"><span class="nav-item glyphicon glyphicon-plus" aria-hidden="true"></span><br><span class="nav-description">Add a Note</span></a>
+				<a href="/add"><span class="nav-item glyphicon glyphicon-plus" aria-hidden="true"></span><br><span class="nav-description">Add a Note</span></a>
             </li>
+			{% endblock %}
             <li class="sidebar-item" title="Notebooks">
                 <a href="/notebooks"><span class="nav-item glyphicon glyphicon-book" aria-hidden="true"></span><br><span class="nav-description">Notebooks</span></a>
             </li>

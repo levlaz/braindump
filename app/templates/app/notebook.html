@@ -2,6 +2,12 @@
 
 {% block title %} Braindump | Note {% endblock %}
 
+{% block add %}
+            <li class="sidebar-item" title="Add a Note">
+				<a href="{{ url_for('main.add', notebook=notebook.id) }}"><span class="nav-item glyphicon glyphicon-plus" aria-hidden="true"></span><br><span class="nav-description">Add a Note</span></a>
+            </li>
+{% endblock %}
+
 {% block page_content %}
 
 <div class="col-sm-10">
