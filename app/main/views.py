@@ -99,7 +99,7 @@ def settings():
     return render_template('app/settings.html')
 
 
-@main.route('/trash', methods=['GET', 'POST'])
+@main.route('/trash')
 @login_required
 def trash():
     if current_user.is_authenticated():
@@ -113,6 +113,19 @@ def trash():
         return render_template('app/trash.html', notes=notes)
     else:
         return render_template('index.html')
+
+
+@main.route('/empty-trash')
+@login_required
+def empty_trash():
+    notes = Note.query.filter_by(
+        author_id=current_user.id,
+        is_deleted=True).all()
+    for note in notes:
+        db.session.delete(note)
+        db.session.commit()
+    flash("Took out the Trash")
+    return redirect(url_for('.index'))
 
 
 @main.route('/note/<int:id>')
