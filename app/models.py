@@ -243,6 +243,9 @@ class Note(db.Model):
             id=id).first()
         return notebook
 
+    def get_tasks(self):
+        tasks = Task.query.filter_by(note_id=self.id).all()
+        return tasks
 
     @staticmethod
     def from_json(json_post):
