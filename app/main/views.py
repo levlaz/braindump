@@ -122,8 +122,7 @@ def empty_trash():
         author_id=current_user.id,
         is_deleted=True).all()
     for note in notes:
-        db.session.delete(note)
-        db.session.commit()
+        delete_forever(note.id)
     flash("Took out the Trash")
     return redirect(url_for('.index'))
 
@@ -236,6 +235,10 @@ def delete_forever(id):
     if current_user != note.author:
         abort(403)
     else:
+        if len(note.get_tasks()) > 0:
+            for task in note.get_tasks():
+                task.note_id = None
+                db.session.commit()
         db.session.delete(note)
         db.session.commit()
         flash('So Long! The note has been deleted forever.')
