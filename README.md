@@ -2,7 +2,9 @@
 
 BrainDump is a simple, powerful, and open note taking platform that makes it easy to organize your life. It lives [here](http://braindump.pw) if you would like to check it out. :)
 
-[![CI](https://circleci.com/gh/levlaz/braindump.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/levlaz/braindump) ![MIT License](https://img.shields.io/github/license/mashape/apistatus.svg) [![Join the chat at https://gitter.im/levlaz/braindump](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/levlaz/braindump?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![CI](https://circleci.com/gh/levlaz/braindump.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/levlaz/braindump)
+![MIT License](https://img.shields.io/github/license/mashape/apistatus.svg)
+[Platform Status](https://braindump.statusy.co)
 
 # Features
 
@@ -21,10 +23,10 @@ See something missing? Add a [feature-request](https://github.com/levlaz/braindu
 
 # Screenshots
 
-## Note Editor 
+## Note Editor
 ![UI V2](https://github.com/levlaz/braindump/blob/master/app/static/images/outer_edit.png)
 
-## Note View 
+## Note View
 ![UI V2](https://github.com/levlaz/braindump/blob/master/app/static/images/outer_preview.png)
 
 # Deployment
