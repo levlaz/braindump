@@ -139,50 +139,6 @@ def edit(id):
         note.str_tags = (tags)
         db.session.commit()
 
-        # task list
-        new_task_list_checked = Task.parse_markdown(note.body)
-        new_task_list = [item[0] for item in new_task_list_checked]
-
-        for item_checked in new_task_list_checked:
-            item = item_checked[0]
-            checked = item_checked[1]
-            if item not in old_task_list:
-                # need to add
-                task = Task(
-                    title=item,
-                    is_checked=checked,
-                    note_id=note.id)
-                db.session.add(task)
-                db.session.commit()
-            else:
-                # may require an update in the table
-                index = old_task_list.index(item)
-                old_item = old_task_list_objects[index]
-                if checked != old_item.is_checked:
-                    old_item.is_checked = not old_item.is_checked
-                    old_item.updated_date = datetime.now()
-                    if checked is True:
-                        old_item.checked_date = datetime.now()
-                    db.session.add(old_item)
-                    db.session.commit()
-
-
-
-        # adding the id tags to the html elements
-        task_objs = Task.query.filter_by(note_id = note.id).all()
-        task_ids = [item.id for item in task_objs]
-
-        body_html_list = note.body_html.split("\n")
-        for i, element in enumerate(body_html_list):
-            if '<li class="task-list-item">' in element:
-                task_id = Task.get_task_item_id(element, task_objs)
-                new_element = Task.add_id_to_li_element(element, str(task_id))
-                # count = count + 1
-                body_html_list[i] = new_element
-        note.body_html = "\n".join(body_html_list)
-        db.session.add(note)
-        db.session.commit()
-
         flash('The note has been updated.')
         return redirect(url_for('.index', active_note=note.id))
     form.title.data = note.title
@@ -211,10 +167,6 @@ def delete_forever(id):
     if current_user != note.author:
         abort(403)
     else:
-        if len(note.get_tasks()) > 0:
-            for task in note.get_tasks():
-                task.note_id = None
-                db.session.commit()
         db.session.delete(note)
         db.session.commit()
         flash('So Long! The note has been deleted forever.')
@@ -351,65 +303,6 @@ def favorite(id):
             db.session.commit()
             flash('Note removed as favorite')
         return redirect(url_for('.index'))
-
-
-@main.route('/tasks')
-@login_required
-def tasks():
-    if request.args.get('status') == 'closed':
-        tasks = [task for task in current_user.tasks if task.closed_date is
-                 not None]
-    if request.args.get('status') == 'open':
-        tasks = [task for task in current_user.tasks if task.closed_date is
-                 None]
-    if request.args.get('status') == 'all':
-        tasks = current_user.tasks
-    return render_template('app/tasks.html', tasks=tasks)
-
-
-@main.route('/tasks/close/<int:task_id>')
-def close_task(task_id):
-    task = Task.query.filter_by(id=task_id).first()
-    if task.author_id != current_user.id:
-        abort(403)
-    else:
-        task.closed_date = datetime.utcnow()
-        task.updated_date = datetime.utcnow()
-        db.session.add(task)
-        db.session.commit()
-        return redirect(url_for('main.tasks', status='open'))
-
-
-@main.route('/tasks/reopen/<int:task_id>')
-def reopen_task(task_id):
-    task = Task.query.filter_by(id=task_id).first()
-    if task.author_id != current_user.id:
-        abort(403)
-    else:
-        task.closed_date = None
-        task.updated_date = datetime.utcnow()
-        db.session.add(task)
-        db.session.commit()
-        return redirect(url_for('main.tasks', status='closed'))
-
-
-@main.route('/tasks/add', methods=['GET', 'POST'])
-@login_required
-def add_task():
-    form = TaskForm()
-    form.notebook.choices = [
-        (n.id, n.title) for n in
-        Notebook.query.filter_by(
-            author_id=current_user.id).all()]
-    if form.validate_on_submit():
-        task = Task(
-            title=form.title.data,
-            notebook_id=form.notebook.data,
-            author_id=current_user.id)
-        db.session.add(task)
-        db.session.commit()
-        return redirect(url_for('.tasks', status="open"))
-    return render_template('app/add_task.html', form=form)
 
 
 @main.route('/shutdown')
