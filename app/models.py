@@ -214,6 +214,7 @@ class Note(db.Model):
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
     is_deleted = db.Column(db.Boolean, default=False)
     is_favorite = db.Column(db.Boolean, default=False)
+    is_archived = db.Column(db.Boolean, default=False)
 
     tags = db.relationship(
         "Tag", secondary=note_tag,

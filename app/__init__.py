@@ -48,5 +48,4 @@ def create_app(config_name):
                 db.session.add(admin)
                 db.session.commit()
 
-
     return app

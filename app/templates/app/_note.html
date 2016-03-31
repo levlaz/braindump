@@ -1,11 +1,11 @@
 {% for note in notes %}
-{% if request.query_string == '' and loop.index == 1 %}
-<div class="tab-pane active" id="{{ note.id }}">
-{% elif request.args.get('active_note')|int == note.id %}
-<div class="tab-pane active" id="{{ note.id }}">
-{% else %}
-<div class="tab-pane" id="{{ note.id }}">
-{% endif %}
+  {% if request.query_string == '' and loop.index == 1 %}
+    <div class="tab-pane active" id="{{ note.id }}">
+  {% elif request.args.get('active_note')|int == note.id %}
+    <div class="tab-pane active" id="{{ note.id }}">
+  {% else %}
+    <div class="tab-pane" id="{{ note.id }}">
+  {% endif %}
 
     <h1> {{ note.title }} </h1>
 
@@ -16,26 +16,25 @@
   </div>
 
   <div class="note-actions">
-      {% if not note.is_deleted %}
-      {% if note.is_favorite %}
-      <a href="{{ url_for('.favorite', id=note.id) }}"><span class="favorite actions glyphicon glyphicon-star" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Unmark as favorite" ></a></span>
-      {% else %}
-      <a href="{{ url_for('.favorite', id=note.id) }}"><span class="actions glyphicon glyphicon-star" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Mark as favorite"></a></span>
-      {% endif %}
-      <a href="{{ url_for('.share', id=note.id) }}"><span class="actions glyphicon glyphicon-share" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Share"></a></span>
-      <a href="{{ url_for('.edit', id=note.id) }}"><span class="actions glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"></a></span>
-      <a href="{{ url_for('.delete', id=note.id) }}"><span class="actions glyphicon glyphicon-remove" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"></a></span>
-      {% else %}
+    {% if not note.is_deleted %}
+    {% if note.is_favorite %}
+      <a href="{{ url_for('.favorite', id=note.id) }}"><i class="fa fa-star"></i></a>
+    {% else %}
+      <a href="{{ url_for('.favorite', id=note.id) }}"><i class="fa fa-star-o"></i></a>
+    {% endif %}
+      <a href="{{ url_for('.share', id=note.id) }}"><i class="fa fa-share"></i></a>
+      <a href="{{ url_for('.edit', id=note.id) }}"><i class="fa fa-pencil-square-o"></i></a>
+      <a href="{{ url_for('.archive', id=note.id) }}"><i class="fa fa-archive"></i></a>
+      <a href="{{ url_for('.delete', id=note.id) }}"><i class="fa fa-trash"></i></a>
+    {% else %}
       <a href="{{ url_for('.restore', id=note.id) }}"><span class="good actions glyphicon glyphicon-check" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Restore"></a></span>
       <a href="{{ url_for('.delete_forever', id=note.id) }}"><span class="bad actions glyphicon glyphicon-remove" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete Forever"></a></span>
-      {% endif %}
+    {% endif %}
   </div>
 
   <div class="note-notebook">
       <a class="label label-notebook" href="{{ url_for('.notebook', id=note.notebook_id) }}"> {{ note.get_notebook(note.notebook_id).title | truncate(20) }} Notebook </a>
   </div>
-
-
 
   <div class="note-tags">
     <p>
