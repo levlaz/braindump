@@ -62,13 +62,6 @@ def add():
     return render_template('app/add.html', form=form)
 
 
-@main.route('/news')
-def news():
-    if current_user.is_authenticated():
-        return render_template('app/news.html')
-    return render_template('news.html')
-
-
 @main.route('/settings')
 @login_required
 def settings():

@@ -2,15 +2,15 @@
 
 {% block head %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', 
+    <link rel="stylesheet" href="{{ url_for('static',
                                  filename='css/font-awesome.css') }}" type="text/css">
-    <link rel="shortcut icon" href="{{ url_for('static', 
+    <link rel="shortcut icon" href="{{ url_for('static',
                                  filename='images/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static', 
+    <link rel="stylesheet" href="{{ url_for('static',
                                  filename='css/style.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', 
+    <link rel="stylesheet" href="{{ url_for('static',
                                  filename='css/bootstrap-tagsinput.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', 
+    <link rel="stylesheet" href="{{ url_for('static',
                                  filename='css/bootstrap-social.css') }}" type="text/css">
 
 {% endblock %}
@@ -20,7 +20,7 @@
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
   <div class="container">
-    
+
     <div class="navbar-header">
       <button type="button" class="navbar-toggle"
               data-toggle="collapse" data-target=".navbar-collapse">
@@ -33,11 +33,11 @@
         <img class="logo" src="{{ url_for('static', filename='images/logo.png')}}"></img>
       </a>
     </div>
-    
+
     <div class="navbar-collapse collapse">
       <div class="navbar-right">
           <ul class="nav navbar-nav">
-            <li><a class="nav-item" href="/news">News</a></li>
+            <li><a class="nav-item" href="https://levlaz.org/tag/braindump/">News</a></li>
             <li><a href="#">Documentation</a></li>
             <li><a href="https://github.com/levlaz/braindump/issues">Support</a></li>
           </ul>
