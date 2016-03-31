@@ -12,8 +12,6 @@ from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 import re
-from lxml import etree
-from lxml import html
 
 make_searchable()
 

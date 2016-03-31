@@ -4,7 +4,7 @@ from flask.ext.login import login_user, \
     logout_user, login_required, current_user
 
 from . import auth
-from app import db,github
+from app import db
 from ..models import User, Notebook
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm, \
@@ -22,8 +22,7 @@ def before_request():
 
 
 @auth.route('/login', methods=['GET', 'POST'])
-@auth.route('/login/<auth>', methods=['GET', 'POST'])
-def login(auth=None):
+def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower().strip()).first()
@@ -31,8 +30,6 @@ def login(auth=None):
             login_user(user, form.remember_me.data)
             return redirect(request.args.get('next') or url_for('main.index'))
         flash('Invalid username or password')
-    elif auth == 'github':
-        return github.authorize(callback=url_for('auth.authorized', _external=True, auth="github"))
     return render_template('auth/login.html', form=form)
 
 
@@ -178,41 +175,3 @@ def change_email(token):
     else:
         flash('Invalid request.')
     return redirect(url_for('main.index'))
-
-@auth.route('/login/authorized/<auth>')
-def authorized(auth):
-    resp={}
-    success=0
-    if auth == 'github':
-        resp = github.authorized_response()
-        if resp is None: 
-            flash('You denied the request to sign in.')
-            return redirect(request.args.get('next') or url_for('main.index'))
-        session['github_token'] = (resp['access_token'], '')
-        success=1
-    if success == 1:
-        me = github.get('user')
-        user = User.query.filter_by(email=me.data['email']).first()
-        if user is None:
-            user = User(
-                email=me.data['email'],
-                username=me.data['login'],
-                password=resp['access_token'],
-                confirmed=True)
-            db.session.add(user)
-            db.session.commit()
-            default_notebook = Notebook(
-                title='Default', author_id=user.id)
-            db.session.add(default_notebook)
-            db.session.commit()
-        elif user is not None:
-            user.confirmed=True
-            db.session.commit()
-            login_user(user)
-        return redirect(request.args.get('next') or url_for('main.index'))
-
-
-
-@github.tokengetter
-def get_github_oauth_token():
-    return session.get('github_token')

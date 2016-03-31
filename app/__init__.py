@@ -5,7 +5,7 @@ from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask_oauthlib.client import OAuth
-from config import config,GITHUB_SETTINGS
+from config import config
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -14,8 +14,6 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
-oauth=OAuth()
-github=oauth.remote_app('github',**GITHUB_SETTINGS)
 
 
 def create_app(config_name):
@@ -27,7 +25,6 @@ def create_app(config_name):
     moment.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
-    oauth.init_app(app)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
