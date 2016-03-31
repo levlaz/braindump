@@ -16,7 +16,7 @@ def index():
     if current_user.is_authenticated():
         notes = Note.query.filter_by(
             author_id=current_user.id,
-            is_deleted=False).order_by(
+            is_deleted=False, is_archived=False).order_by(
             Note.is_favorite.desc(),
             Note.updated_date.desc()).all()
         return render_template('app/app.html', notes=notes)
@@ -302,6 +302,35 @@ def favorite(id):
             note.is_favorite = False
             db.session.commit()
             flash('Note removed as favorite')
+        return redirect(url_for('.index'))
+
+
+@main.route('/archive')
+@login_required
+def view_archive():
+    if current_user.is_authenticated():
+        notes = Note.query.filter_by(
+            author_id=current_user.id,
+            is_deleted=False, is_archived=True).order_by(
+                Note.updated_date.desc()).all()
+        if len(notes) == 0:
+            flash("Archive is empty")
+            return redirect(url_for('.index'))
+        return render_template('app/archive.html', notes=notes)
+    else:
+        return render_template('index.html')
+
+
+@main.route('/archive/<int:id>')
+@login_required
+def archive(id):
+    note = Note.query.get_or_404(id)
+    if current_user != note.author:
+        abort(403)
+    else:
+        note.is_archived = True
+        db.session.commit()
+        flash('The note has been archived.')
         return redirect(url_for('.index'))
 
 
