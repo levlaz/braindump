@@ -35,9 +35,3 @@ class NotebookForm(Form):
 class SearchForm(Form):
     search_field = StringField()
     submit = SubmitField('Search')
-
-
-class TaskForm(Form):
-    title = StringField('Title:', validators=[Required(), Length(1, 200)])
-    notebook = SelectField(coerce=int)
-    submit = SubmitField('Submit')

@@ -11,7 +11,6 @@ from flask.ext.sqlalchemy import BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
-import re
 
 make_searchable()
 
@@ -53,9 +52,6 @@ class User(UserMixin, db.Model):
         lazy='dynamic', cascade="all, delete-orphan")
     notebooks = db.relationship(
         'Notebook', backref='author',
-        lazy='dynamic', cascade="all, delete-orphan")
-    tasks = db.relationship(
-        'Task', backref='author',
         lazy='dynamic', cascade="all, delete-orphan")
 
     @staticmethod
@@ -241,19 +237,12 @@ class Note(db.Model):
             id=id).first()
         return notebook
 
-    def get_tasks(self):
-        tasks = Task.query.filter_by(note_id=self.id).all()
-        return tasks
-
     @staticmethod
     def from_json(json_post):
         body = json_post.get('body')
         if body is None or body == '':
             raise ValidationError('note does not have a body')
         return Note(body=body)
-
-    def _get_task_items(self):
-        return [task for task in self.tasks]
 
     def _find_or_create_tag(self, tag):
         q = Tag.query.filter_by(tag=tag)
@@ -285,8 +274,6 @@ class Notebook(db.Model):
 
     notes = db.relationship('Note', backref='notebook')
 
-    tasks = db.relationship('Task', backref='notebook')
-
     def _show_notes(self):
         notes = []
         for note in self.notes:
@@ -308,76 +295,3 @@ class Tag(db.Model):
             if note.author == current_user and not note.is_deleted:
                 notes.append(note)
         return notes
-
-
-class Task(db.Model):
-    __tablename__ = 'tasks'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200))
-    note_id = db.Column(db.Integer)
-    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    created_date = db.Column(db.DateTime(), default=datetime.utcnow)
-    updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
-    closed_date = db.Column(db.DateTime())
-
-    def get_note(self):
-        note = Note.query.filter_by(id=self.note_id).first()
-        return note
-
-    def get_notebook(self):
-        notebook = Notebook.query.filter_by(id=self.notebook_id).first()
-        return notebook
-
-    @staticmethod
-    def parse_markdown(markdown_body):
-        checked = lambda x: "[x]" in x
-        body = [line.encode('utf-8') for line in markdown_body.split("\n")]
-        # pattern for a markdown todo-list ()
-        pattern = re.compile(".*-\s" + "(\[[\sx]\]).*")
-        todo_list = [line for line in body if pattern.match(line) is not None]
-        for i, todo in enumerate(todo_list):
-            delim = "\r"
-            item = todo[todo.find(']') + 1:]
-            found = item.find(delim)
-            if found != -1:
-                item = item[:found]
-            todo_list[i] = (item, checked(todo))
-        return todo_list
-
-    @staticmethod
-    def add_id_to_li_element(li, id):
-        li = li.encode('utf-8')
-        root = etree.fromstring(li.strip(), etree.HTMLParser())
-        elem = root[0][0]
-        elem.attrib["id"] = id
-        new_li = etree.tostring(elem, method="html")
-        new_li = unicode(new_li, "utf-8")
-        return new_li
-
-    @staticmethod
-    def get_task_item_id(li, todo_objs):
-        li = li.encode("utf-8")
-        element = html.fromstring(li.strip())
-        todo_item = element.text_content()
-        for item in todo_objs:
-            if item.title == todo_item:
-                return item.id
-        return -1
-
-    @staticmethod
-    def toggle_checked_property_markdown(markdown_body, item):
-        checked = lambda x: "[x]" in x
-        body = [line.encode('utf-8') for line in markdown_body.split("\n")]
-        # pattern for a markdown todo-list ()
-        pattern = re.compile(".*-\s" + "(\[[\sx]\]).*")
-        for i, line in enumerate(body):
-            if pattern.match(line) is not None and item in line:
-                if (checked(line)):
-                    new_line = line.replace("[x]", "[ ]")
-                else:
-                    new_line = line.replace("[ ]", "[x]")
-                body[i] = new_line
-        new_body = "\n".join(body)
-        new_body = unicode(new_body, "utf-8")
-        return new_body

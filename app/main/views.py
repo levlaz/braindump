@@ -6,9 +6,9 @@ from flask.ext.login import current_user, login_required
 from . import main
 from .. import db
 from .forms import NoteForm, ShareForm, \
-    NotebookForm, SearchForm, TaskForm
+    NotebookForm, SearchForm
 from ..email import send_email
-from ..models import User, Note, Tag, Notebook, Task
+from ..models import User, Note, Tag, Notebook
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -49,30 +49,6 @@ def add():
             body_html=form.body_html.data,
             notebook_id=form.notebook.data,
             author=current_user._get_current_object())
-        db.session.add(note)
-        db.session.commit()
-        # adding each task list to the table
-        task_list = Task.parse_markdown(note.body)
-        task_ids = []
-        for task_item in task_list:
-            task = Task(
-                title=task_item[0],
-                note_id=note.id,
-                notebook_id=note.notebook_id,
-                author_id=current_user.id)
-            db.session.add(task)
-            db.session.commit()
-            task_ids.append(task.id)
-        # adding an id tag to the li element of each task list item
-        count = 0
-        body_html_list = note.body_html.split("\n")
-        for i, element in enumerate(body_html_list):
-            if '<li class="task-list-item">' in element:
-                new_element = Task.add_id_to_li_element(
-                    element, str(task_ids[count]))
-                count = count + 1
-                body_html_list[i] = new_element
-        note.body_html = "\n".join(body_html_list)
         db.session.add(note)
         db.session.commit()
 
