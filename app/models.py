@@ -278,7 +278,7 @@ class Notebook(db.Model):
     def _show_notes(self):
         notes = []
         for note in self.notes:
-            if note.is_deleted is False:
+            if note.is_deleted is False and note.is_archived is False:
                 notes.append(note)
         return notes
 

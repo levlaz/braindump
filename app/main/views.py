@@ -224,7 +224,7 @@ def notebooks():
         return redirect(url_for('.notebooks'))
     notebooks = Notebook.query.filter_by(
         author_id=current_user.id,
-        is_deleted=False, is_archived=False).all()
+        is_deleted=False).all()
     return render_template(
         'app/notebooks.html',
         notebooks=notebooks,
@@ -324,7 +324,7 @@ def archive(id):
         note.is_archived = True
         db.session.commit()
         flash('The note has been archived.')
-        return redirect(url_for('.index'))
+        return redirect(request.referrer)
 
 
 @main.route('/shutdown')
