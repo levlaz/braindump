@@ -30,18 +30,24 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="/">
-        <img class="logo" src="{{ url_for('static', filename='images/logo.png')}}"></img>
+        <img class="logo" src="{{ url_for('static', filename='images/logo.svg')}}"></img>
       </a>
+      <ul class="nav navbar-nav">
+        <li><a class="nav-item" href="https://levlaz.org/tag/braindump/">News</a></li>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="https://github.com/levlaz/braindump/issues">Support</a></li>
+      </ul>
     </div>
 
     <div class="navbar-collapse collapse">
-      <div class="navbar-right">
-          <ul class="nav navbar-nav">
-            <li><a class="nav-item" href="https://levlaz.org/tag/braindump/">News</a></li>
-            <li><a href="#">Documentation</a></li>
-            <li><a href="https://github.com/levlaz/braindump/issues">Support</a></li>
-          </ul>
-      </div>
+        <ul class="nav navbar-nav navbar-right">
+          {% if not current_user.is_authenticated() %}
+          <li><a href="{{url_for('auth.login')}}">Login</a></li>
+          <li><a href="{{url_for('auth.register')}}">Register</a></li>
+          {% else %}
+          <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+          {% endif %}
+        </ul>
     </div>
 
     </div>

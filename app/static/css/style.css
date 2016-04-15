@@ -46,9 +46,8 @@ div.navbar {
 }
 
 .navbar-inverse {
-  background-color: rgb(85,66,111);
+  background-color: #662D91;
   border-color:  rgb(85,66,111);
-  // background-color: rgb(84,36,55);
   color: white;
 }
 
@@ -63,16 +62,11 @@ div.navbar {
 .logo {
   height: 40px;
   width: 40px;
-  padding: 5px;
   margin-top: 5px;
   margin-left: 15px;
   margin-right: 10px;
   background-color:white;
   border-radius: 10px;
-}
-
-.nav {
-    font-weight: bold;
 }
 
 .app-logo {
