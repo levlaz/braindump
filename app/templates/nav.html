@@ -1,0 +1,36 @@
+<div class="navbar navbar-inverse" role="navigation">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle"
+              data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle Navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <ul class="nav navbar-nav">
+        <li>
+          <a class="navbar-brand" href="/">
+            <img class="nav-logo" src="{{ url_for('static', filename='images/logo.svg')}}"></img>
+          </a>
+        </li>
+        <li><a class="nav-item" href="https://levlaz.org/tag/braindump/">News</a></li>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="https://github.com/levlaz/braindump/issues">Support</a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          {% if not current_user.is_authenticated() %}
+          <li><a href="{{url_for('auth.login')}}">Login</a></li>
+          <li><a href="{{url_for('auth.register')}}">Register</a></li>
+          {% else %}
+          <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+          {% endif %}
+        </ul>
+    </div>
+
+    </div>
+</div>

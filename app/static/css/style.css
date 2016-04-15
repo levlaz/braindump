@@ -1,3 +1,5 @@
+/* Import Fonts */
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700,100);
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -7,8 +9,11 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 50px;
-  font-size: 16px;
+  font-size: 14px;
   background-color: rgb(240,244,247);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-family: Roboto;
 }
 
 a {
@@ -46,8 +51,9 @@ div.navbar {
 }
 
 .navbar-inverse {
-  background-color: #662D91;
+  background-color: rgb(85,66,111);
   border-color:  rgb(85,66,111);
+  // background-color: rgb(84,36,55);
   color: white;
 }
 
@@ -69,10 +75,13 @@ div.navbar {
   border-radius: 10px;
 }
 
+.nav {
+  font-size: 16px;
+}
+
 .app-logo {
   height: 40px;
   width: 40px;
-  padding: 5px;
   background-color:white;
   border-radius: 10px;
 }
@@ -98,6 +107,11 @@ h1.top {
 
 .jumbotron {
   height: 400px;
+}
+
+.jumbotron p {
+  font-size: 24px;
+  font-weight: 300;
 }
 
 div.col-md-4 {
