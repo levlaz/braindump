@@ -224,7 +224,7 @@ def notebooks():
         return redirect(url_for('.notebooks'))
     notebooks = Notebook.query.filter_by(
         author_id=current_user.id,
-        is_deleted=False).all()
+        is_deleted=False, is_archived=False).all()
     return render_template(
         'app/notebooks.html',
         notebooks=notebooks,
@@ -238,7 +238,7 @@ def favorites():
     notes = Note.query.filter_by(
         author_id=current_user.id,
         is_deleted=False,
-        is_favorite=True).order_by(
+        is_favorite=True, is_archived=False).order_by(
         Note.updated_date.desc()).all()
     if len(notes) == 0:
         flash("No favorites yet, click on the star in a note to mark \

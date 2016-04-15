@@ -14,6 +14,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   font-family: Roboto;
+  font-weight: 300;
 }
 
 a {
