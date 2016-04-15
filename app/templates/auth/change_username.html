@@ -1,0 +1,12 @@
+{% extends "app/app_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Braindump - Change Email Address{% endblock %}
+
+{% block page_content %}
+<div class="col-sm-11">
+    <h1 class="top">Change Your User Name</h1>
+
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
