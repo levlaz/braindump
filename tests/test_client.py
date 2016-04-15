@@ -26,11 +26,6 @@ class FlaskTestClientCase(unittest.TestCase):
         response = self.client.get('/non-existent-page')
         self.assertTrue('Not Found' in response.get_data(as_text=True))
 
-    def test_news_page(self):
-        response = self.client.get(url_for('main.news'))
-        self.assertTrue(
-            'Known Issues' in response.get_data(as_text=True))
-
     def test_setings_page(self):
         response = self.client.get(url_for('main.settings'))
         self.assertTrue(
@@ -84,6 +79,7 @@ class FlaskTestClientCase(unittest.TestCase):
             'password': 'wrong password'
         }, follow_redirects=True)
         data = response.get_data(as_text=True)
+        print data
         self.assertTrue('Invalid username or password' in data)
 
         # send a confirmation token
