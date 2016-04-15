@@ -79,3 +79,5 @@ _site/
 *.swp
 
 app/assets/
+
+.DS_Store
