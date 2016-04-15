@@ -33,7 +33,7 @@
   </div>
 
   <div class="note-notebook">
-      <a class="label label-notebook" href="{{ url_for('.notebooks', id=note.notebook_id) }}"> {{ note.get_notebook(note.notebook_id).title | truncate(20) }} Notebook </a>
+      <a class="label label-notebook" href="{{ url_for('.notebook', id=note.notebook_id) }}"> {{ note.get_notebook(note.notebook_id).title | truncate(20) }} Notebook </a>
   </div>
 
   <div class="note-tags">
