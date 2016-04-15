@@ -81,3 +81,5 @@ _site/
 app/assets/
 
 .DS_Store
+
+legacy_app/
