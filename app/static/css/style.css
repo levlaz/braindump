@@ -1,5 +1,3 @@
-/* Import Fonts */
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700,100);
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -13,8 +11,6 @@ body {
   background-color: rgb(240,244,247);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  font-family: Roboto;
-  font-weight: 300;
 }
 
 a {
