@@ -150,7 +150,7 @@ def delete(id):
         note.is_deleted = True
         db.session.commit()
         flash('The note has been deleted.')
-        return redirect(url_for('.index'))
+        return redirect(request.referrer)
 
 
 @main.route('/delete-forever/<int:id>', methods=['GET', 'POST'])
@@ -163,7 +163,7 @@ def delete_forever(id):
         db.session.delete(note)
         db.session.commit()
         flash('So Long! The note has been deleted forever.')
-        return redirect(url_for('.trash'))
+        return redirect(request.referrer)
 
 
 @main.route('/restore/<int:id>', methods=['GET', 'POST'])
@@ -176,7 +176,7 @@ def restore(id):
         note.is_deleted = False
         db.session.commit()
         flash('The note has been restored.')
-        return redirect(url_for('.trash'))
+        return redirect(request.referrer)
 
 
 @main.route('/share/<int:id>', methods=['GET', 'POST'])
@@ -289,10 +289,12 @@ def favorite(id):
     else:
         if not note.is_favorite:
             note.is_favorite = True
+            note.updated_date = datetime.utcnow()
             db.session.commit()
             flash('Note marked as favorite')
         else:
             note.is_favorite = False
+            note.updated_date = datetime.utcnow()
             db.session.commit()
             flash('Note removed as favorite')
         return redirect(request.referrer)
@@ -322,6 +324,7 @@ def archive(id):
         abort(403)
     else:
         note.is_archived = True
+        note.updated_date = datetime.utcnow()
         db.session.commit()
         flash('The note has been archived.')
         return redirect(request.referrer)
