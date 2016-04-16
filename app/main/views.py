@@ -295,7 +295,7 @@ def favorite(id):
             note.is_favorite = False
             db.session.commit()
             flash('Note removed as favorite')
-        return redirect(url_for('.index'))
+        return redirect(request.referrer)
 
 
 @main.route('/archive')
