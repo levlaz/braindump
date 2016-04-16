@@ -121,7 +121,7 @@ def edit(id):
         note.body = form.body.data
         note.body_html = form.body_html.data
         note.notebook_id = form.notebook.data
-        note.updated_date = datetime.now()
+        note.updated_date = datetime.utcnow()
         db.session.add(note)
         tags = []
         if not len(form.tags.data) == 0:
@@ -148,6 +148,7 @@ def delete(id):
         abort(403)
     else:
         note.is_deleted = True
+        note.updated_date = datetime.utcnow()
         db.session.commit()
         flash('The note has been deleted.')
         return redirect(request.referrer)
@@ -174,6 +175,7 @@ def restore(id):
         abort(403)
     else:
         note.is_deleted = False
+        note.updated_date = datetime.utcnow()
         db.session.commit()
         flash('The note has been restored.')
         return redirect(request.referrer)
