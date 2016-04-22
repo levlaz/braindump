@@ -20,6 +20,8 @@ Braindump is under heavy development and features are being added every week. So
 * Full Text Search
 * Mark notes as Favorites
 
+*TEST
+
 See something missing? Add a [feature-request](https://github.com/levlaz/braindump/issues)!
 
 # Screenshots
