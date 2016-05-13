@@ -40,7 +40,8 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(254), unique=True, index=True)
-    username = db.Column(db.String(64), unique=True, index=True)
+    first_name = db.Column(db.String(200))
+    last_name = db.Column(db.String(200))
     password_hash = db.Column(db.String(256))
     confirmed = db.Column(db.Boolean, default=False)
     avatar_hash = db.Column(db.String(32))

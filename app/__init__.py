@@ -35,17 +35,4 @@ def create_app(config_name):
     from .api_v1 import api as api_v1_blueprint
     app.register_blueprint(api_v1_blueprint, url_prefix='/api/v1')
 
-    with app.app_context():
-        db.create_all()
-        db.session.commit()
-        from app.models import User
-        if app.config['DEBUG']:
-            if not User.query.filter_by(username='admin').first():
-                admin = User(password='admin',
-                         email="admin@email.com",
-                         username='admin',
-                         confirmed=True)
-                db.session.add(admin)
-                db.session.commit()
-
     return app
