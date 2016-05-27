@@ -8,7 +8,7 @@ dependencies:
 
 test:
   override:
-    - docker run quay.io/levlaz/ticket-scrubber python manage.py test
+    - docker run quay.io/levlaz/braindump python manage.py test
 
 deployment:
   docker:
@@ -16,5 +16,5 @@ deployment:
     owner: levlaz
     commands:
       - docker login -u $DOCKER_USER -p $DOCKER_PASS quay.io
-      - docker push quay.io/levlaz/ticket-scrubber:$CIRCLE_TAG
-      - ./deploy.sh $CIRCLE_TAG
+      - docker push quay.io/levlaz/braindump:$CIRCLE_TAG
+      # - ./deploy.sh $CIRCLE_TAG
