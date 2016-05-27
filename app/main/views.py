@@ -127,8 +127,6 @@ def edit(id):
         if not len(form.tags.data) == 0:
             for tag in form.tags.data.split(','):
                 tags.append(tag.replace(" ", ""))
-                print form.tags.data
-                print tags
         note.str_tags = (tags)
         db.session.commit()
 

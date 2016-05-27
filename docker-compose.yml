@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  db:
+    image: postgres:9.5
+    environment:
+      POSTGRES_DB: braindump
+    volumes:
+      - data:/var/lib/postgresql
+    ports:
+     - "5432:5432"
+  web:
+    image: quay.io/levlaz/braindump:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    entrypoint: ./scripts/start-app.sh
+
+
+volumes:
+  data:

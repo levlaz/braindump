@@ -1,15 +1,20 @@
+machine:
+  services:
+    - docker
+ 
+dependencies:
+  override:
+    - docker build -t quay.io/levlaz/braindump: .
+
 test:
   override:
-    - python manage.py test --coverage
-  post:
-    - mkdir -p $CIRCLE_TEST_REPORTS/python/
-    - mv test-reports/*.xml $CIRCLE_TEST_REPORTS/python/
-    - cp -R test-reports/coverage/* $CIRCLE_ARTIFACTS
+    - docker run quay.io/levlaz/ticket-scrubber python manage.py test
 
 deployment:
-  push_to_bitkumo:
-    branch: master
+  docker:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    owner: levlaz
     commands:
-      - rsync -avz app circle@braindump.pw:/var/www
-      - rsync -avz migrations circle@braindump.pw:/var/www
-      - rsync -avz *.{py,txt} circle@braindump.pw:/var/www
+      - docker login -u $DOCKER_USER -p $DOCKER_PASS quay.io
+      - docker push quay.io/levlaz/ticket-scrubber:$CIRCLE_TAG
+      - ./deploy.sh $CIRCLE_TAG

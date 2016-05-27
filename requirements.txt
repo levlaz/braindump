@@ -21,7 +21,7 @@ unittest-xml-reporting==1.13.0
 ForgeryPy==0.1
 
 # Other Dependencies
-httpie==0.9.2
 psycopg2==2.6.1
 oauthlib==1.0.3
 sqlalchemy_searchable==0.9.3
+gunicorn

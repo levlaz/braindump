@@ -4,8 +4,7 @@ BrainDump is a simple, powerful, and open note taking platform that makes it eas
 
 [![CI](https://circleci.com/gh/levlaz/braindump.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/levlaz/braindump)
 ![MIT License](https://img.shields.io/github/license/mashape/apistatus.svg)
-[Platform Status](https://braindump.statusy.co)
-
+[![Docker Repository on Quay](https://quay.io/repository/levlaz/braindump/status "Docker Repository on Quay")](https://quay.io/repository/levlaz/braindump)
 
 # Features
 
@@ -31,9 +30,6 @@ See something missing? Add a [feature-request](https://github.com/levlaz/braindu
 ![UI V2](https://github.com/levlaz/braindump/blob/master/app/static/images/outer_preview.png)
 
 # Deployment
-
-I am building [docker images](https://hub.docker.com/r/levlaz/braindump/) which make it super easy to deploy braindump.
-
 Requirements:
 
 1. PostgreSQL Database
@@ -43,10 +39,3 @@ Requirements:
 
 * [Dev Blog](https://levlaz.org/tag/braindump/)
 * [Roadmap](https://github.com/levlaz/braindump/issues?q=is%3Aopen+is%3Aissue+label%3Afeature)
-
-## Develop with Vagrant
-
-1. Install [Vagrant](https://www.vagrantup.com/)
-2. Fork and clone this repo
-3. From the root of the project, run `vagrant up` in a terminal
-4. Navigate to localhost:5000 to view the app in your browser
