@@ -1,8 +1,8 @@
-FROM ubuntu:14.04
-EXPOSE 8000
-RUN apt-get update
-RUN apt-get install python-pip python-dev libxml2-dev libxslt1-dev libpq-dev -y
-COPY . .
+FROM python:3.5
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY requirements.txt /usr/src/app
 RUN pip install -r requirements.txt
-RUN pip install gunicorn
-CMD gunicorn manage:app -b 0.0.0.0 -D
+COPY . /usr/src/app

@@ -22,9 +22,9 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
-        'braindump',
-        'braindump',
-        'localhost',
+        'postgres',
+        'postgres',
+        'db',
         'braindump')
 
 
