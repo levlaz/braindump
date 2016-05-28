@@ -4,7 +4,8 @@ machine:
  
 dependencies:
   override:
-    - docker build -t quay.io/levlaz/braindump:latest -t quay.io/levlaz/braindump:$CIRCLE_TAG .
+    - docker build -t quay.io/levlaz/braindump:$CIRCLE_TAG .
+    - docker tag quay.io/levlaz/braindump:$CIRCLE_TAG quay.io/levlaz/braindump:latest
 
 test:
   override:
