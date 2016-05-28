@@ -4,7 +4,9 @@ services:
   db:
     image: postgres:9.5
     environment:
-      POSTGRES_DB: braindump
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASS
     volumes:
       - data:/var/lib/postgresql
     ports:
