@@ -36,6 +36,8 @@ services:
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
+    links:
+      - app:app
 
 volumes:
   data:
