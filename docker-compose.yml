@@ -11,6 +11,16 @@ services:
      - "5432:5432"
   web:
     image: quay.io/levlaz/braindump:latest
+    environment:
+      MAIL_USERNAME: $MAIL_USERNAME
+      MAIL_PASSWORD: $MAIL_PASSWORD
+      BRAINDUMP_ADMIN: $BRAINDUMP_ADMIN
+      SECRET_KEY: $SECRET_KEY
+      FLASK_CONFIG: $FLASK_CONFIG
+      DB_USER: $DB_USER
+      DB_PASS: $DB_PASS
+      DB_HOST: $DB_HOST
+      DB_NAME: $DB_NAME
     ports:
       - "8000:8000"
     depends_on:
