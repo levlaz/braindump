@@ -10,8 +10,8 @@ services:
     volumes:
       - data:/var/lib/postgresql
     ports:
-     - "5432:5432"
-  web:
+      - "127.0.0.1:5432:5432"
+  app:
     image: quay.io/levlaz/braindump:latest
     environment:
       MAIL_USERNAME: $MAIL_USERNAME
@@ -24,11 +24,15 @@ services:
       DB_HOST: $DB_HOST
       DB_NAME: $DB_NAME
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     depends_on:
       - db
     entrypoint: ./scripts/start-app.sh
-
+  web:
+    restart: always
+    build: ./etc/conf/
+    ports:
+      - "80:80"
 
 volumes:
   data:
