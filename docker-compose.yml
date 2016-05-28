@@ -33,6 +33,9 @@ services:
     build: ./etc/conf/
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
 
 volumes:
   data:
