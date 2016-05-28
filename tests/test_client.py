@@ -79,7 +79,6 @@ class FlaskTestClientCase(unittest.TestCase):
             'password': 'wrong password'
         }, follow_redirects=True)
         data = response.get_data(as_text=True)
-        print data
         self.assertTrue('Invalid username or password' in data)
 
         # send a confirmation token

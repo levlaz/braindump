@@ -41,5 +41,4 @@ class FlaskTestClientCase(unittest.TestCase):
 
         # Verify that the new Notebook link is correct
         response = self.client.get(url_for('main.notebook', id=n.id))
-        print response.get_data(as_text=True)
         self.assertTrue('Notes in New Notebook' in response.get_data(as_text=True))
