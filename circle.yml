@@ -17,5 +17,5 @@ deployment:
     owner: levlaz
     commands:
       - docker login -e="." -u $DOCKER_USER -p $DOCKER_PASS quay.io
-      - docker push quay.io/levlaz/braindump:$CIRCLE_TAG
+      - docker push quay.io/levlaz/braindump
       # - ./deploy.sh $CIRCLE_TAG
