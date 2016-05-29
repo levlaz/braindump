@@ -4,7 +4,7 @@ machine:
  
 dependencies:
   override:
-    - if [ -z "$CIRCLE_TAG" ]; then docker build -t quay.io/levlaz/braindump:$CIRCLE_SHA .; else docker build -t quay.io/levlaz/braindump:$CIRCLE_TAG .; fi
+    - if [ -z "$CIRCLE_TAG" ]; then docker build -t quay.io/levlaz/braindump:$CIRCLE_SHA1 .; else docker build -t quay.io/levlaz/braindump:$CIRCLE_TAG .; fi
 
 test:
   override:
@@ -15,7 +15,7 @@ deployment:
   master:
     branch: master
     commands:
-      - docker tag quay.io/levlaz/braindump:$CIRCLE_SHA quay.io/levlaz/braindump:latest
+      - docker tag quay.io/levlaz/braindump:$CIRCLE_SHA1 quay.io/levlaz/braindump:latest
       - docker login -e="." -u $DOCKER_USER -p $DOCKER_PASS quay.io
       - docker push quay.io/levlaz/braindump
   production:
