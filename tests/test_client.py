@@ -35,7 +35,6 @@ class FlaskTestClientCase(unittest.TestCase):
         # register a new account
         response = self.client.post(url_for('auth.register'), data={
             'email': 'test@example.com',
-            'username': 'test',
             'password': 'test',
             'password2': 'test'
         })
@@ -44,25 +43,12 @@ class FlaskTestClientCase(unittest.TestCase):
         # Attempt to register with same email
         response = self.client.post(url_for('auth.register'), data={
             'email': 'test@example.com',
-            'username': 'same_email',
             'password': 'test',
             'password2': 'test'
         })
         data = response.get_data(as_text=True)
         self.assertTrue(
             'Email already registered.'
-            in data)
-
-        # Attempt to register with same username
-        response = self.client.post(url_for('auth.register'), data={
-            'email': 'same_username@example.com',
-            'username': 'test',
-            'password': 'test',
-            'password2': 'test'
-        })
-        data = response.get_data(as_text=True)
-        self.assertTrue(
-            'Username already in use.'
             in data)
 
         # login with the new account

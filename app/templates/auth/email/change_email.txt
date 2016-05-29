@@ -1,4 +1,4 @@
-Dear {{ user.username }},
+Hi There!
 
 To confirm your new email address click on the following link:
 

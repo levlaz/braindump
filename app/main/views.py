@@ -190,7 +190,7 @@ def share(id):
         send_email(
             form.recipient_email.data, '{0} has shared \
             a braindump with you!'
-            .format(current_user.username),
+            .format(current_user.email),
             'app_email/share_note',
             user=current_user, note=note)
         flash('The note has been shared!')

@@ -63,7 +63,6 @@ class User(UserMixin, db.Model):
         for i in range(count):
             u = User(
                 email=f.internet.email_address(),
-                username=f.internet.user_name(True),
                 password=f.lorem_ipsum.word(),
                 confirmed=True)
             db.session.add(u)
@@ -174,15 +173,11 @@ class User(UserMixin, db.Model):
     def to_json(self):
         json_user = {
             'url': url_for('api.get_note', id=self.id, _external=True),
-            'username': self.username,
             'created_date': self.created_date,
             'notes': url_for('api.get_user_notes', id=self.id, _external=True),
             'note_count': self.notes.count()
         }
         return json_user
-
-    def __repr__(self):
-        return '<User {0}>'.format(self.username)
 
 
 class AnonymousUser(AnonymousUserMixin):
