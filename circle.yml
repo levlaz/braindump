@@ -15,7 +15,7 @@ deployment:
   master:
     branch: master
     commands:
-      - docker tag quay.io/levlaz/braindump:$CIRCLE_SHA
+      - docker tag quay.io/levlaz/braindump:latest quay.io/levlaz/braindump:$CIRCLE_SHA
       - docker login -e="." -u $DOCKER_USER -p $DOCKER_PASS quay.io
       - docker push quay.io/levlaz/braindump
   production:
