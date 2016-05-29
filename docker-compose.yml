@@ -12,7 +12,7 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
   app:
-    image: quay.io/levlaz/braindump:latest
+    image: quay.io/levlaz/braindump:stable
     environment:
       MAIL_USERNAME: $MAIL_USERNAME
       MAIL_PASSWORD: $MAIL_PASSWORD
