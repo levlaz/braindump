@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, \
-    TextAreaField, SelectField
+    TextAreaField, SelectField, HiddenField
 from wtforms.validators import Required, Length, Email, ValidationError
 
 
@@ -14,8 +14,8 @@ def validate_tags(form, field):
 
 class NoteForm(Form):
     title = StringField('Title:', validators=[Required(), Length(1, 200)])
-    body = TextAreaField('Dump Your Brain:', validators=[Required()])
-    body_html = TextAreaField()
+    body = HiddenField()
+    body_html = HiddenField()
     tags = StringField(validators=[validate_tags])
     notebook = SelectField(coerce=int)
     submit = SubmitField('Submit')

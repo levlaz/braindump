@@ -67,9 +67,6 @@
 </div>
 {% endblock %}
 
-
 {% block scripts %}
-{{ super() }}
-{{ moment.include_moment() }}
-<script src="{{ url_for('static', filename='js/braindump.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 {% endblock %}

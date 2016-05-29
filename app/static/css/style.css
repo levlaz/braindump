@@ -142,7 +142,11 @@ div.col-md-4 {
   margin-bottom: 5px;
 }
 
-/* Custom Style for ACE Editor */
 #editor {
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.ProseMirror-content {
+  min-height: 200px;
+  overflow-y: auto;
 }

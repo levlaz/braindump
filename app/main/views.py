@@ -134,6 +134,7 @@ def edit(id):
         return redirect(url_for('.index', active_note=note.id))
     form.title.data = note.title
     form.body.data = note.body
+    form.body_html.data = note.body_html
     form.tags.data = ', '.join(note._get_tags())
     return render_template('app/edit_note.html', note=note, form=form)
 
