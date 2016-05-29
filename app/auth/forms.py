@@ -70,12 +70,3 @@ class ChangeEmailForm(Form):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Email already registered.')
-
-
-class ChangeUserNameForm(Form):
-    username = StringField('New Username', validators=[Required()])
-    submit = SubmitField('Update Username')
-
-    def validate_username(self, field):
-        if User.query.filter_by(username=field.data).first():
-            raise ValidationError('Username already taken.')

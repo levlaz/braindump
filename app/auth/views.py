@@ -174,18 +174,3 @@ def change_email(token):
     else:
         flash('Invalid request.')
     return redirect(url_for('main.index'))
-
-
-@auth.route('/change-username', methods=['GET', 'POST'])
-@login_required
-def change_username():
-    form = ChangeUserNameForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(id=current_user.id).first_or_404()
-        new_username = form.username.data
-        user.username = new_username
-        db.session.add(user)
-        db.session.commit()
-        flash('Updated username, you are now {0}'.format(new_username))
-        return redirect(url_for('main.settings'))
-    return render_template("auth/change_username.html", form=form)
