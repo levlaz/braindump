@@ -1,8 +1,8 @@
 {
   "name": "braindump",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "BrainDump is a simple, powerful, and open note taking platform that makes it easy to organize your life.",
-  "main": "app/static/js/braindump_bundle.js",
+  "main": "app/static/js/bundle.js",
   "directories": {
     "doc": "docs",
     "test": "tests"
