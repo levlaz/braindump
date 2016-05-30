@@ -80,6 +80,6 @@ _site/
 
 app/assets/
 
-.DS_Store
+*.DS_Store
 
 legacy_app/
