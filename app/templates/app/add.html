@@ -12,9 +12,7 @@
   {{ wtf.form_field(form.title, autofocus=true) }}
   {{ form.body() }}
   {{ form.body_html() }}
-  <div id="editor">
-    <div id="content">
-    </div>
+  <div class="editor">
   </div>
   {{ form.tags( **{'id':"tag-input", 'class': "form-group", 'placeholder': "Enter Tags (Optional)", 'data-role':"tagsinput"}) }}
   {{ wtf.form_field(form.notebook) }}

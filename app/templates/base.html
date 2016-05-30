@@ -41,7 +41,7 @@
 
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          {% if not current_user.is_authenticated() %}
+          {% if not current_user.is_authenticated %}
           <li><a href="{{url_for('auth.login')}}">Login</a></li>
           <li><a href="{{url_for('auth.register')}}">Register</a></li>
           {% else %}

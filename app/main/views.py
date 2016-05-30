@@ -13,7 +13,7 @@ from ..models import User, Note, Tag, Notebook
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         notes = Note.query.filter_by(
             author_id=current_user.id,
             is_deleted=False, is_archived=False).order_by(
@@ -71,7 +71,7 @@ def settings():
 @main.route('/trash')
 @login_required
 def trash():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         notes = Note.query.filter_by(
             author_id=current_user.id,
             is_deleted=True).order_by(
@@ -105,38 +105,18 @@ def note(id):
     return render_template('app/note.html', notes=[note])
 
 
-@main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@main.route('/edit/<int:id>', methods=['PUT'])
 @login_required
 def edit(id):
-    note = Note.query.get_or_404(id)
-    if current_user != note.author:
-        abort(403)
-    form = NoteForm(notebook=note.notebook_id)
-    form.notebook.choices = [
-        (n.id, n.title) for n in
-        Notebook.query.filter_by(
-            author_id=current_user.id).all()]
-    if form.validate_on_submit():
-        note.title = form.title.data
-        note.body = form.body.data
-        note.body_html = form.body_html.data
-        note.notebook_id = form.notebook.data
-        note.updated_date = datetime.utcnow()
+    if request.is_json:
+        note = Note.query.get_or_404(id)
+        if current_user != note.author:
+            return forbidden('Access Denied')
+        note.body = request.json.get('body', note.body)
+        note.body_html = request.json.get('body_html', note.body_html)
         db.session.add(note)
-        tags = []
-        if not len(form.tags.data) == 0:
-            for tag in form.tags.data.split(','):
-                tags.append(tag.replace(" ", ""))
-        note.str_tags = (tags)
         db.session.commit()
-
-        flash('The note has been updated.')
-        return redirect(url_for('.index', active_note=note.id))
-    form.title.data = note.title
-    form.body.data = note.body
-    form.body_html.data = note.body_html
-    form.tags.data = ', '.join(note._get_tags())
-    return render_template('app/edit_note.html', note=note, form=form)
+        return jsonify(note.to_json())
 
 
 @main.route('/delete/<int:id>', methods=['GET', 'POST'])
@@ -304,7 +284,7 @@ def favorite(id):
 @main.route('/archive')
 @login_required
 def view_archive():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         notes = Note.query.filter_by(
             author_id=current_user.id,
             is_deleted=False, is_archived=True).order_by(

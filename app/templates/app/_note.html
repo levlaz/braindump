@@ -23,7 +23,6 @@
       <a href="{{ url_for('.favorite', id=note.id) }}"><i class="fa fa-star-o"></i></a>
     {% endif %}
       <a href="{{ url_for('.share', id=note.id) }}"><i class="fa fa-share"></i></a>
-      <a href="{{ url_for('.edit', id=note.id) }}"><i class="fa fa-pencil-square-o"></i></a>
       <a href="{{ url_for('.archive', id=note.id) }}"><i class="fa fa-archive"></i></a>
       <a href="{{ url_for('.delete', id=note.id) }}"><i class="fa fa-trash"></i></a>
     {% else %}
@@ -47,7 +46,10 @@
   </div>
 
   <div class="note-content">
-    {{ note.body_html | safe  }}
+    <div class="editor" note_id="{{note.id}}">
+      <input id="body_html" note_id="{{note.id}}" value="{{note.body_html|safe}}" type="hidden">
+      <input id="body" note_id="{{note.id}}" value="{{note.body|safe}}" type="hidden">
+    </div>
   </div>
 </div>
 {% endfor %}

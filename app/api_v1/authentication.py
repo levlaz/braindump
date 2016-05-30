@@ -28,16 +28,15 @@ def verify_password(email_or_token, password):
 def auth_error():
     return unauthorized('Invalid credentials')
 
-
 @api.before_request
 @auth.login_required
 def before_request():
+    print(g.current_user);
     if not g.current_user.is_anonymous() and \
             not g.current_user.confirmed:
         return forbidden('Unconfirmed acount')
     if g.current_user.is_anonymous():
         return unauthorized('Access Denied')
-
 
 @api.route('/token')
 def get_token():
