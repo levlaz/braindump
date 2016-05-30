@@ -46,7 +46,6 @@ def add():
         note = Note(
             title=form.title.data,
             body=form.body.data,
-            body_html=form.body_html.data,
             notebook_id=form.notebook.data,
             author=current_user._get_current_object())
         db.session.add(note)
