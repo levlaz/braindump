@@ -15,7 +15,6 @@ def validate_tags(form, field):
 class NoteForm(Form):
     title = StringField('Title:', validators=[Required(), Length(1, 200)])
     body = HiddenField()
-    body_html = HiddenField()
     tags = StringField(validators=[validate_tags])
     notebook = SelectField(coerce=int)
     submit = SubmitField('Submit')

@@ -25,12 +25,11 @@ let self = module.exports = {
         }
         
         let noteBody = $('input[id="body"]');
-        let noteBodyHtml = $('input[id="body_html"]'); 
         let pm = window.pm = new ProseMirror({
             place: place,
             autoInput: true,
             doc: input,
-            docFormat: "html"
+            docFormat: "markdown"
         });
         
         self.setMenuStyle(place.getAttribute("menustyle") || "bar");
@@ -40,8 +39,7 @@ let self = module.exports = {
 
         pm.on('change', (debounce.debounce(function(event){
             noteBody.val(pm.getContent("markdown"));
-            noteBodyHtml.val(pm.getContent("html"));
-            self.saveNote(noteId, noteBody.val(), noteBodyHtml.val());
+            self.saveNote(noteId, noteBody.val());
         }, 500)));
     }, 
     
@@ -55,12 +53,11 @@ let self = module.exports = {
         }        
     }, 
     
-    saveNote: function(id, content, contentHtml) {
+    saveNote: function(id, content) {
         $.ajax({
             url: `/edit/${id}`,
             data: JSON.stringify({
                 'body': content,
-                'body_html': contentHtml
             }),
             contentType: 'application/json',
             type: 'PUT',
