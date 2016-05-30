@@ -9,6 +9,7 @@ services:
       POSTGRES_PASSWORD: $DB_PASS
     volumes:
       - data:/var/lib/postgresql
+      - /db/backups:/db/backups
     ports:
       - "127.0.0.1:5432:5432"
   app:
