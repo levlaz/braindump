@@ -26,7 +26,10 @@
             {% endif %}
                     <a href="#{{ note.id }}" data-toggle="pill">
                         {{ note.title }} <br />
-                        <small>{{ moment(note.updated_date).fromNow() }}</small>
+                        <small>
+                        <span class="note-updated-date-list" value={{note.updated_date}}>
+                        </span>
+                        </small>
                     </a>
               </li>
           {% endfor %}
