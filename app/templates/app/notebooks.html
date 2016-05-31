@@ -21,7 +21,7 @@
 	  <a class="btn btn-primary" href="{{ url_for('.notebook', id=notebook.id)}}">
 		  {{ notebook.title }}
 		  <br />
-		  <span class="badge"> {{ notebook.notes | length }} Notes </span>
+		  <span class="badge"> {{ notebook.get_active_note_count() }} Notes </span>
 	  </a>
       {% endfor %}
       </div>
