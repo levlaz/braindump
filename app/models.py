@@ -3,11 +3,11 @@ import hashlib
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, url_for
-from flask.ext.login import UserMixin, current_user, AnonymousUserMixin
+from flask_login import UserMixin, current_user, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from app.exceptions import ValidationError
-from flask.ext.sqlalchemy import BaseQuery
+from flask_sqlalchemy import BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType

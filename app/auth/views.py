@@ -1,6 +1,6 @@
 from flask import render_template, \
     redirect, request, url_for, flash, session, jsonify
-from flask.ext.login import login_user, \
+from flask_login import login_user, \
     logout_user, login_required, current_user
 
 from . import auth

@@ -9,10 +9,10 @@ from app.models import (
     Note,
     Tag,
     Notebook)
-from flask.ext.script import (
+from flask_script import (
     Manager,
     Shell)
-from flask.ext.migrate import (
+from flask_migrate import (
     Migrate,
     MigrateCommand)
 
@@ -83,7 +83,7 @@ def profile(length=25, profile_dir=None):
 @manager.command
 def deploy():
     """Run deployment tasks."""
-    from flask.ext.migrate import upgrade
+    from flask_migrate import upgrade
 
     # migrate database to latest revision
     upgrade()
