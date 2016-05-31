@@ -1,30 +1,15 @@
 {
   "name": "braindump",
-  "version": "0.3.0",
-  "description": "BrainDump is a simple, powerful, and open note taking platform that makes it easy to organize your life.",
-  "main": "app/static/js/bundle.js",
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
-  },
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify -t [ babelify --presets [ es2015 ] ] frontend/*.js | uglifyjs > app/static/js/bundle.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/levlaz/braindump.git"
-  },
-  "author": "Lev Lazinskiy",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/levlaz/braindump/issues"
-  },
-  "homepage": "https://github.com/levlaz/braindump#readme",
   "dependencies": {
     "bootstrap": "^3.3.6",
     "bootstrap-tagsinput": "^0.7.1",
     "jquery": "^2.2.3",
+    "moment": "^2.13.0",
     "prosemirror": "^0.6.1"
   },
   "devDependencies": {

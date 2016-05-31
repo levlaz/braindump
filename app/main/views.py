@@ -113,6 +113,7 @@ def edit(id):
             return forbidden('Access Denied')
         note.body = request.json.get('body', note.body)
         note.body_html = request.json.get('body_html', note.body_html)
+        note.updated_date = datetime.utcnow()
         db.session.add(note)
         db.session.commit()
         return jsonify(note.to_json())

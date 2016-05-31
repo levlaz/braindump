@@ -10,9 +10,8 @@
     <h1> {{ note.title }} </h1>
 
     <div class="note-date">
-    {{ moment(note.created_date).format("MMMM  DD, YYYY") }}
-    <span class="updated">
-    Updated: {{ moment(note.updated_date).fromNow() }}</span>
+    <span class="note-created-date" value="{{note.created_date}}"></span>
+    <span class="note-updated-date" value="{{note.updated_date}}"></span>
   </div>
 
   <div class="note-actions">

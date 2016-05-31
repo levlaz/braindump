@@ -114,6 +114,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 }
 
 .note-updated-date {
+    float: right;
     margin-right: 10px;
     font-style: italic;
     color: #7A7A7A;
