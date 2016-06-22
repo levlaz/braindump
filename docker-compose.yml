@@ -1,17 +1,6 @@
 version: '2'
 
 services:
-  db:
-    image: postgres:9.5
-    environment:
-      POSTGRES_DB: $DB_NAME
-      POSTGRES_USER: $DB_USER
-      POSTGRES_PASSWORD: $DB_PASS
-    volumes:
-      - data:/var/lib/postgresql
-      - /db/backups:/db/backups
-    ports:
-      - "127.0.0.1:5432:5432"
   app:
     image: quay.io/levlaz/braindump:stable
     environment:
@@ -26,19 +15,5 @@ services:
       DB_NAME: $DB_NAME
     ports:
       - "127.0.0.1:8000:8000"
-    depends_on:
-      - db
     entrypoint: ./scripts/start-app.sh
-  web:
-    restart: always
-    build: ./etc/conf/
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-    links:
-      - app:app
 
-volumes:
-  data:
