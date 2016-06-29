@@ -81,3 +81,5 @@ The only official method of deploying Braindump is with Docker. Braindump.pw is 
 7. (Optional) to set up automatic backups (every 6 hours) add the backup script to your crontab `crontab scripts/braindump-backup`
 
 If all goes well, you will be able to navigate to $YOUR_SERVER in a browser and see the app. If you get a bad gateway error, or some other error try to run docker-compose in the foreground to get additional logging `cd /var/www/braindump && source scripts/secrets.sh && docker-compose up`
+
+Test build
