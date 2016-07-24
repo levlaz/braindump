@@ -3,11 +3,12 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify -t [ babelify --presets [ es2015 ] ] frontend/*.js | uglifyjs > app/static/js/bundle.js"
+    "build": "browserify -t [ babelify --presets [ es2015 ] ] frontend/*.js | uglifyjs > app/static/js/braindump.min.js"
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
     "bootstrap-tagsinput": "^0.7.1",
+    "font-awesome": "^4.6.3",
     "jquery": "^2.2.3",
     "moment": "^2.13.0",
     "prosemirror": "^0.6.1"
@@ -16,6 +17,10 @@
     "babel-preset-es2015": "^6.6.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.11",
+    "gulp-concat": "^2.6.0",
+    "gulp-uglify": "^1.5.4",
     "uglifyjs": "^2.4.10"
   }
 }

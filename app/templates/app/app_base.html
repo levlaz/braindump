@@ -2,12 +2,9 @@
 
 {% block head %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static',
-                             filename='css/font-awesome.css') }}" type="text/css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-tagsinput.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor.min.css') }}" type="text/css">
 {% endblock %}
 
 {% block title %} BrainDump {% endblock %}
@@ -68,5 +65,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/bundle.js') }}"></script>
+<script src="{{ url_for('static', filename='js/braindump.min.js') }}"></script>
 {% endblock %}
