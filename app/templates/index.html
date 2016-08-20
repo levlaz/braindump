@@ -1,12 +1,54 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
 
 {% block title %}BrainDump{% endblock %}
 
 {% block page_content %}
 
-{% include 'outer.html' %}
+<div class="site-wrapper">
+
+  <div class="site-wrapper-inner">
+
+    <div class="cover-container">
+
+      <div class="masthead clearfix">
+        <div class="inner">
+          <h3 class="masthead-brand">Braindump</h3>
+          <nav>
+            <ul class="nav masthead-nav">
+              <li class="active"><a href="{{url_for('auth.login')}}">Login</a></li>
+              <li><a href="{{url_for('auth.register')}}">Register</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div class="inner cover">
+        <h1 class="cover-heading">Welcome to Braindump</h1>
+        <p class="lead">Braindump is a simple, powerful, and open note taking platform that makes it easy to organize your life. So far, braindump has helped 349 people organize their life with 477 notes. Join them!</p>
+        <p class="lead">
+          <a href="{{url_for('auth.register')}}" class="btn btn-lg btn-default">Dump Your Brain</a>
+        </p>
+      </div>
+
+      <div class="mastfoot">
+        <div class="inner">
+          <p>
+            &copy 2015-2016 braindump by <a href="https://levlaz.org"> levlaz </a>
+          </p>
+          <p>
+    		      Proudly Powered by <a href="https://www.linode.com/?r=15437cfec0948d105bf7478af2422241ed5da188">Linode</a> |
+              <a href="https://github.com/levlaz/braindump">GitHub</a> |
+              <a href="https://github.com/levlaz/braindump/issues">Bugs </a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 {% endblock %}
 

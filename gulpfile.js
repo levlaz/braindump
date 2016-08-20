@@ -2,11 +2,13 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
+var sass = require('gulp-sass');
 
 var src = {
   css: [
     'frontend/css/style.css',
-    'frontend/css/app.css'
+    'frontend/css/app.css',
+    'frontend/css/notebook-card.css'
   ]
 };
 
@@ -42,4 +44,12 @@ gulp.task('css', function() {
   ;
 });
 
-gulp.task('default', ['vendor', 'css']);
+gulp.task('sass', function () {
+  return gulp.src('./frontend/sass/**/*.scss')
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(concat('app.min.css'))
+    .pipe(cleanCSS())
+    .pipe(gulp.dest(dist.css));
+});
+
+gulp.task('default', ['vendor', 'sass']);
