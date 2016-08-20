@@ -1,0 +1,211 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    min-height: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.heading {
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+/* Alerts */
+.alert {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.alert-warning {
+    padding: 20px;
+}
+
+/* Side bar */
+.col-sm-1 {
+    background-color: #1976d2;
+    padding: 0;
+    overflow-y: auto;
+}
+
+.col-sm-1 ul {
+    list-style: none;
+}
+
+.col-sm-1 li {
+    list-style: none;
+}
+
+.sidebar-nav li a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: block;
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  font-size: 25px;
+}
+
+.sidebar-nav li:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.nav-description {
+  font-size: 12px;
+}
+
+/* Note List */
+.col-sm-4 {
+    border-top: solid 1px #2196f3;
+    overflow-y: auto;
+    padding-bottom: 100px;
+}
+
+.col-sm-4 li{
+    border-bottom: solid 1px rgb(85,66,111);
+}
+
+.nav-pills>li>a {
+    border-radius: 0;
+}
+
+.nav-stacked>li+li {
+    margin: 0;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    color: white;
+    background-color: #2196f3;
+}
+
+/* Note Preview */
+.col-sm-7 {
+    border-top: solid 1px rgb(155, 105, 226);
+    padding-left: 30px;
+    padding-right: 15px;
+    background-color: white;
+    overflow-y: auto;
+    word-wrap: break-word;
+    padding-bottom: 100px;
+}
+
+.note-date {
+    border-top: solid 1px #BDBDBD;
+    font-size: 12px;
+}
+
+.note-updated-date {
+    float: right;
+    margin-right: 10px;
+    font-style: italic;
+    color: #7A7A7A;
+}
+
+.label-tag {
+    background-color: rgba(85, 66, 111, 0.8);
+    margin-right: 5px;
+    line-height: 2;
+}
+
+.label-tag:hover {
+    background-color: rgba(85, 66, 111,1);
+    margin-right: 5px;
+}
+
+.note-notebook {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.label-notebook {
+    border: solid 1px rgb(85,66,111);
+    background-color: rgba(222, 207, 244, 0.8);
+    margin-right: 5px;
+    color: rgb(85,66,111);
+}
+
+.label-notebook:hover {
+    border: solid 1px rgb(85,66,111);
+    background-color: rgb(222, 207, 244);
+    margin-right: 5px;
+    color: rgb(85,66,111);
+}
+
+.note-actions {
+    float: right;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.note-actions a{
+    margin-left: 20px;
+}
+
+.note-content ul{
+    margin-left: 20px;
+}
+
+.note-content ol{
+    margin-left: 20px;
+}
+
+.favorite {
+    color: rgb(255, 241, 106);
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+/* Edit View */
+.col-sm-11 {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    overflow-y: auto;
+    word-wrap: break-word;
+    background-color: #fff;
+}
+
+.col-sm-11 ul{
+    padding-left: 15px;
+}
+
+.col-sm-11 ol {
+    padding-left: 15px;
+}
+
+/* Icons */
+
+.good {
+  color: green;
+}
+
+.bad {
+  color: red;
+}
+
+/* Tasks View */
+.task-heading {
+    margin-bottom: 10px;
+}
+
+.task-heading > .btn {
+    width: 100px;
+    margin-right: 10px;
+}

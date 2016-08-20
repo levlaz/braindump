@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+$brand-color: #2196f3;
+
+// Import Partials from _partials directory
+@import
+  "base",
+  "layout",
+  "outer",
+  "notebook-card",
+  "cover",
+  "app"
+;
