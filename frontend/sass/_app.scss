@@ -28,6 +28,11 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 }
 
 /* Side bar */
+.app-logo {
+  width: 50px;
+  height: 50px;
+}
+
 .col-sm-1 {
     background-color: #1976d2;
     padding: 0;
@@ -71,10 +76,11 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     border-top: solid 1px #2196f3;
     overflow-y: auto;
     padding-bottom: 100px;
+    border-right: solid 1px $divider-color;
 }
 
 .col-sm-4 li{
-    border-bottom: solid 1px rgb(85,66,111);
+    border-bottom: solid 1px $divider-color;
 }
 
 .nav-pills>li>a {
@@ -92,7 +98,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 /* Note Preview */
 .col-sm-7 {
-    border-top: solid 1px rgb(155, 105, 226);
+    border-top: solid 1px $divider-color;
     padding-left: 30px;
     padding-right: 15px;
     background-color: white;
