@@ -18,4 +18,3 @@ services:
     extra_hosts:
       - "db.levops.net:$DB_PRIVATE_IP"
     entrypoint: ./scripts/start-app.sh
-
