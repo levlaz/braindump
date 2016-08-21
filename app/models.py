@@ -275,11 +275,19 @@ class Notebook(db.Model):
             if note.is_deleted is False and note.is_archived is False:
                 notes.append(note)
         return notes
-        
+
     def get_active_note_count(self):
         note_count = Note.query.filter_by(
             notebook_id=self.id, is_deleted=False, is_archived=False).count()
         return note_count
+
+    def to_json(self):
+        json = {
+            'title': self.title,
+            'is_deleted': self.is_deleted,
+            'author': self.author_id,
+        }
+        return json
 
 
 class Tag(db.Model):

@@ -8,8 +8,10 @@ window.jQuery = jQuery;
 require('bootstrap');
 require('bootstrap-tagsinput');
 
-const editor = require('./braindumpEditor');
+const editor = require('./braindump.editor');
+const notebooks = require('./braindump.notebooks')
 const dates = require('./Dates');
 
 editor.initEditor();
+notebooks.init();
 dates.initDates();

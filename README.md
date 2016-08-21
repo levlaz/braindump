@@ -41,8 +41,8 @@ The easiest way to hack on braindump is with Vagrant
 
 ## Requirements
 1. VirtualBox
-2. Vagrant 
-3. Git 
+2. Vagrant
+3. Git
 
 ## Development Instructions
 1. Fork and Clone this repo locally
@@ -69,7 +69,7 @@ The only official method of deploying Braindump is with Docker. Braindump.pw is 
     rsync -avz etc/ $USER@SERVER:/var/www/braindump/etc/
     scp docker-compose.yml $USER@SERVER:/var/www/braindump
     ```
-    
+
 6. From your local repo, log into production server, pull and restart Docker
 
     ```
@@ -77,9 +77,7 @@ The only official method of deploying Braindump is with Docker. Braindump.pw is 
     ssh $USER@SERVER 'cd /var/www/braindump && docker-compose build'
     ssh $USER@SERVER 'cd /var/www/braindump && source scripts/secrets.sh && docker-compose up -d'
     ```
-    
+
 7. (Optional) to set up automatic backups (every 6 hours) add the backup script to your crontab `crontab scripts/braindump-backup`
 
 If all goes well, you will be able to navigate to $YOUR_SERVER in a browser and see the app. If you get a bad gateway error, or some other error try to run docker-compose in the foreground to get additional logging `cd /var/www/braindump && source scripts/secrets.sh && docker-compose up`
-
-Test build

@@ -21,11 +21,11 @@ def index():
             Note.updated_date.desc()).all()
         return render_template('app/app.html', notes=notes)
     else:
-        stats = []
+        stats = {}
         users = User.query.count()
-        stats.append(users)
+        stats['users'] = users
         notes = Note.query.count()
-        stats.append(notes)
+        stats['notes'] = notes
         return render_template('index.html', stats=stats)
 
 
@@ -43,6 +43,7 @@ def add():
         Notebook.query.filter_by(
             author_id=current_user.id).all()]
     if form.validate_on_submit():
+        print(form.body.data)
         note = Note(
             title=form.title.data,
             body=form.body.data,
@@ -239,6 +240,18 @@ def notebook(id):
         notebook=notebook,
         notes=notebook._show_notes())
 
+
+@main.route('/notebook/<int:id>', methods=['DELETE'])
+@login_required
+def delete_notebook(id):
+    notebook = Notebook.query.filter_by(id=id).first()
+    if current_user != notebook.author:
+        abort(403)
+    else:
+        notebook.is_deleted = True
+        notebook.updated_date = datetime.utcnow()
+        db.session.commit()
+        return jsonify(notebook.to_json())
 
 @main.route('/search')
 @login_required
