@@ -4,14 +4,6 @@ var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
 var sass = require('gulp-sass');
 
-var src = {
-  css: [
-    'frontend/css/style.css',
-    'frontend/css/app.css',
-    'frontend/css/notebook-card.css'
-  ]
-};
-
 var vendor = {
   css: [
     'node_modules/bootstrap/dist/css/bootstrap.min.css',
@@ -35,13 +27,9 @@ gulp.task('vendor', function() {
   gulp.src('node_modules/font-awesome/fonts/*')
     .pipe(gulp.dest(dist.fonts))
   ;
-});
 
-gulp.task('css', function() {
-  gulp.src(src.css)
-    .pipe(concat('app.min.css'))
-    .pipe(cleanCSS())
-    .pipe(gulp.dest(dist.css))
+  gulp.src('node_modules/bootstrap/dist/fonts/*')
+        .pipe(gulp.dest(dist.fonts))
   ;
 });
 
@@ -53,4 +41,8 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(dist.css));
 });
 
-gulp.task('default', ['vendor', 'sass']);
+gulp.task('sass:watch', function () {
+  gulp.watch('./frontend/sass/*.scss', ['sass']);
+});
+
+gulp.task('default', ['vendor', 'sass:watch']);

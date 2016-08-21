@@ -24,11 +24,7 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 
 /* Alerts */
 .alert {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 99;
-    width: 100%;
+    border-radius: 0;
 }
 
 /* Side bar */
