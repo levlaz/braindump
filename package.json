@@ -4,7 +4,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify -t [ babelify --presets [ es2015 ] ] frontend/js/src/*.js | uglifyjs > app/static/js/braindump.min.js",
-    "gulp": "gulp sass",
+    "gulp": "gulp",
     "watch": "npm-watch"
   },
   "watch": {
