@@ -21,11 +21,11 @@ def index():
             Note.updated_date.desc()).all()
         return render_template('app/app.html', notes=notes)
     else:
-        stats = []
+        stats = {}
         users = User.query.count()
-        stats.append(users)
+        stats['users'] = users
         notes = Note.query.count()
-        stats.append(notes)
+        stats['notes'] = notes
         return render_template('index.html', stats=stats)
 
 
