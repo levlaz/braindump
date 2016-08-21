@@ -14,6 +14,7 @@ var src = {
 
 var vendor = {
   css: [
+    'node_modules/bootstrap/dist/css/bootstrap.min.css',
     'node_modules/bootstrap-tagsinput/src/bootstrap-tagsinput.css',
     'node_modules/font-awesome/css/font-awesome.min.css'
   ]

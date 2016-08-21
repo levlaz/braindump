@@ -1,14 +1,17 @@
-{% extends 'bootstrap/base.html' %}
-
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+  {% block title %} BrainDump {% endblock %}
+  </title>
 {% block head %}
-{{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.min.css') }}" type="text/css">
 {% endblock %}
+</head>
 
-{% block title %} BrainDump {% endblock %}
-
+<body>
 {% block content %}
 {% for message in get_flashed_messages() %}
 <div class="alert alert-warning alert-dismissible" role="alert">
@@ -25,3 +28,5 @@
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/braindump.min.js') }}"></script>
 {% endblock %}
+</body>
+</html>

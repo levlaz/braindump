@@ -1,6 +1,5 @@
 # Flask Requirements
 Flask>=0.11
-Flask-Bootstrap>=3.3.5.7
 Flask-HTTPAuth>=2.7.0
 Flask-Login>=0.2.11
 Flask-Mail>=0.9.1
