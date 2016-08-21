@@ -33,8 +33,6 @@ body {
   .btn-default:focus {
     color: #333;
     text-shadow: none; /* Prevent inheritance from `body` */
-    background-color: #fff;
-    border: 1px solid #fff;
   }
 }
 
@@ -65,16 +63,10 @@ body {
   display: inline-block;
 }
 .masthead-nav > li + li {
-  margin-left: 20px;
+  margin-left: 5px;
 }
-.masthead-nav > li > a {
-  padding-right: 0;
-  padding-left: 0;
-  font-size: 16px;
+.masthead-nav > li > button {
   font-weight: bold;
-  color: #fff; /* IE8 proofing */
-  color: rgba(255,255,255,.75);
-  border-bottom: 2px solid transparent;
 }
 .masthead-nav > li > a:hover,
 .masthead-nav > li > a:focus {
