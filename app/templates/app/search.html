@@ -1,21 +1,33 @@
 {% extends "app/app_base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
 
 {% block title %}BrainDump{% endblock %}
 
 {% block page_content %}
 
       <div class="col-sm-11">
-      <h1 class="top"> Search for Anything </h1>
+        <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputFile">File input</label>
+          <input type="file" id="exampleInputFile">
+          <p class="help-block">Example block-level help text here.</p>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Check me out
+          </label>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
 
-      <form class="form form-horizontal" action="/search" role="form">
-          {{ wtf.form_field(form.search_field, autofocus="true") }}
-          {{ wtf.form_field(form.submit, class="btn btn-default form-group") }}
-        </form>
 
-      {% include 'app/_notes.html' %}
-
+          {% include 'app/_notes.html' %}
     </div>
-
 {% endblock %}
