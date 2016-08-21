@@ -28,6 +28,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-sass": "^2.3.2",
     "gulp-uglify": "^1.5.4",
+    "jsdoc": "^3.4.0",
     "npm-watch": "^0.1.5",
     "uglifyjs": "^2.4.10"
   }

@@ -13,6 +13,5 @@ const notebooks = require('./braindump.notebooks')
 const dates = require('./Dates');
 
 editor.initEditor();
-editor.setActive();
 notebooks.init();
 dates.initDates();

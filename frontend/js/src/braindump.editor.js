@@ -1,3 +1,7 @@
+/**
+ * Editor Module
+ * @module braindump.editor
+ */
 'use strict';
 
 import {ProseMirror} from "prosemirror/dist/edit"
@@ -15,6 +19,8 @@ let self = module.exports = {
                 place.each(function() {
                         self.createEditor(this, this.getAttribute("note_id"));
                 });
+
+                self.setActive();
         },
 
         createEditor: function(place, noteId) {
@@ -70,11 +76,19 @@ let self = module.exports = {
                 });
         },
 
+        /**
+         * Set the first note as active in all views
+         */
         setActive: function() {
                 let tabs = document.getElementsByClassName('note-content')
                 let editors = document.getElementsByClassName('tab-pane')
-                tabs[0].className += " active";
-                editors[0].className += " active";
-        }
 
+                // Check to see if element exists, this is necessary since we
+                // are loading the same JS file on each page, but not each page
+                // has editors.
+                if (tabs.length) {
+                        tabs[0].className += " active";
+                        editors[0].className += " active";
+                }
+        }
 }
