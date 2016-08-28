@@ -22,10 +22,8 @@ def index():
         return render_template('app/app.html', notes=notes)
     else:
         stats = {}
-        users = User.query.count()
-        stats['users'] = users
-        notes = Note.query.count()
-        stats['notes'] = notes
+        stats['users'] = User.query.count()
+        stats['notes'] = Note.query.count()
         return render_template('index.html', stats=stats)
 
 
@@ -72,10 +70,7 @@ def settings():
 @login_required
 def trash():
     if current_user.is_authenticated:
-        notes = Note.query.filter_by(
-            author_id=current_user.id,
-            is_deleted=True).order_by(
-                Note.updated_date.desc()).all()
+        notes = current_user.get_deleted_notes()
         if len(notes) == 0:
             flash("Trash is empty, you are so Tidy!")
             return redirect(url_for('.index'))
@@ -87,11 +82,7 @@ def trash():
 @main.route('/empty-trash')
 @login_required
 def empty_trash():
-    notes = Note.query.filter_by(
-        author_id=current_user.id,
-        is_deleted=True).all()
-    for note in notes:
-        delete_forever(note.id)
+    list(map(lambda x: delete_forever(x.id), current_user.get_deleted_notes()))
     flash("Took out the Trash")
     return redirect(url_for('.index'))
 
@@ -238,7 +229,7 @@ def notebook(id):
     return render_template(
         'app/notebook.html',
         notebook=notebook,
-        notes=notebook._show_notes())
+        notes=notebook.active_notes())
 
 
 @main.route('/notebook/<int:id>', methods=['DELETE'])
