@@ -1,4 +1,5 @@
 from flask_restful import Resource
+from flask_login import login_required
 
 
 class NotebookList(Resource):
@@ -7,6 +8,7 @@ class NotebookList(Resource):
     This is a protected resource, users must pass an
     authentication token.
     """
+    method_decorators = [login_required]
 
     def get(self):
         """Return list of all notebooks."""
