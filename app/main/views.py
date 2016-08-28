@@ -41,7 +41,7 @@ def add():
     form.notebook.choices = [
         (n.id, n.title) for n in
         Notebook.query.filter_by(
-            author_id=current_user.id).all()]
+            author_id=current_user.id, is_deleted=False).all()]
     if form.validate_on_submit():
         print(form.body.data)
         note = Note(
