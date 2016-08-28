@@ -13,6 +13,7 @@ class Config:
     MAIL_SUBJECT_PREFIX = '[braindump]'
     MAIL_SENDER = 'braindump <noreply@braindump.pw>'
     APP_ADMIN = os.environ.get('BRAINDUMP_ADMIN')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
     def init_app(app):
