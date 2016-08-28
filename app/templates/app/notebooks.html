@@ -23,7 +23,7 @@
                                 {{ notebook.title | truncate(25) }}
                                 <br />
                                 <span class="badge">
-                                        {{ notebook.get_active_note_count() }} Notes
+                                        {{ notebook.active_notes()|length }} Notes
                                 </span>
                                 </p>
                         </div></a>

@@ -53,6 +53,17 @@ class User(UserMixin, db.Model):
         'Notebook', backref='author',
         lazy='dynamic', cascade="all, delete-orphan")
 
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.email is not None and self.avatar_hash is None:
+            self.avatar_hash = hashlib.md5(
+                self.email.encode('utf-8')).hexdigest()
+
+    def get_deleted_notes(self):
+        """ Return all notes owned by this user that are in the trash."""
+        return list(filter(lambda note: note.is_deleted, self.notes))
+
+    # TODO move this to test mocks
     @staticmethod
     def generate_fake(count=100):
         from sqlalchemy.exc import IntegrityError
@@ -71,11 +82,14 @@ class User(UserMixin, db.Model):
             except IntegrityError:
                 db.session.rollback()
 
-    def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
-        if self.email is not None and self.avatar_hash is None:
-            self.avatar_hash = hashlib.md5(
-                self.email.encode('utf-8')).hexdigest()
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return User.query.get(data['id'])
 
     @property
     def password(self):
@@ -160,15 +174,6 @@ class User(UserMixin, db.Model):
             current_app.config['SECRET_KEY'],
             expires_in=expiration)
         return s.dumps({'id': self.id})
-
-    @staticmethod
-    def verify_auth_token(token):
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            data = s.loads(token)
-        except:
-            return None
-        return User.query.get(data['id'])
 
     def to_json(self):
         json_user = {
@@ -269,17 +274,9 @@ class Notebook(db.Model):
 
     notes = db.relationship('Note', backref='notebook')
 
-    def _show_notes(self):
-        notes = []
-        for note in self.notes:
-            if note.is_deleted is False and note.is_archived is False:
-                notes.append(note)
-        return notes
-
-    def get_active_note_count(self):
-        note_count = Note.query.filter_by(
-            notebook_id=self.id, is_deleted=False, is_archived=False).count()
-        return note_count
+    def active_notes(self):
+        return list(filter(lambda note: (
+            not note.is_deleted and not note.is_archived), self.notes))
 
     def to_json(self):
         json = {
@@ -298,8 +295,5 @@ class Tag(db.Model):
     notes = db.relationship("Note", secondary=note_tag, backref="Tag")
 
     def _get_notes(self):
-        notes = []
-        for note in self.notes:
-            if note.author == current_user and not note.is_deleted:
-                notes.append(note)
-        return notes
+        return list(filter(lambda x: (
+            x.author == current_user and not x.is_deleted), self.notes))
