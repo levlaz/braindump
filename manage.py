@@ -89,5 +89,10 @@ def deploy():
     upgrade()
 
 
+@manager.command
+def routes():
+    import pprint
+    pprint.pprint(list(map(lambda x: repr(x), app.url_map.iter_rules())))
+
 if __name__ == '__main__':
     manager.run()
