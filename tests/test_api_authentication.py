@@ -1,7 +1,5 @@
 import json
 from flask import url_for
-from app import db
-from app.models import User
 from api_base import ApiBaseTestCase
 
 
