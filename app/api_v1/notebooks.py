@@ -48,11 +48,29 @@ class Notebook(ProtectedBase):
             id=notebook_id).first_or_404()
 
     def get(self, notebook_id):
-        """Get single notebook."""
+        """Get single notebook.
+
+        Args:
+            notebook_id (int, required): The id of the Notebook
+
+        Returns:
+            JSON representation of the notebook
+        """
         return {'notebook': self.get_notebook(notebook_id).to_json()}
 
     def put(self, notebook_id):
-        """Update single notebook."""
+        """Update single notebook.
+
+        Args:
+            notebook_id (int, required): The id of the Notebook
+
+        Args: (Via Request Paramaters)
+            title: (string, optional): New Title for the Notebook
+            is_deleted: (bool, optional): Is the notebook deleted?
+
+        Returns:
+            JSON representation of the notebook
+        """
         self.parser.add_argument(
             'title', type=str,
             help="Title of the Notebook")
@@ -61,7 +79,6 @@ class Notebook(ProtectedBase):
         args = self.parser.parse_args()
         notebook = self.get_notebook(notebook_id)
 
-        print(args)
         for arg in args:
             if args[str(arg)] is not None:
                 setattr(notebook, arg, args[str(arg)])
@@ -71,7 +88,14 @@ class Notebook(ProtectedBase):
         return {'notebook': notebook.to_json()}
 
     def delete(self, notebook_id):
-        """Delete single notebook."""
+        """Delete single notebook.
+
+        Args:
+            notebook_id (int, required): The id of the Notebook
+
+        Returns:
+            "deleted" if succeesful
+        """
         db.session.delete(self.get_notebook(notebook_id))
         db.session.commit()
         return {'notebook': 'deleted'}

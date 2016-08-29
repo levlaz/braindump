@@ -41,7 +41,6 @@ def add():
         Notebook.query.filter_by(
             author_id=current_user.id, is_deleted=False).all()]
     if form.validate_on_submit():
-        print(form.body.data)
         note = Note(
             title=form.title.data,
             body=form.body.data,

@@ -53,11 +53,33 @@
 </dl>
 <hr>
 Methods defined here:<br>
-<dl><dt><a name="Notebook-delete"><strong>delete</strong></a>(self, notebook_id)</dt><dd><tt>Delete&nbsp;single&nbsp;notebook.</tt></dd></dl>
+<dl><dt><a name="Notebook-delete"><strong>delete</strong></a>(self, notebook_id)</dt><dd><tt>Delete&nbsp;single&nbsp;notebook.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;notebook_id&nbsp;(int,&nbsp;required):&nbsp;The&nbsp;id&nbsp;of&nbsp;the&nbsp;<a href="#Notebook">Notebook</a><br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"deleted"&nbsp;if&nbsp;succeesful</tt></dd></dl>
 
-<dl><dt><a name="Notebook-get"><strong>get</strong></a>(self, notebook_id)</dt><dd><tt>Get&nbsp;single&nbsp;notebook.</tt></dd></dl>
+<dl><dt><a name="Notebook-get"><strong>get</strong></a>(self, notebook_id)</dt><dd><tt>Get&nbsp;single&nbsp;notebook.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;notebook_id&nbsp;(int,&nbsp;required):&nbsp;The&nbsp;id&nbsp;of&nbsp;the&nbsp;<a href="#Notebook">Notebook</a><br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;JSON&nbsp;representation&nbsp;of&nbsp;the&nbsp;notebook</tt></dd></dl>
 
-<dl><dt><a name="Notebook-put"><strong>put</strong></a>(self, notebook_id)</dt><dd><tt>Update&nbsp;single&nbsp;notebook.</tt></dd></dl>
+<dl><dt><a name="Notebook-put"><strong>put</strong></a>(self, notebook_id)</dt><dd><tt>Update&nbsp;single&nbsp;notebook.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;notebook_id&nbsp;(int,&nbsp;required):&nbsp;The&nbsp;id&nbsp;of&nbsp;the&nbsp;<a href="#Notebook">Notebook</a><br>
+&nbsp;<br>
+Args:&nbsp;(Via&nbsp;Request&nbsp;Paramaters)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:&nbsp;(string,&nbsp;optional):&nbsp;New&nbsp;Title&nbsp;for&nbsp;the&nbsp;<a href="#Notebook">Notebook</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;is_deleted:&nbsp;(bool,&nbsp;optional):&nbsp;Is&nbsp;the&nbsp;notebook&nbsp;deleted?<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;JSON&nbsp;representation&nbsp;of&nbsp;the&nbsp;notebook</tt></dd></dl>
 
 <hr>
 Static methods defined here:<br>
