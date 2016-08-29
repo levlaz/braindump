@@ -8,8 +8,7 @@ dependencies:
 
 test:
   override:
-    - echo "No Tests"
-    # - docker run quay.io/levlaz/braindump python manage.py test
+    - docker run quay.io/levlaz/braindump python manage.py test
 
 deployment:
   master:
