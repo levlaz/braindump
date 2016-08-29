@@ -10,7 +10,7 @@ general:
 
 test:
   override:
-    - python manage.py test
+    - python manage.py test --coverage
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/pytest/
     - mv test-reports/*.xml $CIRCLE_TEST_REPORTS/pytest/
