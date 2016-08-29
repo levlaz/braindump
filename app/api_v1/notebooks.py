@@ -1,5 +1,5 @@
-from flask import g, jsonify
-from app import csrf, db
+from flask import g
+from app import db
 from app.models import Notebook as NewNotebook
 from app.api_v1.base import ProtectedBase
 
