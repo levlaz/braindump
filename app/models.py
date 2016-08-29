@@ -169,10 +169,10 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
-    def generate_auth_token(self, expiration):
+    def generate_auth_token(self):
         s = Serializer(
             current_app.config['SECRET_KEY'],
-            expires_in=expiration)
+            expires_in=3600)
         return s.dumps({'id': self.id})
 
     def to_json(self):
@@ -280,6 +280,7 @@ class Notebook(db.Model):
 
     def to_json(self):
         json = {
+            'id': self.id,
             'title': self.title,
             'is_deleted': self.is_deleted,
             'author': self.author_id,

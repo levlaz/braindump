@@ -1,7 +1,10 @@
-from flask_restful import Resource
+from flask import g, jsonify
+from app import csrf, db
+from app.models import Notebook as NewNotebook
+from app.api_v1.base import ProtectedBase
 
 
-class NotebookList(Resource):
+class NotebookList(ProtectedBase):
     """Show all notebooks, and add new notebook
 
     This is a protected resource, users must pass an
@@ -10,14 +13,24 @@ class NotebookList(Resource):
 
     def get(self):
         """Return list of all notebooks."""
-        return {'notebooks': 'all notebooks'}
+        return {'notebooks': list(map(
+            lambda notebook: notebook.to_json(), g.user.notebooks.all()))}
 
     def post(self):
         """Create new notebook."""
-        return {'notebook': 'new notebook'}
+        self.parser.add_argument(
+            'title', type=str, help='Tite of the Notebook')
+        args = self.parser.parse_args()
+        notebook = NewNotebook(
+            title=args['title'],
+            author_id=g.user.id,
+        )
+        db.session.add(notebook)
+        db.session.commit()
+        return {'notebook': notebook.to_json()}, 201
 
 
-class Notebook(Resource):
+class Notebook(ProtectedBase):
     """Work with individual notebooks
 
     This is a protected resource, users must pass an
