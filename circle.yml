@@ -1,14 +1,14 @@
 machine:
   services:
     - docker
-
-dependencies:
-  override:
-    - if [ -z "$CIRCLE_TAG" ]; then docker build -t quay.io/levlaz/braindump:$CIRCLE_SHA1 .; else docker build -t quay.io/levlaz/braindump:$CIRCLE_TAG .; fi
+  python:
+    version: 3.5.1
 
 test:
   override:
-    - docker run quay.io/levlaz/braindump python manage.py test
+    - python manage.py test
+  post:
+    - if [ -z "$CIRCLE_TAG" ]; then docker build -t quay.io/levlaz/braindump:$CIRCLE_SHA1 .; else docker build -t quay.io/levlaz/braindump:$CIRCLE_TAG .; fi
 
 deployment:
   master:
