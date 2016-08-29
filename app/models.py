@@ -272,6 +272,8 @@ class Notebook(db.Model):
     title = db.Column(db.String(200))
     is_deleted = db.Column(db.Boolean, default=False)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
     notes = db.relationship(
         'Note', backref='notebook',
