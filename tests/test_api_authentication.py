@@ -7,11 +7,35 @@ from api_base import ApiBaseTestCase
 
 class AuthApiTestCase(ApiBaseTestCase):
 
+    def test_basic_auth(self):
+        self.add_user()
+
+        # Issue Request with Basic Auth
+        response = self.client.get(
+            url_for('api.notebooks'),
+            headers=self.set_auth_headers('test@example.com', 'password'))
+        self.assertTrue(response.status_code == 200)
+
+        # Issue Request with Bad Username
+        response = self.client.get(
+            url_for('api.notebooks'),
+            headers=self.set_auth_headers('bad@example.com', 'password'))
+        self.assertTrue(response.status_code == 401)
+
+        # Issue Request with Bad Password
+        response = self.client.get(
+            url_for('api.notebooks'),
+            headers=self.set_auth_headers('test@example.com', 'bad'))
+        self.assertTrue(response.status_code == 401)
+
+        # Issue Request with Bad Username and Password
+        response = self.client.get(
+            url_for('api.notebooks'),
+            headers=self.set_auth_headers('bad@example.com', 'bad'))
+        self.assertTrue(response.status_code == 401)
+
     def test_token_auth(self):
-        # add a user
-        u = User(email='test@example.com', password='password', confirmed=True)
-        db.session.add(u)
-        db.session.commit()
+        self.add_user()
 
         # get a token
         response = self.client.get(

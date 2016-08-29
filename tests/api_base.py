@@ -24,6 +24,19 @@ class ApiBaseTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
+    def add_user(self):
+        u = User(email='test@example.com', password='password', confirmed=True)
+        db.session.add(u)
+        db.session.commit()
+        return u
+
+    def add_other_user(self):
+        u = User(
+            email='other@example.com', password='password', confirmed=True)
+        db.session.add(u)
+        db.session.commit()
+        return u
+
     def set_auth_headers(self, username, password):
         return {
             'Authorization': 'Basic ' + b64encode(
@@ -40,10 +53,7 @@ class ApiBaseTestCase(unittest.TestCase):
         }
 
     def get_auth_token(self):
-        # Add new user
-        u = User(email='test@example.com', password='password', confirmed=True)
-        db.session.add(u)
-        db.session.commit()
+        self.add_user()
 
         response = self.client.get(
             url_for('api.token'),
