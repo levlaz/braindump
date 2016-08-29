@@ -1,39 +1,101 @@
-from flask_restful import Resource
-from flask_login import login_required
+from flask import g
+from flask_restful import reqparse
+from app import db
+from app.models import Notebook as NewNotebook
+from app.api_v1.base import ProtectedBase
 
 
-class NotebookList(Resource):
-    """Show all notebooks, and add new notebook
+class NotebookList(ProtectedBase):
+    """Show all notebooks, and add new notebook"""
 
-    This is a protected resource, users must pass an
-    authentication token.
-    """
-    method_decorators = [login_required]
+    parser = reqparse.RequestParser()
 
     def get(self):
         """Return list of all notebooks."""
-        return {'notebooks': 'all notebooks'}
+        return {'notebooks': list(map(
+            lambda notebook: notebook.to_json(), g.user.notebooks.all()))}
 
     def post(self):
-        """Create new notebook."""
-        return {'notebook': 'new notebook'}
+        """Create new notebook.
+
+        Args: (Via Request Parameters)
+            title (string, required): The title of the new Notebook
+
+        Returns:
+            JSON representation of the newly created notebook
+        """
+        self.parser.add_argument(
+            'title', required=True,
+            type=str, help='Missing Title of the Notebook')
+        args = self.parser.parse_args()
+        notebook = NewNotebook(
+            title=args['title'],
+            author_id=g.user.id,
+        )
+        db.session.add(notebook)
+        db.session.commit()
+        return {'notebook': notebook.to_json()}, 201
 
 
-class Notebook(Resource):
-    """Work with individual notebooks
+class Notebook(ProtectedBase):
+    """Work with individual notebooks."""
 
-    This is a protected resource, users must pass an
-    authentication token.
-    """
+    parser = reqparse.RequestParser()
+
+    @staticmethod
+    def get_notebook(notebook_id):
+        return g.user.notebooks.filter_by(
+            id=notebook_id).first_or_404()
 
     def get(self, notebook_id):
-        """Get single notebook."""
-        return {'notebook': 'single notebook'}
+        """Get single notebook.
+
+        Args:
+            notebook_id (int, required): The id of the Notebook
+
+        Returns:
+            JSON representation of the notebook
+        """
+        return {'notebook': self.get_notebook(notebook_id).to_json()}
 
     def put(self, notebook_id):
-        """Update single notebook."""
-        return {'notebook': 'single notebook updated'}
+        """Update single notebook.
+
+        Args:
+            notebook_id (int, required): The id of the Notebook
+
+        Args: (Via Request Paramaters)
+            title: (string, optional): New Title for the Notebook
+            is_deleted: (bool, optional): Is the notebook deleted?
+
+        Returns:
+            JSON representation of the notebook
+        """
+        self.parser.add_argument(
+            'title', type=str,
+            help="Title of the Notebook")
+        self.parser.add_argument(
+            'is_deleted', type=bool, help="True if notebook is deleted")
+        args = self.parser.parse_args()
+        notebook = self.get_notebook(notebook_id)
+
+        for arg in args:
+            if args[str(arg)] is not None:
+                setattr(notebook, arg, args[str(arg)])
+
+        db.session.add(notebook)
+        db.session.commit()
+        return {'notebook': notebook.to_json()}
 
     def delete(self, notebook_id):
-        """Delete single notebook."""
+        """Delete single notebook.
+
+        Args:
+            notebook_id (int, required): The id of the Notebook
+
+        Returns:
+            "deleted" if succeesful
+        """
+        db.session.delete(self.get_notebook(notebook_id))
+        db.session.commit()
         return {'notebook': 'deleted'}

@@ -2,7 +2,7 @@ import hashlib
 
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import current_app, url_for
+from flask import current_app, url_for, jsonify
 from flask_login import UserMixin, current_user, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
@@ -169,10 +169,10 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
-    def generate_auth_token(self, expiration):
+    def generate_auth_token(self):
         s = Serializer(
             current_app.config['SECRET_KEY'],
-            expires_in=expiration)
+            expires_in=3600)
         return s.dumps({'id': self.id})
 
     def to_json(self):
@@ -224,10 +224,11 @@ class Note(db.Model):
 
     def to_json(self):
         json_note = {
-            'url': url_for('api.get_note', id=self.id, _external=True),
+            'id': self.id,
+            #'url': url_for('api.get_note', id=self.id, _external=True),
             'body': self.body,
             'body_html': self.body_html,
-            'created_date': self.created_date,
+            #'created_date': self.created_date,
             'author': self.author_id,
         }
         return json_note
@@ -272,7 +273,9 @@ class Notebook(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    notes = db.relationship('Note', backref='notebook')
+    notes = db.relationship(
+        'Note', backref='notebook',
+        lazy='dynamic')
 
     def active_notes(self):
         return list(filter(lambda note: (
@@ -280,9 +283,12 @@ class Notebook(db.Model):
 
     def to_json(self):
         json = {
+            'id': self.id,
             'title': self.title,
             'is_deleted': self.is_deleted,
             'author': self.author_id,
+            'notes': list(map(lambda note: note.to_json(), self.notes.all())),
+            'uri': url_for('api.notebook', notebook_id=self.id)
         }
         return json
 

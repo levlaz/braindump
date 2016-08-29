@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module app.api_v1.base</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="app.html"><font color="#ffffff">app</font></a>.<a href="app.api_v1.html"><font color="#ffffff">api_v1</font></a>.base</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/levlaz/git/levlaz/braindump/app/api_v1/base.py">/Users/levlaz/git/levlaz/braindump/app/api_v1/base.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="flask_restful.html#Resource">flask_restful.Resource</a>(<a href="flask.views.html#MethodView">flask.views.MethodView</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="app.api_v1.base.html#ProtectedBase">ProtectedBase</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ProtectedBase">class <strong>ProtectedBase</strong></a>(<a href="flask_restful.html#Resource">flask_restful.Resource</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Base&nbsp;Protected&nbsp;Class&nbsp;for&nbsp;API&nbsp;Resources<br>
+&nbsp;<br>
+Defines&nbsp;that&nbsp;all&nbsp;API&nbsp;methods&nbsp;are&nbsp;expempt&nbsp;from&nbsp;CSRF,&nbsp;and<br>
+requires&nbsp;either&nbsp;password&nbsp;or&nbsp;token&nbsp;based&nbsp;authentication.<br>
+&nbsp;<br>
+Basic&nbsp;Authentication&nbsp;can&nbsp;be&nbsp;passed&nbsp;via&nbsp;the&nbsp;headers.&nbsp;A&nbsp;token&nbsp;can&nbsp;be&nbsp;obtained<br>
+from&nbsp;/api/v1/token&nbsp;and&nbsp;passed&nbsp;as&nbsp;a&nbsp;"Bearer"&nbsp;in&nbsp;the&nbsp;Authentication&nbsp;headers.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="app.api_v1.base.html#ProtectedBase">ProtectedBase</a></dd>
+<dd><a href="flask_restful.html#Resource">flask_restful.Resource</a></dd>
+<dd><a href="flask.views.html#MethodView">flask.views.MethodView</a></dd>
+<dd><a href="flask.views.html#View">flask.views.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>decorators</strong> = [&lt;bound method MultiAuth.login_required of &lt;flask_httpauth.MultiAuth object&gt;&gt;, &lt;bound method CsrfProtect.exempt of &lt;flask_wtf.csrf.CsrfProtect object&gt;&gt;]</dl>
+
+<hr>
+Methods inherited from <a href="flask_restful.html#Resource">flask_restful.Resource</a>:<br>
+<dl><dt><a name="ProtectedBase-dispatch_request"><strong>dispatch_request</strong></a>(self, *args, **kwargs)</dt><dd><tt>Subclasses&nbsp;have&nbsp;to&nbsp;override&nbsp;this&nbsp;method&nbsp;to&nbsp;implement&nbsp;the<br>
+actual&nbsp;view&nbsp;function&nbsp;code.&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;called&nbsp;with&nbsp;all<br>
+the&nbsp;arguments&nbsp;from&nbsp;the&nbsp;URL&nbsp;rule.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="flask_restful.html#Resource">flask_restful.Resource</a>:<br>
+<dl><dt><strong>method_decorators</strong> = []</dl>
+
+<dl><dt><strong>representations</strong> = None</dl>
+
+<hr>
+Class methods inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><a name="ProtectedBase-as_view"><strong>as_view</strong></a>(name, *class_args, **class_kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="flask.views.html#MethodViewType">flask.views.MethodViewType</a></font></font></dt><dd><tt>Converts&nbsp;the&nbsp;class&nbsp;into&nbsp;an&nbsp;actual&nbsp;view&nbsp;function&nbsp;that&nbsp;can&nbsp;be&nbsp;used<br>
+with&nbsp;the&nbsp;routing&nbsp;system.&nbsp;&nbsp;Internally&nbsp;this&nbsp;generates&nbsp;a&nbsp;function&nbsp;on&nbsp;the<br>
+fly&nbsp;which&nbsp;will&nbsp;instantiate&nbsp;the&nbsp;:class:`View`&nbsp;on&nbsp;each&nbsp;request&nbsp;and&nbsp;call<br>
+the&nbsp;:meth:`dispatch_request`&nbsp;method&nbsp;on&nbsp;it.<br>
+&nbsp;<br>
+The&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;:meth:`as_view`&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the<br>
+constructor&nbsp;of&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask.views.html#View">flask.views.View</a>:<br>
+<dl><dt><strong>methods</strong> = None</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>csrf</strong> = &lt;flask_wtf.csrf.CsrfProtect object&gt;<br>
+<strong>multi_auth</strong> = &lt;flask_httpauth.MultiAuth object&gt;</td></tr></table>
+</body></html>

@@ -164,7 +164,7 @@ Data descriptors defined here:<br>
 </dl>
 <hr>
 Data and other attributes defined here:<br>
-<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x1025b5320; Note&gt;</dl>
+<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x106e4ecf8; Note&gt;</dl>
 
 <dl><dt><strong>__table__</strong> = Table('notes', MetaData(bind=None), Column('id',...or', TSVectorType(), table=&lt;notes&gt;), schema=None)</dl>
 
@@ -1989,7 +1989,7 @@ Only&nbsp;keys&nbsp;that&nbsp;are&nbsp;present&nbsp;as<br>
 attributes&nbsp;of&nbsp;the&nbsp;instance's&nbsp;class&nbsp;are&nbsp;allowed.&nbsp;These&nbsp;could&nbsp;be,<br>
 for&nbsp;example,&nbsp;any&nbsp;mapped&nbsp;columns&nbsp;or&nbsp;relationships.</tt></dd></dl>
 
-<dl><dt><a name="Notebook-get_active_note_count"><strong>get_active_note_count</strong></a>(self)</dt></dl>
+<dl><dt><a name="Notebook-active_notes"><strong>active_notes</strong></a>(self)</dt></dl>
 
 <dl><dt><a name="Notebook-to_json"><strong>to_json</strong></a>(self)</dt></dl>
 
@@ -2009,7 +2009,7 @@ Data descriptors defined here:<br>
 </dl>
 <hr>
 Data and other attributes defined here:<br>
-<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x1025bd240; Notebook&gt;</dl>
+<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x104724c18; Notebook&gt;</dl>
 
 <dl><dt><strong>__table__</strong> = Table('notebooks', MetaData(bind=None), Column('...Key('users.id'), table=&lt;notebooks&gt;), schema=None)</dl>
 
@@ -2079,7 +2079,7 @@ Data descriptors defined here:<br>
 </dl>
 <hr>
 Data and other attributes defined here:<br>
-<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x1025bd8d0; Tag&gt;</dl>
+<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x1047302e8; Tag&gt;</dl>
 
 <dl><dt><strong>__table__</strong> = Table('tags', MetaData(bind=None), Column('id', ..., String(length=200), table=&lt;tags&gt;), schema=None)</dl>
 
@@ -2136,13 +2136,15 @@ Methods defined here:<br>
 
 <dl><dt><a name="User-confirm"><strong>confirm</strong></a>(self, token)</dt></dl>
 
-<dl><dt><a name="User-generate_auth_token"><strong>generate_auth_token</strong></a>(self, expiration)</dt></dl>
+<dl><dt><a name="User-generate_auth_token"><strong>generate_auth_token</strong></a>(self)</dt></dl>
 
 <dl><dt><a name="User-generate_confirmation_token"><strong>generate_confirmation_token</strong></a>(self, expiration=3600)</dt></dl>
 
 <dl><dt><a name="User-generate_email_change_token"><strong>generate_email_change_token</strong></a>(self, new_email, expiration=3600)</dt></dl>
 
 <dl><dt><a name="User-generate_reset_token"><strong>generate_reset_token</strong></a>(self, expiration=3600)</dt></dl>
+
+<dl><dt><a name="User-get_deleted_notes"><strong>get_deleted_notes</strong></a>(self)</dt><dd><tt>Return&nbsp;all&nbsp;notes&nbsp;owned&nbsp;by&nbsp;this&nbsp;user&nbsp;that&nbsp;are&nbsp;in&nbsp;the&nbsp;trash.</tt></dd></dl>
 
 <dl><dt><a name="User-gravatar"><strong>gravatar</strong></a>(self, size=100, default='identicon', rating='g')</dt></dl>
 
@@ -2154,7 +2156,7 @@ Methods defined here:<br>
 
 <hr>
 Static methods defined here:<br>
-<dl><dt><a name="User-generate_fake"><strong>generate_fake</strong></a>(count=100)</dt></dl>
+<dl><dt><a name="User-generate_fake"><strong>generate_fake</strong></a>(count=100)</dt><dd><tt>#&nbsp;TODO&nbsp;move&nbsp;this&nbsp;to&nbsp;test&nbsp;mocks</tt></dd></dl>
 
 <dl><dt><a name="User-verify_auth_token"><strong>verify_auth_token</strong></a>(token)</dt></dl>
 
@@ -2182,9 +2184,9 @@ Data descriptors defined here:<br>
 </dl>
 <hr>
 Data and other attributes defined here:<br>
-<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x104cd4550; User&gt;</dl>
+<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x1066eff28; User&gt;</dl>
 
-<dl><dt><strong>__table__</strong> = Table('users', MetaData(bind=None), Column('id',...&lt;locals&gt;.&lt;lambda&gt; at 0x104cc8f28&gt;)), schema=None)</dl>
+<dl><dt><strong>__table__</strong> = Table('users', MetaData(bind=None), Column('id',...&lt;locals&gt;.&lt;lambda&gt; at 0x106e3a7b8&gt;)), schema=None)</dl>
 
 <dl><dt><strong>__tablename__</strong> = 'users'</dl>
 

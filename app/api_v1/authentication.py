@@ -1,46 +1,39 @@
-from flask import g, jsonify
-from flask_httpauth import HTTPBasicAuth
-from ..models import User, AnonymousUser
-from . import api
-from .errors import unauthorized, forbidden
+from flask import g
+from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth, MultiAuth
+from app.models import User
+from flask_restful import Resource
 
-auth = HTTPBasicAuth()
+basic_auth = HTTPBasicAuth()
+token_auth = HTTPTokenAuth('Bearer')
+multi_auth = MultiAuth(basic_auth, token_auth)
 
 
-@auth.verify_password
-def verify_password(email_or_token, password):
-    if email_or_token == '':
-        g.current_user = AnonymousUser()
-        return True
-    if password == '':
-        g.current_user = User.verify_auth_token(email_or_token)
-        g.token_used = True
-        return g.current_user is not None
-    user = User.query.filter_by(email=email_or_token).first()
-    if not user:
+class Token(Resource):
+    """Generate Auth Token"""
+    decorators = [multi_auth.login_required]
+
+    def get(self):
+        """Return JWT Token"""
+        token = g.user.generate_auth_token()
+        return {'token': token.decode('ascii')}
+
+
+@basic_auth.verify_password
+def verify_password(email, password):
+    g.user = None
+    try:
+        user = User.query.filter_by(email=email).first()
+        if user.verify_password(password):
+            g.user = user
+            return True
+    except:
         return False
-    g.current_user = user
-    g.token_used = False
-    return user.verify_password(password)
 
 
-@auth.error_handler
-def auth_error():
-    return unauthorized('Invalid credentials')
-
-@api.before_request
-@auth.login_required
-def before_request():
-    print(g.current_user);
-    if not g.current_user.is_anonymous() and \
-            not g.current_user.confirmed:
-        return forbidden('Unconfirmed acount')
-    if g.current_user.is_anonymous():
-        return unauthorized('Access Denied')
-
-@api.route('/token')
-def get_token():
-    if g.current_user.is_anonymous() or g.token_used:
-        return unauthorized('Invalid Credentials')
-    return jsonify({'token': g.current_user.generate_auth_token(
-        expiration=3600), 'expiration': 3600})
+@token_auth.verify_token
+def verify_token(token):
+    try:
+        g.user = User.verify_auth_token(token)
+        return True
+    except:
+        False

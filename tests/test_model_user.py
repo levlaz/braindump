@@ -1,8 +1,8 @@
-import unittest
+from model_base import ModelBase
 from app.models import User
 
 
-class UserModelTestCase(unittest.TestCase):
+class UserModelTestCase(ModelBase):
     def test_password_setter(self):
         u = User(password='password')
         self.assertTrue(u.password_hash is not None)

@@ -67,7 +67,7 @@ def test(coverage=False):
         COV.html_report(directory=covdir)
         print('HTML version: file://%s/index.html' % covdir)
         COV.erase()
-    if len(results.failures) > 0:
+    if (len(results.failures) > 0 or len(results.errors) > 0):
         sys.exit(1)
 
 
