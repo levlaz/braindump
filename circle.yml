@@ -4,9 +4,15 @@ machine:
   python:
     version: 3.5.1
 
+general:
+  artifacts:
+    - test-reports/coverage
 test:
   override:
     - python manage.py test
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/pytest/
+    - mv test-reports/*.xml $CIRCLE_TEST_REPORTS/pytest/
 
 deployment:
   master:
