@@ -28,6 +28,36 @@ class DevelopmentConfig(Config):
         'localhost',
         'braindump')
 
+    @classmethod
+    def init_app(cls, app):
+        Config.init_app(app)
+
+        with app.app_context():
+            from app import db
+            from app.models import User, Notebook
+
+            db.init_app(app)
+            db.create_all()
+
+            # Check if User Already Created
+            u = User.query.filter_by(email='admin@example.com').first()
+            if u:
+                pass
+            else:
+                # Create Admin User
+                u = User(
+                    email='admin@example.com', password='password',
+                    confirmed=True)
+                db.session.add(u)
+                db.session.commit()
+
+                # Create Default Notebook for Admin User
+                nb = Notebook(
+                    title='Default Notebook',
+                    author_id=u.id)
+                db.session.add(nb)
+                db.session.commit()
+
 
 class TestingConfig(Config):
     DEBUG = True
