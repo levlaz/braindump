@@ -1,4 +1,5 @@
 from datetime import datetime
+from markdown import markdown
 from flask import render_template, redirect, \
     url_for, flash, abort, current_app, request, jsonify
 from flask_login import current_user, login_required
@@ -160,11 +161,11 @@ def share(id):
     form = ShareForm()
     if form.validate_on_submit():
         send_email(
-            form.recipient_email.data, '{0} has shared \
-            a braindump with you!'
+            form.recipient_email.data,
+            '{0} has shared a braindump with you!'
             .format(current_user.email),
             'app_email/share_note',
-            user=current_user, note=note)
+            user=current_user, note=note, html=markdown(note.body))
         flash('The note has been shared!')
         return redirect(url_for('.index'))
     return render_template('app/share_note.html', form=form, notes=[note])

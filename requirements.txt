@@ -23,3 +23,4 @@ psycopg2>=2.6.1
 oauthlib>=1.0.3
 sqlalchemy_searchable>=0.9.3
 gunicorn
+markdown==2.6.6
