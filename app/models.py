@@ -1,6 +1,7 @@
 import hashlib
 
-from . import db, login_manager
+from app import login_manager, db
+from app.model.shared import SharedNote
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, url_for, jsonify
 from flask_login import UserMixin, current_user, AnonymousUserMixin
@@ -45,6 +46,7 @@ class User(UserMixin, db.Model):
     avatar_hash = db.Column(db.String(32))
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    last_login_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
     notes = db.relationship(
         'Note', backref='author',
@@ -52,6 +54,9 @@ class User(UserMixin, db.Model):
     notebooks = db.relationship(
         'Notebook', backref='author',
         lazy='dynamic', cascade="all, delete-orphan")
+    shared_notes = db.relationship(
+        'SharedNote', backref="author",
+        lazy="dynamic", cascade="all, delete-orphan")
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

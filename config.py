@@ -33,7 +33,7 @@ class DevelopmentConfig(Config):
         Config.init_app(app)
 
         with app.app_context():
-            from app import db
+            from app.models import db
             from app.models import User, Notebook
 
             db.init_app(app)
