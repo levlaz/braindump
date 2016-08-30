@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.min.css') }}" type="text/css">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 {% endblock %}
 
 {% block title %} BrainDump {% endblock %}

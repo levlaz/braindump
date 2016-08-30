@@ -60,7 +60,13 @@ let self = module.exports = {
         },
 
         saveNote: function(id, content) {
+
+                var csrftoken = $('meta[name=csrf-token]').attr('content')
+
                 $.ajax({
+                        beforeSend: function(xhr) {
+                                xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                        },
                         url: `/edit/${id}`,
                         data: JSON.stringify({
                                 'body': content,

@@ -211,7 +211,6 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
     body = db.Column(db.Text)
-    body_html = db.Column(db.Text)
     created_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     updated_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -232,7 +231,6 @@ class Note(db.Model):
             'id': self.id,
             #'url': url_for('api.get_note', id=self.id, _external=True),
             'body': self.body,
-            'body_html': self.body_html,
             #'created_date': self.created_date,
             'author': self.author_id,
         }

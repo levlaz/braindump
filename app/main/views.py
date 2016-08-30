@@ -5,7 +5,7 @@ from flask import render_template, redirect, \
 from flask_login import current_user, login_required
 
 from . import main
-from app import db
+from app import db, csrf
 from app.main.forms import NoteForm, ShareForm, \
     NotebookForm, SearchForm
 from app.email import send_email
@@ -105,7 +105,6 @@ def edit(id):
         if current_user != note.author:
             return abort(403)
         note.body = request.json.get('body', note.body)
-        note.body_html = request.json.get('body_html', note.body_html)
         note.updated_date = datetime.utcnow()
         db.session.add(note)
         db.session.commit()
