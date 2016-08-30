@@ -120,13 +120,13 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 }
 
 .label-tag {
-    background-color: rgba(85, 66, 111, 0.8);
+    background-color: rgba(25,118,210, 0.8);
     margin-right: 5px;
     line-height: 2;
 }
 
 .label-tag:hover {
-    background-color: rgba(85, 66, 111,1);
+    background-color: rgb(25,118,210);
     margin-right: 5px;
 }
 
@@ -136,17 +136,17 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 }
 
 .label-notebook {
-    border: solid 1px rgb(85,66,111);
-    background-color: rgba(222, 207, 244, 0.8);
+    border: solid 1px $primary-color-dark;
+    background-color:$primary-color-light;
     margin-right: 5px;
-    color: rgb(85,66,111);
+    color: $primary-color-dark;
 }
 
 .label-notebook:hover {
-    border: solid 1px rgb(85,66,111);
-    background-color: rgb(222, 207, 244);
+    border: solid 1px $primary-color-dark;
+    background-color: lighten($primary-color-light, 5%);
     margin-right: 5px;
-    color: rgb(85,66,111);
+    color: $primary-color-dark;
 }
 
 .note-actions {
