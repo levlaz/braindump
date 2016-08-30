@@ -1,4 +1,5 @@
 {{ note.title }}
+=============================
 {{ note.body }}
 
 Sincerely,

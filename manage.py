@@ -1,20 +1,11 @@
 #!/usr/bin/env python
 import os
 
-from app import (
-    create_app,
-    db)
-from app.models import (
-    User,
-    Note,
-    Tag,
-    Notebook)
-from flask_script import (
-    Manager,
-    Shell)
-from flask_migrate import (
-    Migrate,
-    MigrateCommand)
+from app import create_app, db
+from app.models import User, Note, Tag, Notebook
+from app.model.shared import SharedNote
+from flask_script import Manager, Shell
+from flask_migrate import Migrate, MigrateCommand
 
 COV = None
 if os.environ.get('FLASK_COVERAGE'):

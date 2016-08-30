@@ -3,11 +3,11 @@ from flask import render_template, \
 from flask_login import login_user, \
     logout_user, login_required, current_user
 
-from . import auth
 from app import db
-from ..models import User, Notebook
-from ..email import send_email
-from .forms import LoginForm, RegistrationForm, \
+from app.auth import auth
+from app.models import User, Notebook
+from app.email import send_email
+from app.auth.forms import LoginForm, RegistrationForm, \
     ChangePasswordForm, PasswordResetRequestForm, \
     PasswordResetForm, ChangeEmailForm
 

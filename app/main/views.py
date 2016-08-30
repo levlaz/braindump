@@ -1,14 +1,16 @@
 from datetime import datetime
+from markdown import markdown
 from flask import render_template, redirect, \
     url_for, flash, abort, current_app, request, jsonify
 from flask_login import current_user, login_required
 
 from . import main
-from .. import db
-from .forms import NoteForm, ShareForm, \
+from app import db
+from app.main.forms import NoteForm, ShareForm, \
     NotebookForm, SearchForm
-from ..email import send_email
-from ..models import User, Note, Tag, Notebook
+from app.email import send_email
+from app.models import User, Note, Tag, Notebook
+from app.model.shared import SharedNote
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -101,7 +103,7 @@ def edit(id):
     if request.is_json:
         note = Note.query.get_or_404(id)
         if current_user != note.author:
-            return forbidden('Access Denied')
+            return abort(403)
         note.body = request.json.get('body', note.body)
         note.body_html = request.json.get('body_html', note.body_html)
         note.updated_date = datetime.utcnow()
@@ -160,11 +162,17 @@ def share(id):
     form = ShareForm()
     if form.validate_on_submit():
         send_email(
-            form.recipient_email.data, '{0} has shared \
-            a braindump with you!'
+            form.recipient_email.data,
+            '{0} has shared a braindump with you!'
             .format(current_user.email),
             'app_email/share_note',
-            user=current_user, note=note)
+            user=current_user, note=note, html=markdown(note.body))
+        shared = SharedNote(
+            author_id=current_user.id,
+            note_id=note.id,
+            recipient_email=form.recipient_email.data)
+        db.session.add(shared)
+        db.session.commit()
         flash('The note has been shared!')
         return redirect(url_for('.index'))
     return render_template('app/share_note.html', form=form, notes=[note])
@@ -242,6 +250,7 @@ def delete_notebook(id):
         notebook.updated_date = datetime.utcnow()
         db.session.commit()
         return jsonify(notebook.to_json())
+
 
 @main.route('/search')
 @login_required

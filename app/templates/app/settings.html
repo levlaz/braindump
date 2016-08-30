@@ -14,6 +14,45 @@
 
     <a class="btn btn-default" href="/auth/change-email">Change Email</a>
     <a class="btn btn-default" href="/auth/change-password">Change Password</a>
+
+    <hr />
+    <h2> Shared Notes </h2>
+    <p> Here are all of the notes you have shared: </p>
+    {% if current_user.shared_notes.all() %}
+
+      <table class="table table-striped table-bordered">
+        <tr>
+          <th>
+            Note
+          </th>
+          <th>
+            Recipient
+          </th>
+          <th>
+            Shared Date
+          </th>
+        </tr>
+      {% for shared_note in current_user.shared_notes %}
+        <tr>
+          <td>
+            <a href="{{ url_for('main.note', id=shared_note.id) }}">
+              {{current_user.notes.filter_by(id=shared_note.id).first().title}}
+            </a>
+          </td>
+          <td>
+            {{ shared_note.recipient_email }}
+          </td>
+          <td>
+            {{ shared_note.created_date.strftime('%Y-%m-%d') }}
+          </td>
+        </tr>
+      {% endfor %}
+      </table>
+    {% else %}
+    <p>
+       Looks like you have not yet shared anything.
+    </p>
+    {% endif %}
 </div>
 
 
