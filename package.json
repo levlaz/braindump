@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
+    "bootstrap-tabcollapse": "^0.2.6",
     "bootstrap-tagsinput": "^0.7.1",
     "font-awesome": "^4.6.3",
     "jquery": "^2.2.3",
