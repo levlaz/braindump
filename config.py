@@ -1,5 +1,5 @@
 import os
-import urlparse
+from urllib.parse import urlparse
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
