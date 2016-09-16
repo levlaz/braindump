@@ -16,19 +16,7 @@ test:
     - mv test-reports/*.xml $CIRCLE_TEST_REPORTS/pytest/
 
 deployment:
-  master:
+  heroku:
     branch: master
-    commands:
-      - docker build -t quay.io/levlaz/braindump:$CIRCLE_SHA1 .
-      - docker tag quay.io/levlaz/braindump:$CIRCLE_SHA1 quay.io/levlaz/braindump:latest
-      - docker login -e="." -u $DOCKER_USER -p $DOCKER_PASS quay.io
-      - docker push quay.io/levlaz/braindump
-  production:
-    tag: /v[0-9]+(\.[0-9]+)*/
-    owner: levlaz
-    commands:
-      - docker build -t quay.io/levlaz/braindump:$CIRCLE_TAG .
-      - docker tag quay.io/levlaz/braindump:$CIRCLE_TAG quay.io/levlaz/braindump:stable
-      - docker login -e="." -u $DOCKER_USER -p $DOCKER_PASS quay.io
-      - docker push quay.io/levlaz/braindump
-      - scripts/deploy.sh
+    heroku:
+      appname: levlaz-braindump
