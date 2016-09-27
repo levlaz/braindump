@@ -1,5 +1,4 @@
 import os
-import urlparse
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -71,15 +70,11 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    # Connecting to Heroku DB with Python from
-    # https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-python
-    urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse(os.environ["DATABASE_URL"])
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
-        url.username,
-        url.password,
-        url.hostname,
-        url.path[1:])
+        os.environ.get('DB_USER'),
+        os.environ.get('DB_PASS'),
+        os.environ.get('DB_HOST'),
+        os.environ.get('DB_NAME'))
 
     @classmethod
     def init_app(cls, app):
