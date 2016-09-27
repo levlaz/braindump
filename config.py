@@ -73,6 +73,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     # Connecting to Heroku DB with Python from
     # https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-python
+    urlparse.uses_netloc.append("postgres")
     url = urlparse.urlparse(os.environ["DATABASE_URL"])
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}/{3}'.format(
         url.username,
