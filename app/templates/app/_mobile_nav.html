@@ -1,0 +1,19 @@
+<ul class="mobile-nav">
+    {% block add %}
+        <li class="mobile-nav-item" title="Add a Note">
+          <a href="/add"><span class="nav-item glyphicon glyphicon-plus" aria-hidden="true"></a>
+        </li>
+    {% endblock %}
+    <li class="mobile-nav-item" title="Notebooks">
+        <a href="/notebooks"><span class="nav-item glyphicon glyphicon-book" aria-hidden="true"></span></a>
+    </li>
+    <li class="mobile-nav-item" title="Favorites">
+        <a href="/favorites"><span class="nav-item glyphicon glyphicon-star" aria-hidden="true"></span></a>
+    </li>
+    <li class="mobile-nav-item" title="Archive">
+        <a href="/archive"><i class="fa fa-archive"></i></a>
+    </li>
+    <li class="mobile-nav-item" title="View Trash">
+        <a href="/trash"><span class="nav-item glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+    </li>
+</ul>

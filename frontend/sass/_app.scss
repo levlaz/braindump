@@ -37,6 +37,10 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
     background-color: #1976d2;
     padding: 0;
     overflow-y: auto;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
 }
 
 .col-sm-1 ul {
@@ -207,4 +211,36 @@ html, body, .container, .row, .col-sm-1, .col-sm-4, .col-sm-7, .col-sm-11 {
 .task-heading > .btn {
     width: 100px;
     margin-right: 10px;
+}
+
+/* Mobile Nav */
+.mobile-nav {
+
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+  
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  background-color: $brand-color;
+  text-align: center;
+
+  ul {
+    padding-top: 13px;
+  }
+  li {
+    display: inline;
+    padding: 15px;
+  }
+
+  a {
+    color: $primary-color-text;
+    font-size: 2em;
+  }
+}
+
+#noteTabs-accordion {
+  margin-bottom: 100px;
 }
