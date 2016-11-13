@@ -21,7 +21,7 @@ Braindump is under heavy development and features are being added every week. So
 
 See something missing? Add a [feature-request](https://github.com/levlaz/braindump/issues)!
 
-* [Dev Blog](https://levlaz.org/tag/braindump/)
+* [Dev Blog](https://levlaz.org/category/braindump/)
 * [Roadmap](https://github.com/levlaz/braindump/issues?q=is%3Aopen+is%3Aissue+label%3Afeature)
 
 # Screenshots
@@ -81,5 +81,3 @@ The only official method of deploying Braindump is with Docker. Braindump.pw is 
 7. (Optional) to set up automatic backups (every 6 hours) add the backup script to your crontab `crontab scripts/braindump-backup`
 
 If all goes well, you will be able to navigate to $YOUR_SERVER in a browser and see the app. If you get a bad gateway error, or some other error try to run docker-compose in the foreground to get additional logging `cd /var/www/braindump && source scripts/secrets.sh && docker-compose up`
-
-DEMO
