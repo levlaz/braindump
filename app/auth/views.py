@@ -45,7 +45,22 @@ def logout():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    if form.validate_on_submit():
+
+    if form.validate_on_submit():        
+        user_email = form.email.data.lower().strip()
+        user_password = form.password.data
+
+        # Check if user is already registered
+        user = User.query.filter_by(email=user_email).first()
+        if user:
+            # Attempt to log the user in 
+            if user.verify_password(user_password):
+                login_user(user)
+                return redirect(request.args.get('next') or url_for('main.index'))
+            flash('Invalid username or password')
+            return redirect(url_for('main.index'))
+        
+        # Register the user
         user = User(
             email=form.email.data.lower().strip(),
             password=form.password.data)
@@ -61,7 +76,7 @@ def register():
             'auth/email/confirm', user=user, token=token)
         flash('A confirmation email has been sent.')
         return redirect(url_for('main.index'))
-    return render_template('auth/register.html', form=form)
+    return redirect(url_for('main.index'))
 
 
 @auth.route('/confirm')
