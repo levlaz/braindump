@@ -83,3 +83,6 @@ legacy_app/
 .DS_Store
 
 __pycache__/
+
+# Editor Specific
+.vscode/
