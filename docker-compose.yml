@@ -16,5 +16,5 @@ services:
     ports:
       - "127.0.0.1:8000:8000"
     extra_hosts:
-      - "db.levops.net:$DB_PRIVATE_IP"
+      - "db:$DB_IP"
     entrypoint: ./scripts/start-app.sh
