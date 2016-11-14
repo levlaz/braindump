@@ -5,7 +5,7 @@ apt-get update
 apt-get upgrade -y
 
 # Install Package Dependencies
-apt-get install python-pip python-dev libxml2-dev libxslt1-dev libpq-dev -y
+apt-get install python-pip python-dev libxml2-dev libxslt1-dev libpq-dev tmux -y
 
 # Postgresql Configuration
 
@@ -109,10 +109,12 @@ echo "Successfully created PostgreSQL dev virtual machine."
 echo ""
 print_db_usage
 
-# Install Application from Setup
-cd /var/www
-pip install --upgrade -r requirements.txt
+# Install Yarn 
+apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
+echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+apt-get update -qq
+apt-get install -y -qq yarn
 
-# Start Flask App
-cd /var/www
-python manage.py runserver --host="0.0.0.0"
+# Install Dependencies
+pip install --upgrade -r requirements.txt
+yarn install

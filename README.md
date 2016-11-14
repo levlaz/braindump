@@ -48,10 +48,14 @@ The easiest way to hack on braindump is with Vagrant
 1. Fork and Clone this repo locally
 2. `cd` into the new repo
 3. Run `vagrant up`
-4. Go to localhost:5000 to view the app, any changes you make locally will be reflected in the Vagrant environment.
+4. The first time you run `vagrant up` the provisioner (scripts/bootstrap.sh) will run which takes a bit of time. Each subequent time will be much quicker.
+5. Run `vagrant ssh` to enter the Vagrant box.
+6. Go to the `/vagrant` directory with `cd /vagrant` which is a synced folder of your local git repo.
+6. Run `scripts/start-dev.sh` to start the application
+7. Go to localhost:5000 to view the app, any changes you make locally will be reflected in the Vagrant environment.
 
-# Deployment
-The only official method of deploying Braindump is with Docker. Braindump.pw is currently running on an Ubuntu 16.04 LTS server on [Digital Ocean](https://m.do.co/c/ffc7002f7299). You can view `scripts/deploy.sh` to see how braindump is currently being deployed to production.
+# Deploying to Production
+The only official method of deploying Braindump is with Docker. Braindump.pw is currently running on an Ubuntu 16.04 LTS server on [Linode](https://www.linode.com/?r=15437cfec0948d105bf7478af2422241ed5da188). You can view `scripts/deploy.sh` to see how braindump is currently being deployed to production via CircleCI.
 
 ## Requirements
 1. Docker and Docker Compose

@@ -1,7 +1,8 @@
 from datetime import datetime
 from markdown import markdown
 from flask import render_template, redirect, \
-    url_for, flash, abort, current_app, request, jsonify
+    url_for, flash, abort, current_app, request, \
+    jsonify, send_file
 from flask_login import current_user, login_required
 
 from . import main
@@ -11,6 +12,7 @@ from app.main.forms import NoteForm, ShareForm, \
 from app.email import send_email
 from app.models import User, Note, Tag, Notebook
 from app.model.shared import SharedNote
+from app.lib.export import Exporter
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -66,6 +68,13 @@ def add():
 def settings():
     return render_template('app/settings.html')
 
+
+@main.route('/settings/export')
+@login_required
+def export_notes():
+    e = Exporter(current_user)
+    e.export()
+    return send_file(e.zip_file, as_attachment=True)
 
 @main.route('/trash')
 @login_required

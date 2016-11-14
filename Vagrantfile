@@ -1,7 +1,6 @@
 Vagrant.configure("2") do |config|
     # Base Box
     config.vm.box = "ubuntu/trusty64"
-    config.vm.synced_folder ".", "/var/www"
     
     config.vm.provider "virtualbox" do |v|
         v.memory = 1024 
@@ -9,12 +8,8 @@ Vagrant.configure("2") do |config|
 
     #Provisioning
     # First Time Provision
-    config.vm.provision :shell, path: "bootstrap.sh"
+    config.vm.provision :shell, path: "scripts/bootstrap.sh"
 
-    # Subsequent Provisioning
-    config.vm.provision "shell", inline: "cd /var/www && python manage.py runserver --host='0.0.0.0'",
-        run: "always"
-    
     # Port Forwarding
     # Allows you to go to localhost:5000 to view the app
     config.vm.network :forwarded_port, guest: 5000, host: 5000
