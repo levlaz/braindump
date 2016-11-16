@@ -24,3 +24,4 @@ oauthlib>=1.0.3
 sqlalchemy_searchable>=0.9.3
 gunicorn
 markdown==2.6.6
+python-slugify==1.2.1

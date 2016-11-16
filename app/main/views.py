@@ -76,6 +76,7 @@ def export_notes():
     e.export()
     return send_file(e.zip_file, as_attachment=True)
 
+
 @main.route('/trash')
 @login_required
 def trash():
