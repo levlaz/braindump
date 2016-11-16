@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, \
     TextAreaField, SelectField, HiddenField
 from wtforms.validators import Required, Length, Email, ValidationError
@@ -12,7 +12,7 @@ def validate_tags(form, field):
                     'All tags must be less than 200 characters')
 
 
-class NoteForm(Form):
+class NoteForm(FlaskForm):
     title = StringField('Title:', validators=[Required(), Length(1, 200)])
     body = HiddenField()
     tags = StringField(validators=[validate_tags])
@@ -20,17 +20,17 @@ class NoteForm(Form):
     submit = SubmitField('Submit')
 
 
-class ShareForm(Form):
+class ShareForm(FlaskForm):
     recipient_email = StringField(
         'Recipient Email', validators=[Required(), Length(1, 254), Email()])
     submit = SubmitField('Share')
 
 
-class NotebookForm(Form):
+class NotebookForm(FlaskForm):
     title = StringField('Title:', validators=[Required(), Length(1, 200)])
     submit = SubmitField('Submit')
 
 
-class SearchForm(Form):
+class SearchForm(FlaskForm):
     search_field = StringField()
     submit = SubmitField('Search')
