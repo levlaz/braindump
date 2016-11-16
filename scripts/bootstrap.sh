@@ -109,12 +109,19 @@ echo "Successfully created PostgreSQL dev virtual machine."
 echo ""
 print_db_usage
 
-# Install Yarn 
+# Install NodeJS
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.7/install.sh | bash
+export NVM_DIR="/root/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+nvm install node
+
+# Install Yarn
 apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
 echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 apt-get update -qq
 apt-get install -y -qq yarn
 
 # Install Dependencies
+cd /vagrant
 pip install --upgrade -r requirements.txt
 yarn install
