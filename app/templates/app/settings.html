@@ -42,7 +42,7 @@
         <tr>
           <td>
             <a href="{{ url_for('main.note', id=shared_note.note_id) }}">
-              {{current_user.notes.filter_by(id=shared_note.id).first().title}}
+              {{current_user.notes.filter_by(id=shared_note.note_id).first().title}}
             </a>
           </td>
           <td>
