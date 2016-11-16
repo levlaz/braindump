@@ -19,8 +19,8 @@
     <h2> Export </h2>
     <p>Download a zip archive of all of your notes.</p>
     <a class="btn btn-default" href="/settings/export">Export your Notes</a>
-    
-    
+
+
     <hr />
     <h2> Shared Notes </h2>
     <p> Here are all of the notes you have shared: </p>
@@ -41,7 +41,7 @@
       {% for shared_note in current_user.shared_notes %}
         <tr>
           <td>
-            <a href="{{ url_for('main.note', id=shared_note.id) }}">
+            <a href="{{ url_for('main.note', id=shared_note.note_id) }}">
               {{current_user.notes.filter_by(id=shared_note.id).first().title}}
             </a>
           </td>
