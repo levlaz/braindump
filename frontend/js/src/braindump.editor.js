@@ -5,6 +5,7 @@
 'use strict';
 
 import {ProseMirror} from "prosemirror/dist/edit"
+import "prosemirror/dist/inputrules/autoinput"
 import "prosemirror/dist/menu/tooltipmenu"
 import "prosemirror/dist/menu/menubar"
 import "prosemirror/dist/markdown"
@@ -32,6 +33,7 @@ let self = module.exports = {
                 let noteBody = $('input[id="body"]');
                 let pm = window.pm = new ProseMirror({
                         place: place,
+                        autoInput: true,
                         doc: input,
                         docFormat: "markdown"
                 });
