@@ -17,7 +17,7 @@
     "bootstrap-tagsinput": "^0.7.1",
     "font-awesome": "^4.6.3",
     "jquery": "^2.2.3",
-    "moment": "^2.13.0",
+    "moment": "2.16.0",
     "prosemirror": "^0.6.1"
   },
   "devDependencies": {
