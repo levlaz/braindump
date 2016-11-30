@@ -18,7 +18,7 @@
 
       <div class="col-sm-4">
           <ul class="nav nav-pills nav-stacked">
-          {% for note in notes %}
+          {% for note in notes | sort(reverse=True, attribute='updated_date') %}
             {% if loop.index == 1 %}
               <li class="note-content active">
             {% else %}
