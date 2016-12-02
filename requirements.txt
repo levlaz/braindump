@@ -7,7 +7,7 @@ Flask-Migrate==2.0.1
 Flask-SQLAlchemy==2.1
 Flask-Script==2.0.5
 Flask-WTF==0.13.1
-Flask-Bootstrap>=3.3.7.0
+Flask-Bootstrap==3.3.7.0
 Flask-RESTful==0.3.5
 Flask-JWT==0.3.2
 
