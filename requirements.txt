@@ -1,27 +1,26 @@
 # Flask Requirements
-Flask>=0.11
-Flask-HTTPAuth>=2.7.0
-Flask-Login>=0.2.11
-Flask-Mail>=0.9.1
-Flask-Migrate>=1.6.0
-Flask-SQLAlchemy>=2.1
-Flask-Script>=2.0.5
-Flask-WTF>=0.12
-Flask-Bootstrap>=3.3.6
+Flask==0.11.1
+Flask-HTTPAuth==3.2.1
+Flask-Login==0.4.0
+Flask-Mail==0.9.1
+Flask-Migrate==2.0.1
+Flask-SQLAlchemy==2.1
+Flask-Script==2.0.5
+Flask-WTF==0.13.1
+Flask-Bootstrap==3.3.7.0
 Flask-RESTful==0.3.5
 Flask-JWT==0.3.2
 
 # Testing
-coverage>=4.0.2
-flake8>=2.5.1
-selenium>=2.48.0
-unittest-xml-reporting>=1.13.0
-ForgeryPy>=0.1
+coverage==4.2
+flake8==3.2.1
+selenium==3.0.2
+unittest-xml-reporting==2.1.0
+ForgeryPy3==0.3.1
 
 # Other Dependencies
-psycopg2>=2.6.1
-oauthlib>=1.0.3
-sqlalchemy_searchable>=0.9.3
-gunicorn
-markdown==2.6.6
+psycopg2==2.6.2
+sqlalchemy_searchable==0.10.2
+gunicorn==19.6.0
+markdown==2.6.7
 python-slugify==1.2.1
