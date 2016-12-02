@@ -18,6 +18,8 @@ $divider-color:        #BDBDBD;
 $brand-color: #2196f3;
 $text-color: #555;
 
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400');
+
 // Import Partials from _partials directory
 @import
   "base",
