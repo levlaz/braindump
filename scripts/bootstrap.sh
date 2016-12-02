@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Update
-apt-get update
-apt-get upgrade -y
+# Upgrade system packages
+apt-get update && apt-get -y upgrade
 
 # Install Package Dependencies
-apt-get install python-pip python-dev libxml2-dev libxslt1-dev libpq-dev tmux -y
+apt-get -y install python-pip python-dev libxml2-dev libxslt1-dev libpq-dev tmux
 
 # Postgresql Configuration
 
@@ -52,7 +51,7 @@ PROVISIONED_ON=/etc/vm_provision_on_timestamp
 if [ -f "$PROVISIONED_ON" ]
 then
   echo "VM was already provisioned at: $(cat $PROVISIONED_ON)"
-  echo "To run system updates manually login via 'vagrant ssh' and run 'apt-get update && apt-get upgrade'"
+  echo "To run system updates manually login via 'vagrant ssh' and run 'apt update && apt upgrade'"
   echo ""
   print_db_usage
   exit
@@ -62,7 +61,7 @@ PG_REPO_APT_SOURCE=/etc/apt/sources.list.d/pgdg.list
 if [ ! -f "$PG_REPO_APT_SOURCE" ]
 then
   # Add PG apt repo:
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > "$PG_REPO_APT_SOURCE"
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > "$PG_REPO_APT_SOURCE"
 
   # Add PGDG repo key:
   wget --quiet -O - https://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
@@ -88,7 +87,7 @@ echo "host    all             all             all                     md5" >> "$
 echo "client_encoding = utf8" >> "$PG_CONF"
 
 # Restart so that all new config is loaded:
-service postgresql restart
+systemctl restart postgresql
 
 cat << EOF | su - postgres -c psql
 -- Create the database user:

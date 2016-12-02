@@ -1,12 +1,11 @@
 Vagrant.configure("2") do |config|
     # Base Box
-    config.vm.box = "ubuntu/xenial64"
+    config.vm.box = "bento/ubuntu-16.04"
     
     config.vm.provider "virtualbox" do |v|
         v.memory = 1024 
     end 
 
-    #Provisioning
     # First Time Provision
     config.vm.provision :shell, path: "scripts/bootstrap.sh"
 
