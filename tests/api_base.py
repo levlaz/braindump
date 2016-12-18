@@ -3,7 +3,7 @@ import json
 from base64 import b64encode
 from flask import url_for
 from app import create_app, db
-from app.models import User
+from app.models import User, Note, Notebook
 
 
 class ApiBaseTestCase(unittest.TestCase):
@@ -63,3 +63,17 @@ class ApiBaseTestCase(unittest.TestCase):
             response.data.decode('utf-8'))
 
         return json_response['token']
+
+    def add_notebook(self, user):
+        nb = Notebook(title="default", author=user)
+        db.session.add(nb)
+        db.session.commit()
+
+        return nb
+
+    def add_note(self, notebook, user):
+        n = Note(title="5/14/3", body="test", notebook_id=notebook.id, author=user)
+        db.session.add(n)
+        db.session.commit()
+
+        return n
