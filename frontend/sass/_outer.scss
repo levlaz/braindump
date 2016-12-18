@@ -8,3 +8,11 @@
 .jumbotron {
   color: blue;
 }
+
+.alert-outer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  right: unset;
+  top: unset;
+}
