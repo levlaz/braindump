@@ -66,8 +66,12 @@ def add():
 @main.route('/settings')
 @login_required
 def settings():
+    version = current_app.config['BRAINDUMP_VERSION']
     notebooks = current_user.notebooks.filter_by(is_deleted=False)
-    return render_template('app/settings.html', notebooks=notebooks)
+    return render_template(
+        'app/settings.html',
+        notebooks=notebooks,
+        version=version)
 
 
 @main.route('/settings/export')

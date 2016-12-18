@@ -14,6 +14,7 @@ class Config:
     MAIL_SENDER = 'braindump <noreply@braindump.pw>'
     APP_ADMIN = os.environ.get('BRAINDUMP_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    BRAINDUMP_VERSION = 'v0.4.12'
 
     @staticmethod
     def init_app(app):
