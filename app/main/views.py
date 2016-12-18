@@ -68,8 +68,10 @@ def add():
 def settings():
     version = current_app.config['BRAINDUMP_VERSION']
     notebooks = current_user.notebooks.filter_by(is_deleted=False)
+    shared_notes = current_user.shared_notes.order_by(SharedNote.created_date.desc())
     return render_template(
         'app/settings.html',
+        shared_notes=shared_notes,
         notebooks=notebooks,
         version=version)
 

@@ -68,7 +68,7 @@
             Shared Date
           </th>
         </tr>
-      {% for shared_note in current_user.shared_notes %}
+      {% for shared_note in shared_notes %}
         <tr>
           <td>
             <a href="{{ url_for('main.note', id=shared_note.note_id) }}">
