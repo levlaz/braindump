@@ -41,6 +41,7 @@ let self = module.exports = {
                                 console.log(response);
                         },
                         error: function (error) {
+                                e.data.self.innerHTML += `<div class='alert alert-danger'> ${error.responseJSON.error} </div>`
                                 console.log(error);
                         }
                 });

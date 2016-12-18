@@ -47,6 +47,7 @@ class User(UserMixin, db.Model):
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
     last_login_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    default_notebook = db.Column(db.Integer)
 
     notes = db.relationship(
         'Note', backref='author',
@@ -188,10 +189,10 @@ class User(UserMixin, db.Model):
 
     def to_json(self):
         json_user = {
-            'url': url_for('api.get_note', id=self.id, _external=True),
-            'created_date': self.created_date,
-            'notes': url_for('api.get_user_notes', id=self.id, _external=True),
-            'note_count': self.notes.count()
+            #'url': url_for('api.get_note', id=self.id, _external=True),
+            #'created_date': self.created_date,
+            #'notes': url_for('api.get_user_notes', id=self.id, _external=True),
+            #'note_count': self.notes.count()
         }
         return json_user
 

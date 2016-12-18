@@ -15,7 +15,7 @@
     "bootstrap": "^3.3.6",
     "bootstrap-tabcollapse": "^0.2.6",
     "bootstrap-tagsinput": "^0.7.1",
-    "font-awesome": "^4.6.3",
+    "font-awesome": "4.7.0",
     "jquery": "^2.2.3",
     "moment": "2.16.0",
     "prosemirror": "^0.6.1"

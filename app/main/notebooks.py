@@ -55,13 +55,17 @@ def delete_notebook(id):
     if current_user != notebook.author:
         abort(403)
     else:
-        notebook.is_deleted = True
-        notebook.updated_date = datetime.utcnow()
-        db.session.commit()
 
-        for note in notebook.notes:
-            note.is_deleted = True
-            note.updated_date = datetime.utcnow()
+        if notebook.id == current_user.default_notebook:
+            return jsonify({"error": "You cannot delete your default notebook!"}), 400
+        else:
+            notebook.is_deleted = True
+            notebook.updated_date = datetime.utcnow()
             db.session.commit()
 
-        return jsonify(notebook.to_json())
+            for note in notebook.notes:
+                note.is_deleted = True
+                note.updated_date = datetime.utcnow()
+                db.session.commit()
+
+            return jsonify(notebook.to_json())

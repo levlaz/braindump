@@ -12,17 +12,42 @@
 
     <p> Hi! You can change your settings here. </p>
 
+    <h3> Account Settings </h3>
     <a class="btn btn-default" href="/auth/change-email">Change Email</a>
     <a class="btn btn-default" href="/auth/change-password">Change Password</a>
 
     <hr />
-    <h2> Export </h2>
+    <h3> Braindump Settings </h3>
+    <p> These settings control various behaviors of the application. </p>
+
+    <div class="form-group">
+      <label for="defaultNotebook">Select Default Notebook:</label>
+      <p> When you add a note without specifying a notebook, this is the notebook
+        that the note will be placed into. If you delete a notebook that contains notes
+        all of those notes will be placed into this notebook as well.
+
+        <br />
+        <span class="alert-danger"><i class="fa fa-warning" aria-hidden="true"></i> You cannot delete your default notebook </span>
+      </p>
+      <select class="form-control" id="defaultNotebook">
+        {% for notebook in notebooks %}
+          {% if notebook.id == current_user.default_notebook %}
+          <option selected="selected" value={{ notebook.id}}>{{ notebook.title }}</option>
+          {% else %}
+          <option value={{notebook.id}}>{{ notebook.title }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+
+    <hr />
+    <h3> Export </h3>
     <p>Download a zip archive of all of your notes.</p>
     <a class="btn btn-default" href="/settings/export">Export your Notes</a>
 
 
     <hr />
-    <h2> Shared Notes </h2>
+    <h3> Shared Notes </h3>
     <p> Here are all of the notes you have shared: </p>
     {% if current_user.shared_notes.all() %}
 

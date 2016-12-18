@@ -37,26 +37,26 @@ class DevelopmentConfig(Config):
             from app.models import User, Notebook
 
             db.init_app(app)
-            db.create_all()
+            # db.create_all()
 
             # Check if User Already Created
-            u = User.query.filter_by(email='admin@example.com').first()
-            if u:
-                pass
-            else:
-                # Create Admin User
-                u = User(
-                    email='admin@example.com', password='password',
-                    confirmed=True)
-                db.session.add(u)
-                db.session.commit()
+            # u = User.query.filter_by(email='admin@example.com').first()
+            # if u:
+            #     pass
+            # else:
+            #     # Create Admin User
+            #     u = User(
+            #         email='admin@example.com', password='password',
+            #         confirmed=True)
+            #     db.session.add(u)
+            #     db.session.commit()
 
-                # Create Default Notebook for Admin User
-                nb = Notebook(
-                    title='Default Notebook',
-                    author_id=u.id)
-                db.session.add(nb)
-                db.session.commit()
+            #     # Create Default Notebook for Admin User
+            #     nb = Notebook(
+            #         title='Default Notebook',
+            #         author_id=u.id)
+            #     db.session.add(nb)
+            #     db.session.commit()
 
 
 class TestingConfig(Config):

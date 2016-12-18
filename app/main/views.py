@@ -66,7 +66,8 @@ def add():
 @main.route('/settings')
 @login_required
 def settings():
-    return render_template('app/settings.html')
+    notebooks = current_user.notebooks.filter_by(is_deleted=False)
+    return render_template('app/settings.html', notebooks=notebooks)
 
 
 @main.route('/settings/export')
