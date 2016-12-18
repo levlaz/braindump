@@ -258,6 +258,12 @@ def delete_notebook(id):
         notebook.is_deleted = True
         notebook.updated_date = datetime.utcnow()
         db.session.commit()
+
+        for note in notebook.notes:
+            note.is_deleted = True
+            note.updated_date = datetime.utcnow()
+            db.session.commit()
+
         return jsonify(notebook.to_json())
 
 
