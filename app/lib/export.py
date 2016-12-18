@@ -2,14 +2,15 @@ import os
 import zipfile
 from slugify import slugify
 
+
 class Exporter(object):
     """Exports Notes to Markdown Files"""
 
     def __init__(self, user):
-        self.directory = "/tmp/{0}".format(user.id)
+        self.directory = "/tmp/braindump-export/{0}".format(user.id)
         self.notes = user.notes.all()
         self.create_export_dir()
-        self.zip_file = "/tmp/{0}/braindump_export.zip".format(user.id)
+        self.zip_file = "/tmp/braindump-export/{0}/braindump_export.zip".format(user.id)
 
     def create_export_dir(self):
         if not os.path.exists(self.directory):
