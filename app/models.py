@@ -180,6 +180,12 @@ class User(UserMixin, db.Model):
             expires_in=3600)
         return s.dumps({'id': self.id})
 
+    def log_login(self):
+        self.last_login_date = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
+        return None
+
     def to_json(self):
         json_user = {
             'url': url_for('api.get_note', id=self.id, _external=True),
