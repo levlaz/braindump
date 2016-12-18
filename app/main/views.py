@@ -194,32 +194,6 @@ def tag(name):
     return render_template('app/tag.html', notes=tag._get_notes(), tag=name)
 
 
-@main.route('/notebooks', methods=['GET', 'POST'])
-@login_required
-def notebooks():
-    form = NotebookForm()
-    if form.validate_on_submit():
-        if Notebook.query.filter_by(
-                title=form.title.data,
-                author_id=current_user.id).first() is None:
-            notebook = Notebook(
-                title=form.title.data,
-                author_id=current_user.id)
-            db.session.add(notebook)
-            db.session.commit()
-        else:
-            flash('A notebook with name {0} already exists.'.format(
-                form.title.data))
-        return redirect(url_for('.notebooks'))
-    notebooks = Notebook.query.filter_by(
-        author_id=current_user.id,
-        is_deleted=False).all()
-    return render_template(
-        'app/notebooks.html',
-        notebooks=notebooks,
-        form=form)
-
-
 @main.route('/favorites', methods=['GET'])
 @login_required
 def favorites():
@@ -234,37 +208,6 @@ def favorites():
             it as a favorite.")
         return redirect(url_for('.index'))
     return render_template('app/app.html', notes=notes, heading=heading)
-
-
-@main.route('/notebook/<int:id>')
-@login_required
-def notebook(id):
-    notebook = Notebook.query.filter_by(id=id).first()
-    if current_user != notebook.author:
-        abort(403)
-    return render_template(
-        'app/notebook.html',
-        notebook=notebook,
-        notes=notebook.active_notes())
-
-
-@main.route('/notebook/<int:id>', methods=['DELETE'])
-@login_required
-def delete_notebook(id):
-    notebook = Notebook.query.filter_by(id=id).first()
-    if current_user != notebook.author:
-        abort(403)
-    else:
-        notebook.is_deleted = True
-        notebook.updated_date = datetime.utcnow()
-        db.session.commit()
-
-        for note in notebook.notes:
-            note.is_deleted = True
-            note.updated_date = datetime.utcnow()
-            db.session.commit()
-
-        return jsonify(notebook.to_json())
 
 
 @main.route('/search')
